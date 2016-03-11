@@ -5,26 +5,35 @@
  */
 package desktop_datamodel;
 
+import database.Table;
 import java.net.URL;
+import java.util.LinkedList;
+import reviews.ReviewBase;
+import utilities.observer.ISubject;
 
 /**
  *
  * @author 10512691
  */
-public class SocialMedia implements ISocial {
+public class ParentEvent extends ReviewBase {
     
-    Integer id;
-    URL image;
-    URL facebook;
-    URL twitter;
-    URL instagram;
-    URL soundcloud;
-    URL website;
-    URL spotify;
+    private final Table table = Table.PARENTEVENT;
+    
+    LinkedList<ChildEvent> childEvents;
+    
+    @Override
+    public ISubject notifyObservers() {
+        return this;
+    }
+
+    @Override
+    public Table getTable() {
+        return table;
+    }
 
     @Override
     public Integer getId() {
-        return id;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -34,7 +43,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public URL getImage() {
-        return image;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -44,7 +53,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public URL getFacebook() {
-        return facebook;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -54,7 +63,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public URL getTwitter() {
-        return twitter;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -64,7 +73,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public URL getInstagram() {
-        return instagram;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -74,7 +83,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public URL getSoundcloud() {
-        return soundcloud;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -84,7 +93,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public URL getWebsite() {
-        return website;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -94,7 +103,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public URL getSpotify() {
-        return spotify;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

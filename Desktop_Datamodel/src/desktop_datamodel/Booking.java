@@ -9,13 +9,6 @@ package desktop_datamodel;
  *
  * @author 10512691
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
-    }
+public class Booking {
     
 }

@@ -5,15 +5,19 @@
  */
 package desktop_datamodel;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
 /**
  *
  * @author 10512691
  */
-interface ISocial {
+public interface ISocial {
+    
+    Integer getId();
+    Boolean setId(Integer id);
+    
+    URL getImage();
+    Boolean setImage(URL img);
     
     URL getFacebook();
     Boolean setFacebook(URL fb);
@@ -21,18 +25,15 @@ interface ISocial {
     URL getTwitter();
     Boolean setTwitter(URL tw);
     
-    Image getImage();
-    Boolean setImage(Image img);
-    
     URL getInstagram();
     Boolean setInstagram(URL insta);
-    
-    URL getSpotify();  
-    Boolean setSpotify(URL spotify);
     
     URL getSoundcloud();
     Boolean setSoundcloud(URL sc);
     
     URL getWebsite();
     Boolean setWebsite(URL web);
+    
+    URL getSpotify();
+    Boolean setSpotify(URL sp);
 }

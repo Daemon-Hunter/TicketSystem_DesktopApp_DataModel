@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package desktop_datamodel;
+package people;
 
 /**
  *
  * @author 10512691
  */
-public class Main {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
-    }
+public interface IPerson {
     
+    String getName();
+    Boolean setName(String name);
+    
+    String getEmail();
+    Boolean setEmail(String email);
 }
