@@ -6,6 +6,8 @@
 package desktop_datamodel;
 
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -13,6 +15,7 @@ import java.net.URL;
  */
 public class SocialMedia implements ISocial {
     
+    Validator validator;
     Integer id;
     URL image;
     URL facebook;
@@ -21,85 +24,162 @@ public class SocialMedia implements ISocial {
     URL soundcloud;
     URL website;
     URL spotify;
-
-    @Override
-    public Integer getId() {
-        return id;
+    
+    public SocialMedia(Integer id, URL img, URL fb, URL tw, URL insta,
+                    URL sc, URL web, URL sp) {
+        this.id    = id;
+        image      = img;
+        facebook   = fb;
+        twitter    = tw;
+        instagram  = insta;
+        soundcloud = sc;
+        website    = web;
+        spotify    = sp;
+        validator  = new Validator();
     }
 
     @Override
+    public Integer getId() {
+        if (id == null) {
+            throw new NullPointerException();
+        } else return id;
+    }
+
+    /**
+     * Checks the given integer against a regular expression that defines
+     * the rules for an identification number.
+     * @param id
+     * @return 
+     */
+    @Override
     public Boolean setId(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.idValidator(id);
+        if (valid) {
+            this.id = id;
+        }
+        return valid;
     }
 
     @Override
     public URL getImage() {
-        return image;
+        if (image == null) {
+            throw new NullPointerException();
+        } else return image;
     }
 
     @Override
     public Boolean setImage(URL img) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.URLValidator(img);
+        if (valid) {
+            image = img;
+        }
+        return valid;
     }
 
     @Override
     public URL getFacebook() {
-        return facebook;
+        if (facebook == null) {
+            throw new NullPointerException();
+        } else {
+            return facebook;
+        }
     }
 
     @Override
     public Boolean setFacebook(URL fb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.URLValidator(fb);
+        if (valid) {
+            facebook = fb;
+        }
+        return valid;
     }
 
     @Override
     public URL getTwitter() {
-        return twitter;
+        if (twitter == null) {
+            throw new NullPointerException();
+        } else {
+            return twitter;
+        }
     }
 
     @Override
     public Boolean setTwitter(URL tw) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.URLValidator(tw);
+        if (valid) {
+            twitter = tw;
+        }
+        return valid;
     }
 
     @Override
     public URL getInstagram() {
-        return instagram;
+        if (instagram == null) {
+            throw new NullPointerException();
+        } else {
+            return instagram;
+        }
     }
 
     @Override
     public Boolean setInstagram(URL insta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.URLValidator(insta);
+        if (valid) {
+            instagram = insta;
+        }
+        return valid;
     }
 
     @Override
     public URL getSoundcloud() {
+        if (soundcloud == null) {
+            throw new NullPointerException();
+        }
         return soundcloud;
     }
 
     @Override
     public Boolean setSoundcloud(URL sc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.URLValidator(sc);
+        if (valid) {
+            soundcloud = sc;
+        }
+        return valid;
     }
 
     @Override
     public URL getWebsite() {
+        if (website == null) {
+            throw new NullPointerException();
+        }
         return website;
     }
 
     @Override
     public Boolean setWebsite(URL web) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.URLValidator(web);
+        if (valid) {
+            website = web;
+        }
+        return valid;
     }
 
     @Override
     public URL getSpotify() {
-        return spotify;
+        if (spotify == null) {
+            throw new NullPointerException();
+        } else {
+            return spotify;
+        }
     }
 
     @Override
     public Boolean setSpotify(URL sp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean valid = validator.URLValidator(sp);
+        if (valid) {
+            spotify = sp;
+        }
+        return valid;
     }
     
 }

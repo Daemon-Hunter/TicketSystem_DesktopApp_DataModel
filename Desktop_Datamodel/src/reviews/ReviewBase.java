@@ -8,21 +8,25 @@ package reviews;
 import desktop_datamodel.ISocial;
 import utilities.observer.ISubject;
 import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  *
  * @author 10512691
  */
-public abstract class ReviewBase implements ISubject, ISocial {
+public abstract class ReviewBase implements ISubject, ISocial, IReviewable {
     
-    ReviewFactory reviewFactory;
-    LinkedList<Review> reviews;
+    protected ReviewFactory      reviewFactory;
+    protected LinkedList<Review> reviews;
+    protected Stack<String>      updatedColumns;
     
-    public LinkedList<Review> getReviews() {
-        return reviews;
+    @Override
+    public Review createReview() {
+        return reviewFactory.createReview();
     }
     
-    public ReviewFactory getReviewFactory() {
-        return reviewFactory;
+    @Override
+    public LinkedList<Review> getReviews() {
+        return reviews;
     }
 }

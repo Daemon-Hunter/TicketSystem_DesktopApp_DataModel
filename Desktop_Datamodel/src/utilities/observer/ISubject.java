@@ -12,6 +12,17 @@ import database.Table;
  * @author 10512691
  */
 public interface ISubject {
+    
+    /**
+     * Notify the observers of a change in this object.
+     * Returns this object in order to push changes to the database.
+     * @return This object.
+    **/
     ISubject notifyObservers();
+    
+    /**
+     * Get the database table which this object maps.
+     * @return Table enumeration.
+     */
     Table getTable();
 }

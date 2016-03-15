@@ -8,7 +8,11 @@ package desktop_datamodel;
 import database.Table;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.Stack;
+import reviews.ParEventReviewFactory;
+import reviews.Review;
 import reviews.ReviewBase;
+import reviews.ReviewFactory;
 import utilities.observer.ISubject;
 
 /**
@@ -17,9 +21,51 @@ import utilities.observer.ISubject;
  */
 public class ParentEvent extends ReviewBase {
     
+    // Initialise 'Social' variables
+    private Integer socialId;
+    private URL     image, instagram, soundcloud, 
+                    spotify, twitter, website;
+    
+    // Initialize table variable, which matches Java object to database table
     private final Table table = Table.PARENTEVENT;
     
-    LinkedList<ChildEvent> childEvents;
+    private LinkedList<ChildEvent> childEvents;
+    
+    /**
+     * Empty constructor initializes it's review factory and child event list.
+     */
+    public ParentEvent() {
+        reviewFactory = new ParEventReviewFactory();
+        childEvents = new LinkedList();
+    }
+    
+    public ParentEvent createEvent() {
+        return this;
+    }
+
+    public Integer getSocialId() {
+        return socialId;
+    }
+
+    public void setSocialId(Integer socialId) {
+        this.socialId = socialId;
+    }
+
+    public LinkedList<ChildEvent> getChildEvents() {
+        return childEvents;
+    }
+
+    public void setChildEvents(LinkedList<ChildEvent> childEvents) {
+        this.childEvents = childEvents;
+    }
+
+    public Stack<String> getUpdatedColumns() {
+        return updatedColumns;
+    }
+
+    public void setUpdatedColumns(Stack<String> updatedColumns) {
+        this.updatedColumns = updatedColumns;
+    }
     
     @Override
     public ISubject notifyObservers() {
@@ -108,6 +154,11 @@ public class ParentEvent extends ReviewBase {
 
     @Override
     public Boolean setSpotify(URL sp) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Review getReview(Integer custId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

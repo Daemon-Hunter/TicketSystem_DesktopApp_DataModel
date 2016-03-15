@@ -14,4 +14,5 @@ import java.util.LinkedList;
 public interface IReviewable {
     LinkedList<Review> getReviews();
     Review getReview(Integer custId);
+    Review createReview();
 }

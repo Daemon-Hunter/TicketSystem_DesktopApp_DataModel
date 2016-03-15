@@ -11,4 +11,5 @@ package reviews;
  */
 public abstract class ReviewFactory {
     
+    public abstract Review createReview();
 }

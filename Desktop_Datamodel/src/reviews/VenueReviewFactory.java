@@ -10,5 +10,10 @@ package reviews;
  * @author 10512691
  */
 public class VenueReviewFactory extends ReviewFactory {
+
+    @Override
+    public Review createReview() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -7,6 +7,7 @@ package desktop_datamodel;
 
 import database.Table;
 import java.net.URL;
+import reviews.Review;
 import reviews.ReviewBase;
 import utilities.observer.ISubject;
 
@@ -16,6 +17,16 @@ import utilities.observer.ISubject;
  */
 public class Venue extends ReviewBase {
 
+    // Initialise 'Social' variables
+    Integer socialId;
+    URL image;
+    URL instagram;
+    URL soundcloud;
+    URL spotify;
+    URL twitter;
+    URL website;
+    
+    // Initialize table variable - matches Java object to database table
     private final Table table = Table.VENUE;
     
     @Override
@@ -105,6 +116,11 @@ public class Venue extends ReviewBase {
 
     @Override
     public Boolean setSpotify(URL sp) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Review getReview(Integer custId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

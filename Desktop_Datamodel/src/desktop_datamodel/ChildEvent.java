@@ -6,14 +6,19 @@
 package desktop_datamodel;
 
 import database.Table;
+import java.util.Date;
 import utilities.observer.ISubject;
 
 /**
- *
+ * The child of a parent event, containing lineup and venue details, as well
+ * as a further description and start/end times.
  * @author 10512691
  */
 public class ChildEvent implements ISubject {
-
+    
+    private Integer childId, parentId, lineupId, venueId;
+    private String eventName, eventDescription;
+    private Date startDateTime, endDateTime;
     private final Table table = Table.CHILDEVENT;
     @Override
     public ISubject notifyObservers() {
@@ -23,6 +28,70 @@ public class ChildEvent implements ISubject {
     @Override
     public Table getTable() {
         return table;
+    }
+
+    public Integer getChildId() {
+        return childId;
+    }
+
+    public void setChildId(Integer childId) {
+        this.childId = childId;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public Integer getLineupId() {
+        return lineupId;
+    }
+
+    public void setLineupId(Integer lineupId) {
+        this.lineupId = lineupId;
+    }
+
+    public Integer getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(Integer venueId) {
+        this.venueId = venueId;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
+    }
+
+    public Date getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(Date startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public Date getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(Date endDateTime) {
+        this.endDateTime = endDateTime;
     }
     
 }
