@@ -8,6 +8,8 @@ package database;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,15 +32,50 @@ public class APIConnection {
         this.table = table.toString();  // sets up new connection with that table name
     }
    
-    public void add()
+    public boolean delete(int id)
     {
-       
+        boolean ableToDelete = false;
+        String urlToDelete = URI + table + "/" + Integer.toString(id);
+        try{
+            URL url = new URL(urlToDelete);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            ableToDelete = true;
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded" );
+            connection.setRequestMethod("DELETE");
+            connection.connect();
+            ableToDelete = true;
+
+        }catch(Exception ex)
+        {
+        }
+        return ableToDelete;
+    }
+    
+    public void add(Map<String,String> mapToAdd)
+    {
+       String urlToPost = URI + table;  // URL of where to add to the table.
+       try{
+           URL url = new URL(urlToPost);
+           HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+           connection.setRequestMethod("POST");
+           connection.setRequestProperty("",""); // Do Something Here Dom
+           connection.setDoOutput(true);
+
+           try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
+               writer.write("CUSTOMER_ID=" +"16");
+           }
+           
+       }catch(Exception x)
+       {
+           
+       }
     }
    
     public List<Map<String,String>> readAll()
     {
             List<Map<String,String>> listOfEntities = new ArrayList<>();
-            String urlToGet = URI+  table;
+            String urlToGet = URI +  table;
             try{
                 URL url = new URL(urlToGet);
             HttpURLConnection connection = (HttpURLConnection)   url.openConnection();    // connect to the url
@@ -118,5 +155,14 @@ public class APIConnection {
                 }  
        
                 return map;
+    }
+    
+    
+    private String createJsonString(Map<String,String> map)
+    {
+        String strToReturn = "//{";
+        
+        System.out.print(strToReturn);
+        return strToReturn;
     }
 }
