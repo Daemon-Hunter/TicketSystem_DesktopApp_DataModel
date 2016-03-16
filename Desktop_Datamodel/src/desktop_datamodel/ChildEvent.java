@@ -15,7 +15,7 @@ import utilities.observer.ISubject;
  * as a further description and start/end times.
  * @author 10512691
  */
-public class ChildEvent implements ISubject {
+public class ChildEvent implements IChildEvent {
     
     private Integer childId, parentId, lineupId, venueId;
     private String eventName, eventDescription;

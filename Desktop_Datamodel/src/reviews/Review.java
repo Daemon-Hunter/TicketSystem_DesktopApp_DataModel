@@ -5,12 +5,10 @@
  */
 package reviews;
 
-import utilities.observer.ISubject;
-
 /**
  *
  * @author 10512691
  */
-public abstract class Review implements ISubject {
+public abstract class Review implements IReview {
     
 }

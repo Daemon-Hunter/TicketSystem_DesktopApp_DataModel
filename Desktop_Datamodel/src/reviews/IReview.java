@@ -5,15 +5,12 @@
  */
 package reviews;
 
-import java.util.LinkedList;
 import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface IReviewable extends IDbSubject {
-    LinkedList<Review> getReviews();
-    Review getReview(Integer custId);
-    Review createReview();
+public interface IReview extends IDbSubject {
+    
 }

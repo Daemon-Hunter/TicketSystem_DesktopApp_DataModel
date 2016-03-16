@@ -5,8 +5,6 @@
  */
 package utilities.observer;
 
-import database.DatabaseTable;
-
 /**
  *
  * @author 10512691
@@ -23,10 +21,4 @@ public interface ISubject {
     Boolean registerObserver(IObserver o);
     
     Boolean removeObserver(IObserver o);
-    
-    /**
-     * Get the database table which this object maps.
-     * @return Table enumeration.
-     */
-    DatabaseTable getTable();
 }

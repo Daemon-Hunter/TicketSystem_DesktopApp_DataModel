@@ -14,7 +14,7 @@ import java.util.Stack;
  *
  * @author 10512691
  */
-public abstract class ReviewBase implements ISubject, ISocial, IReviewable {
+public abstract class ReviewBase implements ISocial, IReviewable {
     
     protected ReviewFactory      reviewFactory;
     protected LinkedList<Review> reviews;
