@@ -7,6 +7,7 @@ package desktop_datamodel;
 
 import database.DatabaseTable;
 import java.util.Date;
+import utilities.observer.IObserver;
 import utilities.observer.ISubject;
 
 /**
@@ -92,6 +93,16 @@ public class ChildEvent implements ISubject {
 
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
+    }
+
+    @Override
+    public Boolean registerObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean removeObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
