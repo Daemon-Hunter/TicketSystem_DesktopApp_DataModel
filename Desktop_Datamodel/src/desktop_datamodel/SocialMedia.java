@@ -5,6 +5,7 @@
  */
 package desktop_datamodel;
 
+import utilities.Validator;
 import java.net.URL;
 
 /**
