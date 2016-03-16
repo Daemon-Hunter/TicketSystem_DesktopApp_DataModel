@@ -5,7 +5,7 @@
  */
 package desktop_datamodel;
 
-import database.Table;
+import database.DatabaseTable;
 import java.util.Date;
 import utilities.observer.ISubject;
 
@@ -19,14 +19,14 @@ public class ChildEvent implements ISubject {
     private Integer childId, parentId, lineupId, venueId;
     private String eventName, eventDescription;
     private Date startDateTime, endDateTime;
-    private final Table table = Table.CHILDEVENT;
+    private final DatabaseTable table = DatabaseTable.CHILDEVENT;
     @Override
     public ISubject notifyObservers() {
         return this;
     }
 
     @Override
-    public Table getTable() {
+    public DatabaseTable getTable() {
         return table;
     }
 

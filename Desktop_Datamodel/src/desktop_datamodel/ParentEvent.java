@@ -5,7 +5,7 @@
  */
 package desktop_datamodel;
 
-import database.Table;
+import database.DatabaseTable;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -27,7 +27,7 @@ public class ParentEvent extends ReviewBase {
                     spotify, twitter, website;
     
     // Initialize table variable, which matches Java object to database table
-    private final Table table = Table.PARENTEVENT;
+    private final DatabaseTable table = DatabaseTable.PARENTEVENT;
     
     private LinkedList<ChildEvent> childEvents;
     
@@ -73,7 +73,7 @@ public class ParentEvent extends ReviewBase {
     }
 
     @Override
-    public Table getTable() {
+    public DatabaseTable getTable() {
         return table;
     }
 

@@ -26,7 +26,7 @@ public class APIConnection {
      String URI = "http://xserve.uopnet.plymouth.ac.uk/Modules/INTPROJ/PRCS251G/api/"; // locaton of api
     String table = "";   // table directory name
  
-    public APIConnection(Table table)
+    public APIConnection(DatabaseTable table)
     {
        
         this.table = table.toString();  // sets up new connection with that table name

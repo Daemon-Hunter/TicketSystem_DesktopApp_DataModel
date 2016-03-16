@@ -5,7 +5,7 @@
  */
 package desktop_datamodel;
 
-import database.Table;
+import database.DatabaseTable;
 import java.net.URL;
 import reviews.Review;
 import reviews.ReviewBase;
@@ -27,7 +27,7 @@ public class Artist extends ReviewBase {
     URL website;
     
     // Initialize table variable - matches Java object to database table
-    private final Table table = Table.ARTIST;
+    private final DatabaseTable table = DatabaseTable.ARTIST;
 
     @Override
     public ISubject notifyObservers() {
@@ -35,7 +35,7 @@ public class Artist extends ReviewBase {
     }
 
     @Override
-    public Table getTable() {
+    public DatabaseTable getTable() {
         return table;
     }
 

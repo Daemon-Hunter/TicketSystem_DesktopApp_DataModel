@@ -6,7 +6,7 @@
 package reviews;
 
 import utilities.observer.ISubject;
-import database.Table;
+import database.DatabaseTable;
 
 /**
  *
@@ -14,7 +14,7 @@ import database.Table;
  */
 public class ParEventReview extends Review {
     
-    Table table = Table.EVENTREVIEW;
+    DatabaseTable table = DatabaseTable.EVENTREVIEW;
 
     @Override
     public ISubject notifyObservers() {
@@ -22,7 +22,7 @@ public class ParEventReview extends Review {
     }
 
     @Override
-    public Table getTable() {
+    public DatabaseTable getTable() {
         return table;
     }
     

@@ -6,7 +6,7 @@
 package reviews;
 
 import utilities.observer.ISubject;
-import database.Table;
+import database.DatabaseTable;
 
 /**
  *
@@ -14,7 +14,7 @@ import database.Table;
  */
 public class ArtistReview extends Review {
     
-    Table table = Table.ARTISTREVIEW;
+    DatabaseTable table = DatabaseTable.ARTISTREVIEW;
 
     @Override
     public ISubject notifyObservers() {
@@ -22,7 +22,7 @@ public class ArtistReview extends Review {
     }
 
     @Override
-    public Table getTable() {
+    public DatabaseTable getTable() {
         return table;
     }
     

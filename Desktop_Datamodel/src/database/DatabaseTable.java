@@ -9,7 +9,7 @@ package database;
  *
  * @author 10512691
  */
-public enum Table {
+public enum DatabaseTable {
     ARTIST, 
     ARTISTREVIEW, 
     BOOKING, 

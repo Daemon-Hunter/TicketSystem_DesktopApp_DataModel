@@ -5,7 +5,7 @@
  */
 package utilities.observer;
 
-import database.Table;
+import database.DatabaseTable;
 
 /**
  *
@@ -24,5 +24,5 @@ public interface ISubject {
      * Get the database table which this object maps.
      * @return Table enumeration.
      */
-    Table getTable();
+    DatabaseTable getTable();
 }
