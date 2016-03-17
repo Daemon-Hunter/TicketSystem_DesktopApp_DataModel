@@ -38,4 +38,6 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     public DatabaseTable getTable() {
         return table;
     }
+    
+    protected abstract IReviewFactory getReviewFactory();
 }

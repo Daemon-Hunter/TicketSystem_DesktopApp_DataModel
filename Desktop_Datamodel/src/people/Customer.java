@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package datamodel;
+package people;
 
 /**
  *
  * @author 10512691
  */
-public class TicketFactory {
+public class Customer {
     
 }

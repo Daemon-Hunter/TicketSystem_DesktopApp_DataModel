@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reviews;
+package tickets;
 
-import database.DatabaseTable;
+import datamodel.ChildEvent;
 
 /**
  *
  * @author 10512691
  */
-public class ParentEventReviewFactory implements IReviewFactory {
+public class TicketFactory implements ITicketFactory {
 
     @Override
-    public Review createReview(Integer ID, Integer customerID, Integer rating, 
-            String body, DatabaseTable table) {
+    public Ticket createTicket(ChildEvent event, Double price, String description, Integer remaining, String type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

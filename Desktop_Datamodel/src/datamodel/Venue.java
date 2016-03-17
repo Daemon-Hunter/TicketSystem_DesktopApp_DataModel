@@ -10,6 +10,7 @@ import java.net.URL;
 import reviews.Review;
 import reviews.ReviewBase;
 import reviews.IReviewFactory;
+import reviews.VenueReviewFactory;
 import utilities.observer.IObserver;
 import utilities.observer.ISubject;
 
@@ -135,8 +136,10 @@ public class Venue extends ReviewBase {
     }
 
     @Override
-    public IReviewFactory getReviewFactory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected IReviewFactory getReviewFactory() {
+        return new VenueReviewFactory();
     }
+    
+    
     
 }

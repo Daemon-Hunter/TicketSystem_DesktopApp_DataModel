@@ -14,9 +14,10 @@ import utilities.observer.IDbSubject;
  */
 public interface IReviewable extends IDbSubject {
     
-    LinkedList<Review> getReviews();
-    Review getReview(Integer custId);
-    Review createReview(Integer customerID, Integer rating, String body);
-    Boolean deleteReview(Review review);
-    IReviewFactory getReviewFactory();
+    public LinkedList<Review> getReviews();
+    public Review getReview(Integer custId);
+    public Boolean deleteReview(Review review);
+    
+    // Inside create review method, call getReviewFactory() on 'this' object
+    public Review createReview(Integer customerID, Integer rating, String body);
 }
