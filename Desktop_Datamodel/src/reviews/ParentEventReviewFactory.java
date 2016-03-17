@@ -11,7 +11,7 @@ import database.DatabaseTable;
  *
  * @author 10512691
  */
-public class ParEventReviewFactory implements IReviewFactory {
+public class ParentEventReviewFactory implements IReviewFactory {
 
     @Override
     public Review createReview(Integer ID, Integer customerID, Integer rating, String body, DatabaseTable table) {

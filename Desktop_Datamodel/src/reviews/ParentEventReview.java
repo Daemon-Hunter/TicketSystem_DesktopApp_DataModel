@@ -11,9 +11,10 @@ import database.DatabaseTable;
  *
  * @author 10512691
  */
-public class ParEventReview extends Review {
+public class ParentEventReview extends Review {
     
-    public ParEventReview() {
+    public ParentEventReview() {
+        super();
         table = DatabaseTable.EVENTREVIEW;
     }    
 }

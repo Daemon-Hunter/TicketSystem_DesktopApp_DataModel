@@ -13,7 +13,8 @@ import database.DatabaseTable;
  */
 public class ArtistReview extends Review {
     
-    public ArtistReview(Integer iNeedToPutStuffInTheConstructor___) {
+    public ArtistReview() {
+        super();
         table = DatabaseTable.ARTISTREVIEW;
     }
 }

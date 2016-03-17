@@ -14,6 +14,7 @@ import database.DatabaseTable;
 public class VenueReview extends Review {
     
     public VenueReview() {
+        super();
         table = DatabaseTable.VENUEREVIEW;
     }    
 }
