@@ -5,7 +5,7 @@
  */
 package reviews;
 
-import desktop_datamodel.ISocial;
+import datamodel.ISocial;
 import utilities.observer.ISubject;
 import java.util.LinkedList;
 import java.util.Stack;

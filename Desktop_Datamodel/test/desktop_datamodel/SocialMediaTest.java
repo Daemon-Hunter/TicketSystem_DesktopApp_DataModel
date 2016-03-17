@@ -5,6 +5,7 @@
  */
 package desktop_datamodel;
 
+import datamodel.SocialMedia;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.junit.After;

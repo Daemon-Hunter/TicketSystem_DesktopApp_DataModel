@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package people;
+package datamodel;
 
-import bookings.Booking;
-import java.util.LinkedList;
+import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface IUser extends IPerson {
+public interface ILineup extends IDbSubject {
     
-    LinkedList<Booking> getBookings();
-    Booking getBooking(Integer bookingId);
 }

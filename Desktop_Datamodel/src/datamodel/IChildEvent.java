@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package desktop_datamodel;
+package datamodel;
+
+import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public class EventsWrapper {
+interface IChildEvent extends IDbSubject {
     
 }

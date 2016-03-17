@@ -5,9 +5,7 @@
  */
 package reviews;
 
-import utilities.observer.ISubject;
 import database.DatabaseTable;
-import utilities.observer.IObserver;
 
 /**
  *
@@ -15,26 +13,7 @@ import utilities.observer.IObserver;
  */
 public class VenueReview extends Review {
     
-    DatabaseTable table = DatabaseTable.VENUEREVIEW;
-
-    @Override
-    public ISubject notifyObservers() {
-        return this;
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+    public VenueReview() {
+        table = DatabaseTable.VENUEREVIEW;
+    }    
 }

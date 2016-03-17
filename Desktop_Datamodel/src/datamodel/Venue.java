@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package desktop_datamodel;
+package datamodel;
 
 import database.DatabaseTable;
 import java.net.URL;
@@ -16,8 +16,8 @@ import utilities.observer.ISubject;
  *
  * @author 10512691
  */
-public class Artist extends ReviewBase {
-    
+public class Venue extends ReviewBase {
+
     // Initialise 'Social' variables
     Integer socialId;
     URL image;
@@ -28,8 +28,8 @@ public class Artist extends ReviewBase {
     URL website;
     
     // Initialize table variable - matches Java object to database table
-    private final DatabaseTable table = DatabaseTable.ARTIST;
-
+    private final DatabaseTable table = DatabaseTable.VENUE;
+    
     @Override
     public ISubject notifyObservers() {
         return this;

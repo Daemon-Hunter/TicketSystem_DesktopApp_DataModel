@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package people;
-
-import bookings.Booking;
-import java.util.LinkedList;
+package bookings;
 
 /**
  *
  * @author 10512691
  */
-public interface IUser extends IPerson {
+public class CustomerBookingFactory extends BookingFactory {
     
-    LinkedList<Booking> getBookings();
-    Booking getBooking(Integer bookingId);
 }

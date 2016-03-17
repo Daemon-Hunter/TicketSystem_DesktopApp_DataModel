@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package desktop_datamodel;
-
-import utilities.observer.IDbSubject;
+package bookings;
 
 /**
  *
  * @author 10512691
  */
-interface IChildEvent extends IDbSubject {
+public abstract class Booking implements IBooking {
     
 }
