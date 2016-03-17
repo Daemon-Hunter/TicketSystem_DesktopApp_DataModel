@@ -9,6 +9,7 @@ import database.DatabaseTable;
 import java.net.URL;
 import reviews.Review;
 import reviews.ReviewBase;
+import reviews.IReviewFactory;
 import utilities.observer.IObserver;
 import utilities.observer.ISubject;
 
@@ -20,24 +21,17 @@ public class Venue extends ReviewBase {
 
     // Initialise 'Social' variables
     Integer socialId;
-    URL image;
-    URL instagram;
-    URL soundcloud;
-    URL spotify;
-    URL twitter;
-    URL website;
+    URL     image, facebook, twitter, instagram,
+            soundcloud, website, spotify;
     
-    // Initialize table variable - matches Java object to database table
-    private final DatabaseTable table = DatabaseTable.VENUE;
+    public Venue() {
+        // Initialize table variable -> matches Java object to database table
+        table = DatabaseTable.VENUE;
+    }
     
     @Override
     public ISubject notifyObservers() {
         return this;
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
     }
 
     @Override
@@ -132,6 +126,16 @@ public class Venue extends ReviewBase {
 
     @Override
     public Boolean removeObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean deleteReview(Review review) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public IReviewFactory getReviewFactory() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

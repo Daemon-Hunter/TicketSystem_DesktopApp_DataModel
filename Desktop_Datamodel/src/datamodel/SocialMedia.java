@@ -15,14 +15,9 @@ import java.net.URL;
 public class SocialMedia implements ISocial {
     
     Validator validator;
-    Integer id;
-    URL image;
-    URL facebook;
-    URL twitter;
-    URL instagram;
-    URL soundcloud;
-    URL website;
-    URL spotify;
+    Integer   id;
+    URL       image, facebook, twitter, instagram,
+              soundcloud, website, spotify;
     
     public SocialMedia(Integer id, URL img, URL fb, URL tw, URL insta,
                     URL sc, URL web, URL sp) {

@@ -13,7 +13,10 @@ import utilities.observer.IDbSubject;
  * @author 10512691
  */
 public interface IReviewable extends IDbSubject {
+    
     LinkedList<Review> getReviews();
     Review getReview(Integer custId);
-    Review createReview();
+    Review createReview(Integer customerID, Integer rating, String body);
+    Boolean deleteReview(Review review);
+    IReviewFactory getReviewFactory();
 }

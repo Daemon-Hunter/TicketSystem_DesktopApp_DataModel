@@ -5,11 +5,14 @@
  */
 package reviews;
 
+import database.DatabaseTable;
+
 /**
  *
  * @author 10512691
  */
-public abstract class ReviewFactory {
+public interface IReviewFactory {
     
-    public abstract Review createReview();
+    public Review createReview(Integer ID, Integer customerID,
+            Integer rating, String body, DatabaseTable table);
 }

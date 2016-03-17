@@ -5,14 +5,16 @@
  */
 package reviews;
 
+import database.DatabaseTable;
+
 /**
  *
  * @author 10512691
  */
-public class ParEventReviewFactory extends ReviewFactory {
+public class ParEventReviewFactory implements IReviewFactory {
 
     @Override
-    public Review createReview() {
+    public Review createReview(Integer ID, Integer customerID, Integer rating, String body, DatabaseTable table) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

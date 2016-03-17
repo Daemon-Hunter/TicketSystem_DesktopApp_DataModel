@@ -5,10 +5,10 @@
  */
 package reviews;
 
+import database.DatabaseTable;
 import datamodel.ISocial;
-import utilities.observer.ISubject;
+import datamodel.SocialMedia;
 import java.util.LinkedList;
-import java.util.Stack;
 
 /**
  *
@@ -16,17 +16,26 @@ import java.util.Stack;
  */
 public abstract class ReviewBase implements ISocial, IReviewable {
     
-    protected ReviewFactory      reviewFactory;
+    protected IReviewFactory     reviewFactory;
     protected LinkedList<Review> reviews;
-    protected Stack<String>      updatedColumns;
+    protected SocialMedia        socialMedia;
+    protected Integer            ID, socialMediaID;
+    protected String             name;
+    protected DatabaseTable      table;
     
     @Override
-    public Review createReview() {
-        return reviewFactory.createReview();
+    public Review createReview(Integer customerID, Integer rating, String body) {
+        return reviewFactory.createReview( ID, customerID,
+            rating, body, table);
     }
     
     @Override
     public LinkedList<Review> getReviews() {
         return reviews;
+    }
+    
+    @Override
+    public DatabaseTable getTable() {
+        return table;
     }
 }

@@ -8,11 +8,9 @@ package datamodel;
 import database.DatabaseTable;
 import java.net.URL;
 import java.util.LinkedList;
-import java.util.Stack;
-import reviews.ParEventReviewFactory;
 import reviews.Review;
 import reviews.ReviewBase;
-import reviews.ReviewFactory;
+import reviews.IReviewFactory;
 import utilities.observer.IObserver;
 import utilities.observer.ISubject;
 
@@ -27,17 +25,14 @@ public class ParentEvent extends ReviewBase {
     private URL     image, instagram, soundcloud, 
                     spotify, twitter, website;
     
-    // Initialize table variable, which matches Java object to database table
-    private final DatabaseTable table = DatabaseTable.PARENTEVENT;
-    
     private LinkedList<ChildEvent> childEvents;
     
     /**
      * Empty constructor initializes it's review factory and child event list.
      */
     public ParentEvent() {
-        reviewFactory = new ParEventReviewFactory();
-        childEvents = new LinkedList();
+        // Initialize table variable, which matches Java object to database table
+        table = DatabaseTable.PARENTEVENT;
     }
     
     public ParentEvent createEvent() {
@@ -58,14 +53,6 @@ public class ParentEvent extends ReviewBase {
 
     public void setChildEvents(LinkedList<ChildEvent> childEvents) {
         this.childEvents = childEvents;
-    }
-
-    public Stack<String> getUpdatedColumns() {
-        return updatedColumns;
-    }
-
-    public void setUpdatedColumns(Stack<String> updatedColumns) {
-        this.updatedColumns = updatedColumns;
     }
     
     @Override
@@ -170,6 +157,16 @@ public class ParentEvent extends ReviewBase {
 
     @Override
     public Boolean removeObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean deleteReview(Review review) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public IReviewFactory getReviewFactory() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

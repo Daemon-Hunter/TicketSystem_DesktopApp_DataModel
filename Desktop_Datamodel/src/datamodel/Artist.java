@@ -9,6 +9,7 @@ import database.DatabaseTable;
 import java.net.URL;
 import reviews.Review;
 import reviews.ReviewBase;
+import reviews.IReviewFactory;
 import utilities.observer.IObserver;
 import utilities.observer.ISubject;
 
@@ -132,6 +133,16 @@ public class Artist extends ReviewBase {
 
     @Override
     public Boolean removeObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean deleteReview(Review review) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public IReviewFactory getReviewFactory() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
