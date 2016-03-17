@@ -18,6 +18,7 @@ public interface IParentEvent {
     void setParentEventName();
     void setParentEventDescription();
     
+    
     Boolean addChildEvent(ChildEvent childEvent);
     ChildEvent getChildEvent(Integer childEventID);
     Boolean removeChildEvent(ChildEvent childEvent);
