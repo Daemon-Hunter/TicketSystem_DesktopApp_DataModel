@@ -16,6 +16,6 @@ public class ParentEventFactory {
     public ParentEvent createParEvent(Integer id, Integer socialId, String name, String description) {
         
         ParentEvent newEvent = new ParentEvent();
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet."); // This isn't supported yet...
     }
 }
