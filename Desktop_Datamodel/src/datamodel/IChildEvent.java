@@ -5,12 +5,10 @@
  */
 package datamodel;
 
-import utilities.observer.IDbSubject;
-
 /**
  *
  * @author 10512691
  */
-interface IChildEvent extends IDbSubject {
+interface IChildEvent extends ILineup {
     
 }
