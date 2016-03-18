@@ -36,13 +36,13 @@ public class APIConnectionTest {
     
     @Before
     public void setUp() {
-        customer.put("CUSTOMER_ID", "0");
-        customer.put("CUSTOMER_FIRST_NAME", "EMINIEM");
-        customer.put("CUSTOMER_LAST_NAME", "JOKER");
-        customer.put("CUSTOMER_POSTCODE", "PL48EG");
-        customer.put("CUSTOMER_EMAIL", "D@G.COM");
-        customer.put("CUSTOMER_PASSWORD", "HERO");
-        customer.put("CUSTOMER_ADDRESS", "BACK AND BEYOND");
+        customer.put("CUSTOMER_ID","25");
+        customer.put("CUSTOMER_FIRST_NAME", "Declan");
+        customer.put("CUSTOMER_LAST_NAME", "HAS THIS WORKED");
+        customer.put("CUSTOMER_POSTCODE", "pl5827");
+        customer.put("CUSTOMER_EMAIL", "d@g.com");
+        customer.put("CUSTOMER_PASSWORD", "I like turtles");
+        customer.put("CUSTOMER_ADDRESS", "BIg house street");
 
     }
     
@@ -53,7 +53,7 @@ public class APIConnectionTest {
     @Test
     public void testAdd()
     {
-                custConn.add(customer);
+                custConn.update(25,customer);
 
     }
     

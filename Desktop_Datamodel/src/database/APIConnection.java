@@ -52,6 +52,35 @@ public class APIConnection {
         }
         return ableToDelete;
     }
+    public void update(int id, Map<String,String> mapToEdit)
+    {
+           String urlToPost = URI + table + "/"+ Integer.toString(id);  // URL of where to add to the table.
+       try{
+           URL url = new URL(urlToPost);
+           //Connect
+           HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+           connection.setRequestProperty("Content-Type", "application/json");
+           connection.setRequestProperty("Accept", "application/json");
+           connection.setDoOutput(true);
+           connection.setRequestMethod("PUT");
+           connection.connect();
+
+            //WRITE
+              OutputStream os = connection.getOutputStream();
+              BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+              writer.write(createJsonString(mapToEdit));
+              writer.close();
+              os.close();
+              
+           BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8")); // needs this to work
+                br.close();  
+       }catch(Exception x)
+       {
+           System.out.println("NOPE");
+           System.out.println(x.getMessage());
+       }
+
+    }
     
     public void add(Map<String,String> mapToAdd)
     {
@@ -72,18 +101,19 @@ public class APIConnection {
               writer.write(createJsonString(mapToAdd));
               writer.close();
               os.close();
+              
            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
 
-String line = null; 
-StringBuilder sb = new StringBuilder();         
+            String line = null; 
+            StringBuilder sb = new StringBuilder();         
 
-while ((line = br.readLine()) != null) {  
-     sb.append(line); 
-}       
-
-br.close();  
-String result = sb.toString();
-System.out.println(result);
+                while ((line = br.readLine()) != null) {  
+                     sb.append(line); 
+                }       
+                
+                br.close();  
+                String result = sb.toString();
+              //  System.out.println(result);
        }catch(Exception x)
        {
            System.out.println("NOPE");
