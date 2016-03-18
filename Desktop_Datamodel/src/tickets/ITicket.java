@@ -5,6 +5,7 @@
  */
 package tickets;
 
+import datamodel.ChildEvent;
 import utilities.observer.IDbSubject;
 
 /**
@@ -13,4 +14,26 @@ import utilities.observer.IDbSubject;
  */
 public interface ITicket extends IDbSubject {
     
+    public Integer getID();
+    
+    public ChildEvent getEvent();
+    public Boolean    setEvent(ChildEvent event);
+    
+    public Integer getPrice();
+    public Boolean setPrice(Integer price);
+    
+    public String  getDescription();
+    public Boolean setDescription(String description);
+    
+    /**
+     * Gets the amount of tickets of that ticket type remaining.
+     * Child event can have multiple ticket types, so remaining
+     * is stored in that ticket type.
+     * @return 
+     */
+    public Integer getRemaining();
+    public Boolean setRemaining(Integer remaining);
+    
+    public String  getType();
+    public Boolean setType(String type);
 }

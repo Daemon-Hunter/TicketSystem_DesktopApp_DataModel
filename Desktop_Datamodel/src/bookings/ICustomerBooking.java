@@ -5,10 +5,14 @@
  */
 package bookings;
 
+import people.Customer;
+
 /**
  *
  * @author 10512691
  */
-public abstract class BookingFactory implements IBookingFactory {
+public interface ICustomerBooking {
     
+    public Customer getCustomer();
+    public Boolean  setCustomer(Customer c);
 }

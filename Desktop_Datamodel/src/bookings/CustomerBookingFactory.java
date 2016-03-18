@@ -5,10 +5,18 @@
  */
 package bookings;
 
+import people.Customer;
+import tickets.Ticket;
+
 /**
  *
  * @author 10512691
  */
 public class CustomerBookingFactory extends BookingFactory {
+
+    @Override
+    public Booking createBooking(Ticket ticket, Customer customer, Integer quantity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -5,6 +5,9 @@
  */
 package bookings;
 
+import java.util.Date;
+import people.Customer;
+import tickets.Ticket;
 import utilities.observer.IDbSubject;
 
 /**
@@ -13,4 +16,14 @@ import utilities.observer.IDbSubject;
  */
 public interface IBooking extends IDbSubject {
     
+    public Integer getBookingID();
+    
+    public Ticket  getTicket();
+    public Boolean setTicket(Ticket ticket);
+    
+    public Integer getQuantity();
+    public Boolean setQuantity(Integer qty);
+    
+    public Date    getBookingTime();
+    public Boolean setBookingTime(Date time); // <--- ???
 }

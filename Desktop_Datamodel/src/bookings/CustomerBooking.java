@@ -6,6 +6,9 @@
 package bookings;
 
 import database.DatabaseTable;
+import java.util.Date;
+import people.Customer;
+import tickets.Ticket;
 import utilities.observer.IObserver;
 import utilities.observer.ISubject;
 
@@ -13,7 +16,7 @@ import utilities.observer.ISubject;
  *
  * @author 10512691
  */
-public class CustomerBooking extends Booking {
+public class CustomerBooking extends Booking implements ICustomerBooking {
 
     @Override
     public DatabaseTable getTable() {
@@ -32,6 +35,51 @@ public class CustomerBooking extends Booking {
 
     @Override
     public Boolean removeObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Integer getBookingID() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Ticket getTicket() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setTicket(Ticket ticket) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Customer getCustomer() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setCustomer(Customer c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Integer getQuantity() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setQuantity(Integer qty) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Date getBookingTime() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setBookingTime(Date time) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
