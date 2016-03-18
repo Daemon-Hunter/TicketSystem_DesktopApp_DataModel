@@ -5,6 +5,8 @@
  */
 package datamodel;
 
+import java.util.List;
+
 
 /**
  *
@@ -12,14 +14,15 @@ package datamodel;
  */
 public interface IParentEvent {
     
-    Integer getParentEventID();
-    String getParentEventName();
-    String getParentEventDescription();
-    void setParentEventName();
-    void setParentEventDescription();
+    public Integer getParentEventID();
+    public String getParentEventName();
+    public String getParentEventDescription();
+    public void setParentEventName();
+    public void setParentEventDescription();
     
     
-    Boolean addChildEvent(ChildEvent childEvent);
-    ChildEvent getChildEvent(Integer childEventID);
-    Boolean removeChildEvent(ChildEvent childEvent);
+    public Boolean addChildEvent(ChildEvent childEvent);
+    public ChildEvent getChildEvent(Integer childEventID);
+    public List<ChildEvent> getChildEvents();
+    public Boolean removeChildEvent(ChildEvent childEvent);
 }

@@ -3,147 +3,117 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package datamodel;
+package wrappers;
 
-import database.DatabaseTable;
-import java.net.URL;
-import reviews.Review;
-import reviews.ReviewBase;
-import reviews.IReviewFactory;
-import utilities.observer.IObserver;
-import utilities.observer.ISubject;
-
+import datamodel.IArtist;
+import datamodel.IParentEvent;
+import datamodel.IVenue;
+import java.util.List;
+import people.IAdmin;
+import people.IUser;
 /**
  *
  * @author 10512691
  */
-public class Artist extends ReviewBase {
-    
-    // Initialise 'Social' variables
-    ISocial socialMedia;
-    URL image;
-    URL instagram;
-    URL soundcloud;
-    URL spotify;
-    URL twitter;
-    URL website;
-    
-    // Initialize table variable - matches Java object to database table
-    private final DatabaseTable table = DatabaseTable.ARTIST;
+public class DesktopWrapper implements IDesktopWrapper {
+    List<IParentEvent> parentEventArray;
+    List<IVenue> venueArray;
+    List<IArtist> artistArray;
+    List<IUser> userList;
+    List<IAdmin> adminList;
 
     @Override
-    public ISubject notifyObservers() {
-        return this;
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public Integer getId() {
+    public Boolean addUser(IUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setId(Integer id) {
+    public List<IUser> getUsers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public URL getImage() {
+    public Boolean removeUser(IUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setImage(URL img) {
+    public Boolean addAdmin(IAdmin admin) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public URL getFacebook() {
+    public IAdmin getAdmin(Integer adminID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setFacebook(URL fb) {
+    public List<IAdmin> getAdmin() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public URL getTwitter() {
+    public Boolean removeAdmin(IAdmin admin) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setTwitter(URL tw) {
+    public Boolean addParentEvent(IParentEvent pEvent) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public URL getInstagram() {
+    public IParentEvent getParentEvent(Integer parentEventID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setInstagram(URL insta) {
+    public List<IParentEvent> getParentEvents() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public URL getSoundcloud() {
+    public Boolean removeParentEvent(IParentEvent pEvent) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setSoundcloud(URL sc) {
+    public Boolean addVenue(IVenue venue) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public URL getWebsite() {
+    public IVenue getVenue(Integer venueID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setWebsite(URL web) {
+    public List<IVenue> getVenues() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public URL getSpotify() {
+    public Boolean removeVenue(IVenue venue) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setSpotify(URL sp) {
+    public Boolean addArtist(IArtist artist) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Review getReview(Integer custId) {
+    public IArtist getArtist(Integer artistID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean registerObserver(IObserver o) {
+    public List<IArtist> getArtists() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean removeObserver(IObserver o) {
+    public Boolean removeArtist(IArtist artist) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public Boolean deleteReview(Review review) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public IReviewFactory getReviewFactory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

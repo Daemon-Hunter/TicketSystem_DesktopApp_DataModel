@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package people;
+package wrappers;
+
+import people.IUser;
 
 /**
  *
  * @author 10467841
  */
-public interface IAdmin extends IPerson {
-    
-    public int getAdminID();
+public interface IUserWrapper extends IWrapper {
+    public Boolean setUser(IUser user);
+    public IUser getUser();
 }

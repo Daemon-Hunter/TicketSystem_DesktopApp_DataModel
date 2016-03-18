@@ -11,28 +11,28 @@ package datamodel;
  */
 public interface IVenue {
     
-    String getVenueID();
-    String getVenueName();
-    String getVenueDescription();
-    Integer getVenueStandingCapacity();
-    Integer getVenueSeatingCapacity();
-    Boolean getVenueDisabledAccess();
-    Boolean getVenueFacilites();
-    Integer getVenueParking();
-    String getVenueEmail();
-    String getVenuePhoneNumber();
-    String getVenueAddress();
-    String getVenuePostcode();
+    public String getVenueID();
+    public String getVenueName();
+    public String getVenueDescription();
+    public Integer getVenueStandingCapacity();
+    public Integer getVenueSeatingCapacity();
+    public Boolean getVenueDisabledAccess();
+    public Boolean getVenueFacilites();
+    public Integer getVenueParking();
+    public String getVenueEmail();
+    public String getVenuePhoneNumber();
+    public String getVenueAddress();
+    public String getVenuePostcode();
     
-    Boolean setVenueName(String name);
-    Boolean setVenueDescription(String description);
-    Boolean setVenueStandingCapacity(Integer standing);
-    Boolean setVenueSeatingCapacity(Integer seating);
-    Boolean setVenueDisabledAccess(Boolean access);
-    Boolean setVenueFacilites(Boolean facilites);
-    Boolean setVenueParking(Integer parking);
-    Boolean setVenueEmail(String email);
-    Boolean setVenuePhoneNumber(String phoneNumber);
-    Boolean setVenueAddress(String address);
-    Boolean setVenuePostcode(String postcode);
+    public Boolean setVenueName(String name);
+    public Boolean setVenueDescription(String description);
+    public Boolean setVenueStandingCapacity(Integer standing);
+    public Boolean setVenueSeatingCapacity(Integer seating);
+    public Boolean setVenueDisabledAccess(Boolean access);
+    public Boolean setVenueFacilites(Boolean facilites);
+    public Boolean setVenueParking(Integer parking);
+    public Boolean setVenueEmail(String email);
+    public Boolean setVenuePhoneNumber(String phoneNumber);
+    public Boolean setVenueAddress(String address);
+    public Boolean setVenuePostcode(String postcode);
 }
