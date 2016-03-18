@@ -158,11 +158,42 @@ public class APIConnection {
     }
     
     
-    private String createJsonString(Map<String,String> map)
+    public String createJsonString(Map<String,String> map)
     {
-        String strToReturn = "//{";
-        
-        System.out.print(strToReturn);
+        String strToReturn = "{";
+        Object[] keys = map.keySet().toArray();
+        Object[] values = map.values().toArray();
+        boolean isAnInteger;
+        for(int i = 0; i < keys.length; i++)
+        {
+            
+           String endValue = ",";
+           String tempLine ="\""+ keys[i] + "\""; 
+
+            if(i == keys.length - 1)
+            {
+                endValue = "}";
+            }
+
+            try{
+                Integer.parseInt(values[i].toString());
+                isAnInteger = true;
+
+                }
+            catch(Exception ex){isAnInteger = false;}
+            if(isAnInteger == false)
+            {
+                tempLine += ":" + "\"" + values[i] + "\"" + endValue;
+            }
+            else
+            {
+                tempLine+= ":" + values[i] + endValue;
+            }
+            
+            
+            strToReturn += tempLine;
+        }
+        //        System.out.println(strToReturn);  // DEBUG here
         return strToReturn;
     }
 }
