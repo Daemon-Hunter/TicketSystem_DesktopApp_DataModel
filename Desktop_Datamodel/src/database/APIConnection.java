@@ -6,6 +6,7 @@
 package database;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -29,7 +30,7 @@ public class APIConnection {
     public APIConnection(DatabaseTable table)
     {
        
-        this.table = table.toString();  // sets up new connection with that table name
+        this.table = table.toString() + "s";  // sets up new connection with that table name
     }
    
     public boolean delete(int id)
@@ -57,18 +58,36 @@ public class APIConnection {
        String urlToPost = URI + table;  // URL of where to add to the table.
        try{
            URL url = new URL(urlToPost);
+           //Connect
            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-           connection.setRequestMethod("POST");
-           connection.setRequestProperty("",""); // Do Something Here Dom
+           connection.setRequestProperty("Content-Type", "application/json");
+           connection.setRequestProperty("Accept", "application/json");
            connection.setDoOutput(true);
+           connection.setRequestMethod("POST");
+           connection.connect();
 
-           try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
-               writer.write("CUSTOMER_ID=" +"16");
-           }
-           
+            //WRITE
+              OutputStream os = connection.getOutputStream();
+              BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+              writer.write(createJsonString(mapToAdd));
+              writer.close();
+              os.close();
+           BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
+
+String line = null; 
+StringBuilder sb = new StringBuilder();         
+
+while ((line = br.readLine()) != null) {  
+     sb.append(line); 
+}       
+
+br.close();  
+String result = sb.toString();
+System.out.println(result);
        }catch(Exception x)
        {
-           
+           System.out.println("NOPE");
+           System.out.println(x.getMessage());
        }
     }
    
