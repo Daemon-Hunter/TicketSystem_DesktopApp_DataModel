@@ -64,7 +64,7 @@ public class APIConnection {
            connection.setDoOutput(true);
            connection.setRequestMethod("PUT");
            connection.connect();
-
+            
             //WRITE
               OutputStream os = connection.getOutputStream();
               BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -74,6 +74,8 @@ public class APIConnection {
               
            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8")); // needs this to work
                 br.close();  
+               connection.disconnect();
+
        }catch(Exception x)
        {
            System.out.println("NOPE");
@@ -82,7 +84,7 @@ public class APIConnection {
 
     }
     
-    public void add(Map<String,String> mapToAdd)
+       public void add(Map<String,String> mapToAdd)
     {
        String urlToPost = URI + table;  // URL of where to add to the table.
        try{
@@ -101,26 +103,26 @@ public class APIConnection {
               writer.write(createJsonString(mapToAdd));
               writer.close();
               os.close();
-              
            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
 
-            String line = null; 
-            StringBuilder sb = new StringBuilder();         
+                String line = null; 
+                StringBuilder sb = new StringBuilder();         
 
-                while ((line = br.readLine()) != null) {  
-                     sb.append(line); 
-                }       
-                
-                br.close();  
-                String result = sb.toString();
-              //  System.out.println(result);
+            while ((line = br.readLine()) != null) {  
+                sb.append(line); 
+            }       
+
+            br.close();  
+            
+
+            
        }catch(Exception x)
        {
            System.out.println("NOPE");
            System.out.println(x.getMessage());
        }
     }
-   
+       
     public List<Map<String,String>> readAll()
     {
             List<Map<String,String>> listOfEntities = new ArrayList<>();
