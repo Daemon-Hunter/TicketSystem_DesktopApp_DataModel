@@ -196,9 +196,7 @@ public class APIConnection {
              String[] splitArray = input.split(","); // split up the string into the different columns
                 splitArray[0] = splitArray[0].replaceAll("\\{", "");    // remove the beginning brace
                 splitArray[splitArray.length -1] = splitArray[splitArray.length -1 ].replaceAll("\\}", "");// remove the end brace
-               
-               
-                       
+                        
                 for (int i = 0; i < splitArray.length; i++) {
                     String temp = splitArray[i].replaceAll("\"", ""); // removes quote marks from json string
                     String[] splitString = temp.split(":");     // splits each strig into key and value

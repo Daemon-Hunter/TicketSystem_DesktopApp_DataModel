@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
  */
 public class APIConnectionTest {
     Map<String,String> customer = new HashMap<>();
+    Map<String,String> editedCustomer = new HashMap<>();
     APIConnection custConn = new APIConnection(DatabaseTable.CUSTOMER);
     public APIConnectionTest() {
     }
@@ -36,13 +37,21 @@ public class APIConnectionTest {
     
     @Before
     public void setUp() {
-        customer.put("CUSTOMER_ID","25");
-        customer.put("CUSTOMER_FIRST_NAME", "Declan");
-        customer.put("CUSTOMER_LAST_NAME", "HAS THIS WORKED");
-        customer.put("CUSTOMER_POSTCODE", "pl5827");
-        customer.put("CUSTOMER_EMAIL", "d@g.com");
-        customer.put("CUSTOMER_PASSWORD", "I like turtles");
-        customer.put("CUSTOMER_ADDRESS", "BIg house street");
+        customer.put("CUSTOMER_ID","0");
+        customer.put("CUSTOMER_FIRST_NAME", "James");
+        customer.put("CUSTOMER_LAST_NAME", "White");
+        customer.put("CUSTOMER_POSTCODE", "This");
+        customer.put("CUSTOMER_EMAIL", "is");
+        customer.put("CUSTOMER_PASSWORD", "doctor");
+        customer.put("CUSTOMER_ADDRESS", "here and there street");
+        
+        editedCustomer.put("CUSTOMER_ID","48"); // CHANGE THIS TO THE REAL ONE
+        editedCustomer.put("CUSTOMER_FIRST_NAME", "James");
+        editedCustomer.put("CUSTOMER_LAST_NAME", "Green");
+        editedCustomer.put("CUSTOMER_POSTCODE", "DY101ST ");
+        editedCustomer.put("CUSTOMER_EMAIL", "jimNew@googlemail.COM");
+        editedCustomer.put("CUSTOMER_PASSWORD", "passwordcomplex");
+        editedCustomer.put("CUSTOMER_ADDRESS", "mansion drive plymouth");
 
     }
     
@@ -53,8 +62,25 @@ public class APIConnectionTest {
     @Test
     public void testAdd()
     {
-                custConn.update(25,customer);
-
+        //custConn.add(customer);
     }
-    
+//            public void testRead()
+//    {
+//    }
+//    @Test0
+//        public void testUpdate()
+//    {
+//                custConn.add(customer);
+//                custConn.update(47,customer);
+//
+//    }
+//        
+//           @Test
+//        public void testDelete()
+//    {
+//                custConn.add(customer);
+//                custConn.update(47,customer);
+//
+//    }
+
 }
