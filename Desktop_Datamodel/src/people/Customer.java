@@ -37,6 +37,15 @@ public class Customer implements IUser, IHaveReviews {
               
     }
 
+    public Customer() {
+      this.customerID = 0;
+      this.customerFirstName = "";
+      this.customerLastName = "";
+      this.customerEmail = "";
+      this.customerAddress = "";
+      this.customerPostcode = "";
+    }
+
     @Override
     public LinkedList<Booking> getBookings() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -120,6 +129,18 @@ public class Customer implements IUser, IHaveReviews {
     @Override
     public Boolean setPostcode(String postcode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public Boolean getCustomerID() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setCustomerID(int ID) {
+        
+        return false;
     }
     
 }

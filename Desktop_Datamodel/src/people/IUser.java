@@ -20,6 +20,9 @@ public interface IUser extends IPerson {
     String getAddress();
     Boolean setAddress(String address);
     
+    Boolean setCustomerID(int ID);
+    Boolean getCustomerID();
+    
     String getPostcode();
     Boolean setPostcode(String postcode);
 }

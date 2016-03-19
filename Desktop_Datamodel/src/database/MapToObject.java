@@ -19,18 +19,15 @@ public class MapToObject {
         
     }
     
-//    
-//    public Customer Convert(Map<String,String> custMap)
-//    {
-//      try{  
-//    Customer cust; = new Customer(); //= new Customer(Integer.parseInt(custMap.get("CUSTOMER_ID")),);
-//      }catch(Exception ex)
-//      {
-//          
-//      }
-//        
-//     
-//     
-//       return cust;
-//    }
+  
+    public Customer Convert(Map<String,String> custMap)
+  {
+     Customer cust = new Customer();
+     cust.setCustomerID(Integer.parseInt(custMap.get("CUSTOMER_ID")));
+     
+        
+     
+     
+       return cust;
+    }
 }
