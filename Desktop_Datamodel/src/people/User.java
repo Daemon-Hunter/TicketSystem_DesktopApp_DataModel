@@ -14,7 +14,7 @@ import java.util.LinkedList;
  */
 public abstract class User implements IUser {
     
-    LinkedList<Booking> bookings;
+    protected LinkedList<Booking> bookings;
     
     @Override
     public LinkedList<Booking> getBookings() {
