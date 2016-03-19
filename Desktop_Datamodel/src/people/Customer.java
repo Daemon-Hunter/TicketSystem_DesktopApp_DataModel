@@ -18,7 +18,7 @@ import utilities.observer.ISubject;
  * @author 10512691
  */
 public class Customer implements IUser, IHaveReviews {
-    private int customerID;
+    private int    customerID;
     private String customerFirstName;
     private String customerLastName;
     private String customerEmail;
