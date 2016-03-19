@@ -26,7 +26,7 @@ public class Customer implements IUser, IHaveReviews {
     private String customerPostcode;
     
     
-    public Customer(int ID, String firstName, String lastName,
+    public Customer(Integer ID, String firstName, String lastName,
             String email, String address, String postcode) {
       this.customerID = ID;
       this.customerFirstName = firstName;

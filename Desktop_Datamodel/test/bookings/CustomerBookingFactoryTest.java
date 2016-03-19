@@ -15,7 +15,9 @@ import people.Customer;
 import tickets.Ticket;
 
 /**
- *
+ * This test class requires methods to be functional prior to testing.
+ * The Booking classes method getCustomer()
+ * The Customer classes method getPostcode()
  * @author 10467841
  */
 public class CustomerBookingFactoryTest {
@@ -45,15 +47,14 @@ public class CustomerBookingFactoryTest {
     @Test
     public void testCreateBooking() {
         System.out.println("createBooking");
-        Ticket ticket = null;
-        Customer customer = null;
-        Integer quantity = null;
+        Ticket ticket = new Ticket(null, null, null, null, null, null);
+        Customer customer = new Customer(null, null, null, null, null, "PL48LD");
+        Integer quantity = 1;
         CustomerBookingFactory instance = new CustomerBookingFactory();
-        Booking expResult = null;
-        Booking result = instance.createBooking(ticket, customer, quantity);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        CustomerBooking result = instance.createBooking(ticket, customer, quantity);
+        
+        if (!result.getCustomer().getPostcode().equals("PL48LD")) {
+            fail("The booking was not made correctly");
+        }
     }
-    
 }

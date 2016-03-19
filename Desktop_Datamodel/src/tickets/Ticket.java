@@ -15,7 +15,34 @@ import utilities.observer.ISubject;
  * @author 10512691
  */
 public class Ticket implements ITicket {
-
+    
+    private Integer    ticketID;
+    private ChildEvent event;
+    private Double     price;
+    private String     description;
+    private Integer    amountRemaining;
+    private String     type;
+    
+    /**
+     * Use this constructor when creating a new ticket object.
+     * Use the constructor with no ID variable when creating an object from the database.
+     * @param ID Identification number for the ticket. Overridden by the database on creation.
+     * @param event The event the ticket is for.
+     * @param price Price of the ticket.
+     * @param desc Description of the ticket.
+     * @param remaining Number remaining (total number of tickets at time of construction).
+     * @param type The ticket type (standing / seating / weekend etc.)
+     */
+    public Ticket(Integer ID, ChildEvent event, Double price, String desc,
+                    Integer remaining, String type) {
+        ticketID = ID;
+        this.event = event;
+        this.price = price;
+        description = desc;
+        amountRemaining = remaining;
+        this.type = type;
+    }
+    
     @Override
     public DatabaseTable getTable() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
