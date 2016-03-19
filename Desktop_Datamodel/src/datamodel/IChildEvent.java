@@ -14,10 +14,10 @@ import java.util.Date;
 interface IChildEvent extends ILineup {
     
     public Integer getChildEventID();
-    public String getChildEventName();
-    public String getChildEventDescription();
-    public Date getChildEventStartDateTime();
-    public Date getChildEventEndDateTime();
+    public String  getChildEventName();
+    public String  getChildEventDescription();
+    public Date    getChildEventStartDateTime();
+    public Date    getChildEventEndDateTime();
     public Boolean getChildEventCanceled();
     
     public Boolean setChildEventName(String name);
