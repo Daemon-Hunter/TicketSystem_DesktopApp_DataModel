@@ -19,6 +19,15 @@ public abstract class Booking implements IBooking {
     protected Integer ticketQuantity;
     protected Date    bookingDateTime;
     
+    public Booking(){}
+    
+    public Booking(Integer ID, Ticket newTicket, Integer ticketQty, Date dateTime) {
+        bookingID = ID;
+        ticket = newTicket;
+        ticketQuantity = ticketQty;
+        bookingDateTime = dateTime;
+    }
+    
     @Override
     public Integer getBookingID() {
         return bookingID;

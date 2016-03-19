@@ -20,6 +20,14 @@ public class CustomerBooking extends Booking implements ICustomerBooking {
     
     private Customer customer;
     
+    
+    public CustomerBooking(){}
+    
+    public CustomerBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
+            Customer cust) {
+        super(ID, ticket, ticketQty, dateTime);
+        customer = cust;
+    }
 
     @Override
     public DatabaseTable getTable() {

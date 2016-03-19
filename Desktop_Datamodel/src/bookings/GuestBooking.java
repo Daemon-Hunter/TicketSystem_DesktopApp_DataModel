@@ -19,6 +19,12 @@ public class GuestBooking extends Booking implements IGuestBooking {
     
     private String email, address, postcode;
 
+    public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
+            String email, String address, String postcode) {
+        super(ID, ticket, ticketQty, dateTime);
+        
+    }
+    
     @Override
     public DatabaseTable getTable() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
