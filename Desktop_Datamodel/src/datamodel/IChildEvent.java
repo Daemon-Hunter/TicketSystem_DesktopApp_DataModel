@@ -25,4 +25,9 @@ interface IChildEvent extends ILineup {
     public Boolean setChildEventStartDateTime(Date startDateTime);
     public Boolean setChildEventEndDateTime(Date endDateTime);
     public Boolean setChildEventCanceled(Boolean canceled);
+    
+    public Boolean setVenue(IVenue venue);
+    public IVenue getVenue();
+    
+    public Boolean setLineup(ILineup lineup);
 }
