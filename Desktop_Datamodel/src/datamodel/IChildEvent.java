@@ -5,10 +5,24 @@
  */
 package datamodel;
 
+import java.util.Date;
+
 /**
  *
  * @author 10512691
  */
 interface IChildEvent extends ILineup {
     
+    public Integer getChildEventID();
+    public String getChildEventName();
+    public String getChildEventDescription();
+    public Date getChildEventStartDateTime();
+    public Date getChildEventEndDateTime();
+    public Boolean getChildEventCanceled();
+    
+    public Boolean setChildEventName(String name);
+    public Boolean setChildEventDescription(String description);
+    public Boolean setChildEventStartDateTime(Date startDateTime);
+    public Boolean setChildEventEndDateTime(Date endDateTime);
+    public Boolean setChildEventCanceled(Boolean canceled);
 }
