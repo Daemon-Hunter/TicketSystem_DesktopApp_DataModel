@@ -17,10 +17,10 @@ import people.IUser;
  */
 public class DesktopWrapper implements IDesktopWrapper {
     List<IParentEvent> parentEventArray;
-    List<IVenue> venueArray;
-    List<IArtist> artistArray;
-    List<IUser> userList;
-    List<IAdmin> adminList;
+    List<IVenue>       venueArray;
+    List<IArtist>      artistArray;
+    List<IUser>        userList;
+    List<IAdmin>       adminList;
 
     @Override
     public Boolean addUser(IUser user) {
@@ -48,7 +48,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public List<IAdmin> getAdmin() {
+    public List<IAdmin> getAdmins() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -12,7 +12,7 @@ import tickets.Ticket;
  *
  * @author 10512691
  */
-public class CustomerBookingFactory extends BookingFactory {
+public class CustomerBookingFactory implements IBookingFactory {
 
     @Override
     public Booking createBooking(Ticket ticket, Customer customer, Integer quantity) {

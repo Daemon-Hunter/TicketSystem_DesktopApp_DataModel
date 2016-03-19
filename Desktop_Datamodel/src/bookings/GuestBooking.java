@@ -7,7 +7,6 @@ package bookings;
 
 import database.DatabaseTable;
 import java.util.Date;
-import people.Customer;
 import tickets.Ticket;
 import utilities.observer.IObserver;
 import utilities.observer.ISubject;
@@ -16,7 +15,11 @@ import utilities.observer.ISubject;
  *
  * @author 10512691
  */
-public class GuestBooking extends Booking {
+public class GuestBooking extends Booking implements IGuestBooking {
+    
+    private String email;
+    private String address;
+    private String postcode;
 
     @Override
     public DatabaseTable getTable() {
@@ -70,6 +73,36 @@ public class GuestBooking extends Booking {
 
     @Override
     public Boolean setBookingTime(Date time) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getGuestEmail() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setGuestEmail(String email) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getGuestAddress() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setGuestAddress(String address) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getGuestPostcode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setGuestPostcode(String postcode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

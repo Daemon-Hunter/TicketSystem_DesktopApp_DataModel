@@ -17,6 +17,9 @@ import utilities.observer.ISubject;
  * @author 10512691
  */
 public class CustomerBooking extends Booking implements ICustomerBooking {
+    
+    private Customer customer;
+    
 
     @Override
     public DatabaseTable getTable() {

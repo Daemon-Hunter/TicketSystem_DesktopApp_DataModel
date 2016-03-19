@@ -17,9 +17,9 @@ import people.IUser;
  */
 public class AndroidWrapper implements IUserWrapper {
     List<IParentEvent> parentEventArray;
-    List<IVenue> venueArray;
-    List<IArtist> artistArray;
-    List<IUser> currentUser;
+    List<IVenue>       venueArray;
+    List<IArtist>      artistArray;
+    List<IUser>        currentUser;
 
     @Override
     public Boolean setUser(IUser user) {

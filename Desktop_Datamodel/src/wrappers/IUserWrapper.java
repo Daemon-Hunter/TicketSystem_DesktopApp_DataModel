@@ -13,5 +13,5 @@ import people.IUser;
  */
 public interface IUserWrapper extends IWrapper {
     public Boolean setUser(IUser user);
-    public IUser getUser();
+    public IUser   getUser();
 }

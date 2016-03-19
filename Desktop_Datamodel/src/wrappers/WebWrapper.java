@@ -17,9 +17,9 @@ import people.IUser;
  */
 public class WebWrapper implements IUserWrapper {
     List<IParentEvent> parentEventArray;
-    List<IVenue> venueArray;
-    List<IArtist> artistArray;
-    IUser currentUser;
+    List<IVenue>       venueArray;
+    List<IArtist>      artistArray;
+    IUser              currentUser;
 
     @Override
     public Boolean setUser(IUser user) {

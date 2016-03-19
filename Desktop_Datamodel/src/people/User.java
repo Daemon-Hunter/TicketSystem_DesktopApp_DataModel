@@ -5,17 +5,19 @@
  */
 package people;
 
-import utilities.observer.IDbSubject;
+import bookings.Booking;
+import java.util.LinkedList;
 
 /**
  *
  * @author 10512691
  */
-public interface IPerson extends IDbSubject {
+public abstract class User implements IUser {
     
-    String getName();
-    Boolean setName(String name);
+    LinkedList<Booking> bookings;
     
-    String getEmail();
-    Boolean setEmail(String email);
+    @Override
+    public LinkedList<Booking> getBookings() {
+        return bookings;
+    }
 }
