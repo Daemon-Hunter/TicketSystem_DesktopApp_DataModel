@@ -19,6 +19,8 @@ public class GuestBooking extends Booking implements IGuestBooking {
     
     private String email, address, postcode;
 
+    public GuestBooking(){}
+    
     public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
             String email, String address, String postcode) {
         super(ID, ticket, ticketQty, dateTime);
