@@ -5,18 +5,12 @@
  */
 package reviews;
 
-import java.util.LinkedList;
-import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface IReviewable extends IDbSubject {
-    
-    public LinkedList<Review> getReviews();
-    public Review getReview(Integer custId);
-    public Boolean deleteReview(Review review);
+public interface IReviewable extends IHaveReviews {
     
     // Inside create review method, call getReviewFactory() on 'this' object
     public Review createReview(Integer customerID, Integer rating, String body);

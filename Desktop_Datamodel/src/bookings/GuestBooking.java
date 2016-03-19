@@ -17,9 +17,7 @@ import utilities.observer.ISubject;
  */
 public class GuestBooking extends Booking implements IGuestBooking {
     
-    private String email;
-    private String address;
-    private String postcode;
+    private String email, address, postcode;
 
     @Override
     public DatabaseTable getTable() {

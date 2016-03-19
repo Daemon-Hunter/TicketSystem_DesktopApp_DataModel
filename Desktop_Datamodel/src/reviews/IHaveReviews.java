@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package people;
+package reviews;
 
+import java.util.LinkedList;
 import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface IPerson extends IDbSubject {
+public interface IHaveReviews extends IDbSubject {
     
-    String  getName();
-    Boolean setName(String name);
-    
-    String  getEmail();
-    Boolean setEmail(String email);
+    public LinkedList<Review> getReviews();
+    public Review getReview(Integer custId);
+    public Boolean deleteReview(Review review);
 }

@@ -127,34 +127,28 @@ public class APIConnection {
     {
             List<Map<String,String>> listOfEntities = new ArrayList<>();
             String urlToGet = URI +  table;
-            try{
+            try {
                 URL url = new URL(urlToGet);
             HttpURLConnection connection = (HttpURLConnection)   url.openConnection();    // connect to the url
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/JSON");    // to return in JSON Format
             InputStream data = connection.getInputStream();
-                        try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()))) {
-               
-                String inputLine = in.readLine();   // inputValues of the JSON
-                inputLine = inputLine.replaceAll("\\[", "");
-                inputLine = inputLine.replaceAll("\\]", "");
-                String[] objArray = inputLine.split("\\},");
-               
-                for (int i = 0; i < objArray.length; i++) {
-                   
-                    Map<String,String> tempMap = new HashMap<>();
-                    tempMap = splitJSONString(objArray[i]);
-                    listOfEntities.add(tempMap);
-                   
+            try (BufferedReader in = new BufferedReader (
+                new InputStreamReader(connection.getInputStream()))) {
+                    String inputLine = in.readLine();   // inputValues of the JSON
+                    inputLine = inputLine.replaceAll("\\[", "");
+                    inputLine = inputLine.replaceAll("\\]", "");
+                    String[] objArray = inputLine.split("\\},");
+
+                    for (int i = 0; i < objArray.length; i++) {
+                        Map<String,String> tempMap = splitJSONString(objArray[i]);
+                        listOfEntities.add(tempMap);
+                    }  
                 }  
- 
-                       
-            }  
-            }catch(Exception e)
+            }
+            catch(Exception e)
             {
-                        throw new RuntimeException(e);
- 
+                throw new RuntimeException(e);
             }
          
            
