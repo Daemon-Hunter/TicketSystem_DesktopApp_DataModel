@@ -28,6 +28,4 @@ interface IChildEvent extends ILineup {
     
     public Boolean setVenue(IVenue venue);
     public IVenue getVenue();
-    
-    public Boolean setLineup(ILineup lineup);
 }

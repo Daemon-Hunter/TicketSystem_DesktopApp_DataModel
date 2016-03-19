@@ -136,9 +136,4 @@ public class ChildEvent implements IChildEvent {
     public IVenue getVenue() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public Boolean setLineup(ILineup lineup) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
