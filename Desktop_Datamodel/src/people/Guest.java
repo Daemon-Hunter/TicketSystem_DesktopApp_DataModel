@@ -15,6 +15,7 @@ import utilities.observer.ISubject;
  * @author 10512691
  */
 public class Guest extends User {
+    
 
     @Override
     public Booking getBooking(Integer bookingId) {
@@ -23,7 +24,7 @@ public class Guest extends User {
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "GUEST";
     }
 
     @Override
@@ -58,6 +59,26 @@ public class Guest extends User {
 
     @Override
     public Boolean removeObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getAddress() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setAddress(String address) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getPostcode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setPostcode(String postcode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -16,4 +16,10 @@ public interface IUser extends IPerson {
     
     LinkedList<Booking> getBookings();
     Booking getBooking(Integer bookingId);
+    
+    String getAddress();
+    Boolean setAddress(String address);
+    
+    String getPostcode();
+    Boolean setPostcode(String postcode);
 }
