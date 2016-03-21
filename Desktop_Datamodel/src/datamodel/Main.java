@@ -6,6 +6,7 @@
 package datamodel;
 
 import java.util.ArrayList;
+import reviews.ReviewBase;
 
 /**
  *
@@ -38,6 +39,7 @@ public class Main {
         
         printValues(numbers);
         sumArraySquared(numbers);
+        
+        Venue venue = new Venue();
     }
-    
 }

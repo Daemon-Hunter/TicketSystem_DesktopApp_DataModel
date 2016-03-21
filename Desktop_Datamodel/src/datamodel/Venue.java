@@ -7,7 +7,7 @@ package datamodel;
 
 import database.DatabaseTable;
 import java.util.LinkedList;
-import reviews.ArtistReview;
+import reviews.IReview;
 import reviews.Review;
 import reviews.ReviewBase;
 import reviews.VenueReviewFactory;
@@ -42,12 +42,11 @@ public class Venue extends ReviewBase implements IVenue {
     private String  facilities;
     
     public Venue() {
+        super();
         // Initialize table variable -> matches Java object to database table
         table            = DatabaseTable.VENUE;
         
         // Initialize all other variables to default values
-        ID               = 0;
-        socialMedia      = new SocialMedia(0, null, null, null, null, null, null, null);
         this.description = "Default Venue";
         capacitySeating  = null;
         capacityStanding = null;
@@ -58,8 +57,6 @@ public class Venue extends ReviewBase implements IVenue {
         this.email       = null;
         this.address     = null;
         this.postcode    = null;
-        this.name        = "Default Venue";
-        validator        = new Validator();
         reviewFactory    = new VenueReviewFactory();
     }
     
@@ -83,7 +80,7 @@ public class Venue extends ReviewBase implements IVenue {
      */
     public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, 
             String facilities, Integer parking, String phoneNo, String email, String address, String postcode,
-            String name, LinkedList<Review> reviews) 
+            String name, LinkedList<IReview> reviews) 
     {
         // Initialize table variable -> matches Java object to database table
         table            = DatabaseTable.VENUE;
@@ -127,7 +124,7 @@ public class Venue extends ReviewBase implements IVenue {
      */
     public Venue(Integer id, SocialMedia social, String description, Integer capSeating, Integer capStanding, 
             Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, 
-            String postcode, String name, LinkedList<Review> reviews) 
+            String postcode, String name, LinkedList<IReview> reviews) 
     {
         if (id == null) {
             throw new NullPointerException("Wrong constructor use. Do not pass a null ID - instead, do not put one at all"

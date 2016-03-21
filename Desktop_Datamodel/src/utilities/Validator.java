@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import datamodel.ChildEvent;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,20 +19,11 @@ public class Validator {
     public Boolean idValidator(Integer id) {
         Pattern idPattern = Pattern.compile("[1-9]{1}[0-9]{0,7}");
         Matcher matcher = idPattern.matcher(id.toString());
-        if (matcher.matches()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return matcher.matches();
     }
     
     public Boolean URLValidator(URL url) {
-        if (url == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return url != null;
     }
 
     public Boolean nameValidator(String name) {
@@ -74,6 +66,10 @@ public class Validator {
     }
 
     public Boolean tagValidator(String tag) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Boolean childEventValidator(ChildEvent childEvent) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

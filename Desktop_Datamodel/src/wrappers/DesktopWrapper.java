@@ -5,22 +5,27 @@
  */
 package wrappers;
 
+import datamodel.Artist;
 import datamodel.IArtist;
 import datamodel.IParentEvent;
 import datamodel.IVenue;
+import datamodel.ParentEvent;
+import datamodel.Venue;
 import java.util.List;
+import people.Admin;
 import people.IAdmin;
 import people.IUser;
+import people.User;
 /**
  *
  * @author 10512691
  */
 public class DesktopWrapper implements IDesktopWrapper {
-    List<IParentEvent> parentEventArray;
-    List<IVenue>       venueArray;
-    List<IArtist>      artistArray;
-    List<IUser>        userList;
-    List<IAdmin>       adminList;
+    List<ParentEvent> parentEventArray;
+    List<Venue>       venueArray;
+    List<Artist>      artistArray;
+    List<User>        userList;
+    List<Admin>       adminList;
 
     @Override
     public Boolean addUser(IUser user) {

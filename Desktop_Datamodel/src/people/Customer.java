@@ -9,6 +9,7 @@ import bookings.Booking;
 import database.DatabaseTable;
 import java.util.LinkedList;
 import reviews.IHaveReviews;
+import reviews.IReview;
 import reviews.Review;
 import utilities.observer.IObserver;
 
@@ -82,7 +83,7 @@ public class Customer extends User implements IHaveReviews {
     }
 
     @Override
-    public LinkedList<Review> getReviews() {
+    public LinkedList<IReview> getReviews() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -92,7 +93,7 @@ public class Customer extends User implements IHaveReviews {
     }
 
     @Override
-    public Boolean deleteReview(Review review) {
+    public Boolean deleteReview(IReview review) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

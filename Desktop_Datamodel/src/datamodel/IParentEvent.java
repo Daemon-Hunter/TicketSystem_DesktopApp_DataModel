@@ -17,12 +17,12 @@ public interface IParentEvent {
     public Integer getParentEventID();
     public String getParentEventName();
     public String getParentEventDescription();
-    public void setParentEventName();
-    public void setParentEventDescription();
+    public Boolean setParentEventName(String name);
+    public Boolean setParentEventDescription(String description);
     
     
     public Boolean addChildEvent(ChildEvent childEvent);
     public ChildEvent getChildEvent(Integer childEventID);
-    public List<ChildEvent> getChildEvents();
     public Boolean removeChildEvent(ChildEvent childEvent);
+    public List<ChildEvent> getChildEvents();
 }
