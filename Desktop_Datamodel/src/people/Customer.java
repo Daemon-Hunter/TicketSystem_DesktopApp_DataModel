@@ -82,7 +82,7 @@ public class Customer implements IUser, IHaveReviews {
     }
 
     @Override
-    public ISubject notifyObservers() {
+    public void notifyObservers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -102,7 +102,7 @@ public class Customer implements IUser, IHaveReviews {
     }
 
     @Override
-    public Review getReview(Integer custId) {
+    public Review getReview(Integer uniqueID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

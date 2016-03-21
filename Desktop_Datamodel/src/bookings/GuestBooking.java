@@ -9,7 +9,6 @@ import database.DatabaseTable;
 import java.util.Date;
 import tickets.Ticket;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
@@ -33,7 +32,7 @@ public class GuestBooking extends Booking implements IGuestBooking {
     }
 
     @Override
-    public ISubject notifyObservers() {
+    public void notifyObservers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -109,6 +108,36 @@ public class GuestBooking extends Booking implements IGuestBooking {
 
     @Override
     public Boolean setGuestPostcode(String postcode) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getCustomerAddress() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setCustomerAddress(String address) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getCustomerEmail() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setCustomerEmail(String email) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getCustomerPostcode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setCustomerPostcode() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

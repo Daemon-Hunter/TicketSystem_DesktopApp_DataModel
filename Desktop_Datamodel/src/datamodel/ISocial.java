@@ -6,15 +6,16 @@
 package datamodel;
 
 import java.net.URL;
+import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface ISocial {
+public interface ISocial extends IDbSubject {
     
-    Integer getId();
-    Boolean setId(Integer id);
+    Integer getSocialId();
+    Boolean setSocialId(Integer id);
     
     URL getImage();
     Boolean setImage(URL img);

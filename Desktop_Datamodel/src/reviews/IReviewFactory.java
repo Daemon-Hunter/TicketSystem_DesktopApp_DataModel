@@ -13,6 +13,6 @@ import database.DatabaseTable;
  */
 public interface IReviewFactory {
     
-    public Review createReview(Integer reviewBaseID, Integer customerID,
-            Integer rating, String body, DatabaseTable table);
+    public Review createReview(Integer reviewBaseID, DatabaseTable table, Integer customerID,
+            Integer rating, String body);
 }

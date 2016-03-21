@@ -48,7 +48,7 @@ public class SocialMediaTest {
         System.out.println("getId");
         Integer expResult = 1;
         SocialMedia instance = new SocialMedia(expResult, null, null, null, null, null, null, null);
-        Integer result = instance.getId();
+        Integer result = instance.getSocialId();
         assertEquals("Fail, resulting Id didn't match input", expResult, result);
     }
 
@@ -61,7 +61,7 @@ public class SocialMediaTest {
         Integer id = 5;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean expResult = true;
-        Boolean result = instance.setId(id);
+        Boolean result = instance.setSocialId(id);
         assertEquals("Fail, setId didn't return true", expResult, result);
     }
     
@@ -74,7 +74,7 @@ public class SocialMediaTest {
         Integer id = 0;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean expResult = false;
-        Boolean result = instance.setId(id);
+        Boolean result = instance.setSocialId(id);
         assertEquals("Fail, setId zero didn't return false", expResult, result);
     }
     
@@ -87,7 +87,7 @@ public class SocialMediaTest {
         Integer id = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         try {
-            instance.setId(id);
+            instance.setSocialId(id);
             fail("The method did not throw a NullPointerException");
         }
         catch (NullPointerException ex) { }
@@ -102,7 +102,7 @@ public class SocialMediaTest {
         Integer id = -5;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean expResult = false;
-        Boolean result = instance.setId(id);
+        Boolean result = instance.setSocialId(id);
         assertEquals("Fail, setId didn't return false when setting a "
                 + "negative number", expResult, result);
     }
@@ -116,7 +116,7 @@ public class SocialMediaTest {
         Integer id = 100000001;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean expResult = false;
-        Boolean result = instance.setId(id);
+        Boolean result = instance.setSocialId(id);
         assertEquals("Fail, setId didn't return false when setting an "
                 + "id who's length is too large", expResult, result);
     }

@@ -5,8 +5,10 @@
  */
 package datamodel;
 
+import database.DatabaseTable;
 import utilities.Validator;
 import java.net.URL;
+import utilities.observer.IObserver;
 
 /**
  *
@@ -14,10 +16,10 @@ import java.net.URL;
  */
 public class SocialMedia implements ISocial {
     
-    Validator validator;
-    Integer   id;
-    URL       image, facebook, twitter, instagram,
-              soundcloud, website, spotify;
+    private final Validator validator;
+    private Integer   id;
+    private URL       image, facebook, twitter, instagram,
+                      soundcloud, website, spotify;
     
     public SocialMedia(Integer id, URL img, URL fb, URL tw, URL insta,
                     URL sc, URL web, URL sp) {
@@ -33,7 +35,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Integer getId() {
+    public Integer getSocialId() {
         if (id == null) {
             throw new NullPointerException();
         } else return id;
@@ -46,11 +48,12 @@ public class SocialMedia implements ISocial {
      * @return 
      */
     @Override
-    public Boolean setId(Integer id) {
+    public Boolean setSocialId(Integer id) {
         Boolean valid = validator.idValidator(id);
         if (valid) {
             this.id = id;
         }
+        notifyObservers();
         return valid;
     }
 
@@ -174,6 +177,26 @@ public class SocialMedia implements ISocial {
             spotify = sp;
         }
         return valid;
+    }
+
+    @Override
+    public DatabaseTable getTable() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyObservers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean registerObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean removeObserver(IObserver o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

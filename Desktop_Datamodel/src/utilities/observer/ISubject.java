@@ -13,10 +13,8 @@ public interface ISubject {
     
     /**
      * Notify the observers of a change in this object.
-     * Returns 'this' object in order to push changes to the database.
-     * @return This object.
     **/
-    ISubject notifyObservers();
+    void notifyObservers();
     
     Boolean registerObserver(IObserver o);
     

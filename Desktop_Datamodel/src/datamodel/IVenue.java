@@ -11,13 +11,13 @@ package datamodel;
  */
 public interface IVenue {
     
-    public String getVenueID();
+    public Integer getVenueID();
     public String getVenueName();
     public String getVenueDescription();
     public Integer getVenueStandingCapacity();
     public Integer getVenueSeatingCapacity();
     public Boolean getVenueDisabledAccess();
-    public Boolean getVenueFacilites();
+    public String getVenueFacilites();
     public Integer getVenueParking();
     public String getVenueEmail();
     public String getVenuePhoneNumber();
@@ -29,7 +29,7 @@ public interface IVenue {
     public Boolean setVenueStandingCapacity(Integer standing);
     public Boolean setVenueSeatingCapacity(Integer seating);
     public Boolean setVenueDisabledAccess(Boolean access);
-    public Boolean setVenueFacilites(Boolean facilites);
+    public Boolean setVenueFacilites(String facilities);
     public Boolean setVenueParking(Integer parking);
     public Boolean setVenueEmail(String email);
     public Boolean setVenuePhoneNumber(String phoneNumber);

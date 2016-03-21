@@ -6,34 +6,52 @@
 package datamodel;
 
 import database.DatabaseTable;
-import java.net.URL;
-import reviews.Review;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import reviews.ArtistReviewFactory;
 import reviews.ReviewBase;
 import reviews.IReviewFactory;
-import utilities.observer.IObserver;
-import utilities.observer.ISubject;
+import reviews.Review;
+import utilities.Validator;
 
 /**
  *
  * @author 10512691
  */
-public class Artist extends ReviewBase {
+public class Artist extends ReviewBase implements IArtist {
     
-    // Initialise 'Social' variables
-    ISocial socialMedia;
-    URL image;
-    URL instagram;
-    URL soundcloud;
-    URL spotify;
-    URL twitter;
-    URL website;
+    private LinkedList<String> tags;
     
-    // Initialize table variable - matches Java object to database table
-    private final DatabaseTable table = DatabaseTable.ARTIST;
+    public Artist() {
+        // Initialize table variable - matches Java object to database table
+        table = DatabaseTable.ARTIST;
+        
+        // Initialise default values for rest of attributes
+        tags = new LinkedList<>();
+        ID = 0;
+        this.validator = new Validator();
+        socialMedia = new SocialMedia(0, null, null, null, null, null, null, null);
+        reviews = new LinkedList<>();
+        reviewFactory = new ArtistReviewFactory();
+        observers = new LinkedList<>();
+        name = "UNKNOWN";
+    }
 
-    @Override
-    public ISubject notifyObservers() {
-        return this;
+    public Artist(Integer ID, String name, LinkedList<String> tags, SocialMedia social,
+            LinkedList<Review> reviews) {
+        // Initialize table variable - matches Java object to database table
+        table = DatabaseTable.ARTIST;
+        
+        // Initialise default values for rest of attributes
+        this.tags = tags;
+        this.ID = ID;
+        this.validator = new Validator();
+        socialMedia = social;
+        this.reviews = reviews;
+        this.name = name;
+        reviewFactory = new ArtistReviewFactory();
+        observers = new LinkedList<>();
     }
 
     @Override
@@ -42,108 +60,50 @@ public class Artist extends ReviewBase {
     }
 
     @Override
-    public Integer getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setId(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setImage(URL img) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getFacebook() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setFacebook(URL fb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getTwitter() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setTwitter(URL tw) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getInstagram() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setInstagram(URL insta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getSoundcloud() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setSoundcloud(URL sc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getWebsite() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setWebsite(URL web) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getSpotify() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setSpotify(URL sp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Review getReview(Integer custId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean deleteReview(Review review) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public IReviewFactory getReviewFactory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return reviewFactory;
     }
-    
+
+    @Override
+    public Integer getArtistID() {
+        return ID;
+    }
+
+    @Override
+    public String getArtistName() {
+        return name;
+    }
+
+    @Override
+    public List<String> getArtistTags() {
+        return tags;
+    }
+
+    @Override
+    public Boolean addArtistTag(String tag) {
+        if (tag == null) {
+            throw new NullPointerException();
+        } else {
+            Boolean valid = validator.tagValidator(tag);
+            if (valid) {
+                tags.add(tag);
+                notifyObservers();
+            }
+            return valid;
+        }
+    }
+
+    @Override
+    public Boolean removeArtistTag(String tag) {
+        
+        Optional<String> value = tags.stream()
+                                     .findAny()
+                                     .filter(t -> t.equals(tag));
+        if (value.isPresent()) {
+            tags.remove(value.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

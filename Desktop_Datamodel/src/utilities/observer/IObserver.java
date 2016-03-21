@@ -10,5 +10,5 @@ package utilities.observer;
  * @author 10512691
  */
 public interface IObserver {
-    void update();
+    void update(ISubject object);
 }

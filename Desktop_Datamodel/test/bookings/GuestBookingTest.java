@@ -57,20 +57,6 @@ public class GuestBookingTest {
     }
 
     /**
-     * Test of notifyObservers method, of class GuestBooking.
-     */
-    @Test
-    public void testNotifyObservers() {
-        System.out.println("notifyObservers");
-        GuestBooking instance = new GuestBooking();
-        ISubject expResult = null;
-        ISubject result = instance.notifyObservers();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of registerObserver method, of class GuestBooking.
      */
     @Test

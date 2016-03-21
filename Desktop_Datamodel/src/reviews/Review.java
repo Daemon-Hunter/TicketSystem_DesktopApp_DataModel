@@ -29,8 +29,7 @@ public abstract class Review implements IReview {
     }
     
     @Override
-    public ISubject notifyObservers() {
-        return this;
+    public void notifyObservers() {
     }
     
     @Override

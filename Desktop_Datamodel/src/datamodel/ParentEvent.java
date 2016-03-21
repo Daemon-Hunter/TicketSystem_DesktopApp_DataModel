@@ -39,12 +39,15 @@ public class ParentEvent extends ReviewBase {
         return this;
     }
 
+    @Override
     public Integer getSocialId() {
         return socialId;
     }
 
-    public void setSocialId(Integer socialId) {
+    @Override
+    public Boolean setSocialId(Integer socialId) {
         this.socialId = socialId;
+        return true;
     }
 
     public LinkedList<ChildEvent> getChildEvents() {
@@ -56,23 +59,12 @@ public class ParentEvent extends ReviewBase {
     }
     
     @Override
-    public ISubject notifyObservers() {
-        return this;
+    public void notifyObservers() {
     }
 
     @Override
     public DatabaseTable getTable() {
         return table;
-    }
-
-    @Override
-    public Integer getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setId(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -146,7 +138,7 @@ public class ParentEvent extends ReviewBase {
     }
 
     @Override
-    public Review getReview(Integer custId) {
+    public Review getReview(Integer uniqueID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

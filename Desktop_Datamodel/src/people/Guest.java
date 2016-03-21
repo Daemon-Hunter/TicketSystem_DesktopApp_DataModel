@@ -8,7 +8,6 @@ package people;
 import bookings.Booking;
 import database.DatabaseTable;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
@@ -48,7 +47,7 @@ public class Guest extends User {
     }
 
     @Override
-    public ISubject notifyObservers() {
+    public void notifyObservers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

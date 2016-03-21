@@ -49,7 +49,7 @@ public class Ticket implements ITicket {
     }
 
     @Override
-    public ISubject notifyObservers() {
+    public void notifyObservers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
