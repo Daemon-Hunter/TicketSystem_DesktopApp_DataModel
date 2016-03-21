@@ -413,4 +413,14 @@ public class Venue extends ReviewBase implements IVenue {
             return valid;
         }
     }
+
+    @Override
+    public SocialMedia getSocialMedia() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setSocialMedia(SocialMedia social) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
