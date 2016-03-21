@@ -15,7 +15,7 @@ import java.util.LinkedList;
 public abstract class User implements IUser {
     
     protected LinkedList<Booking> bookings;
-    protected String name, email, address, postcode;
+    protected String firstName, lastName, email, address, postcode;
     
     @Override
     public LinkedList<Booking> getBookings() {

@@ -13,8 +13,11 @@ import utilities.observer.IDbSubject;
  */
 public interface IPerson extends IDbSubject {
     
-    String  getName();
-    Boolean setName(String name);
+    String  getFirstName();
+    Boolean setFirstName(String name);
+    
+    String getLastName();
+    Boolean setLastName(String name);
     
     String  getEmail();
     Boolean setEmail(String email);
