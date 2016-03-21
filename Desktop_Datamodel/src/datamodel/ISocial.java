@@ -17,6 +17,9 @@ public interface ISocial extends IDbSubject {
     Integer getSocialId();
     Boolean setSocialId(Integer id);
     
+    SocialMedia getSocialMedia();
+    Boolean setSocialMedia(SocialMedia social);
+    
     URL getImage();
     Boolean setImage(URL img);
     
