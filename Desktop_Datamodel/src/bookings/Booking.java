@@ -19,8 +19,26 @@ public abstract class Booking implements IBooking {
     protected Integer ticketQuantity;
     protected Date    bookingDateTime;
     
-    public Booking(){}
+    /**
+     * Use this constructor when creating a new object object.
+     * @param newTicket
+     * @param ticketQty
+     * @param dateTime 
+     */
+    public Booking(Ticket newTicket, Integer ticketQty, Date dateTime) {
+        bookingID = 0;
+        ticket = newTicket;
+        ticketQuantity = ticketQty;
+        bookingDateTime = dateTime;
+    }
     
+    /**
+     * Use this constructor when creating an object from the database.
+     * @param ID
+     * @param newTicket
+     * @param ticketQty
+     * @param dateTime 
+     */
     public Booking(Integer ID, Ticket newTicket, Integer ticketQty, Date dateTime) {
         bookingID = ID;
         ticket = newTicket;
@@ -30,7 +48,11 @@ public abstract class Booking implements IBooking {
     
     @Override
     public Integer getBookingID() {
-        return bookingID;
+        if (bookingID == null) {
+            throw new NullPointerException("Null booking ID");
+        } else {
+            return bookingID;
+        }
     }
     
     @Override

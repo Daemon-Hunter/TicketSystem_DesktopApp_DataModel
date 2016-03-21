@@ -5,12 +5,13 @@
  */
 package people;
 
-import bookings.Booking;
+import bookings.IBooking;
 import database.DatabaseTable;
 import java.util.LinkedList;
 import reviews.IHaveReviews;
 import reviews.IReview;
 import reviews.Review;
+import tickets.Ticket;
 import utilities.observer.IObserver;
 
 /**
@@ -18,9 +19,17 @@ import utilities.observer.IObserver;
  * @author 10512691
  */
 public class Customer extends User implements IHaveReviews {
-    private int    customerID;
+    private int customerID;
     
-    
+    /**
+     * Use this when creating a customer object from the database.
+     * @param ID is known.
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param address
+     * @param postcode 
+     */
     public Customer(Integer ID, String firstName, String lastName,
             String email, String address, String postcode) {
       this.customerID = ID;
@@ -29,25 +38,45 @@ public class Customer extends User implements IHaveReviews {
       this.email = email;
       this.address = address;
       this.postcode = postcode;
-              
     }
-
-    public Customer() {
+    
+    /**
+     * Use this when creating a new customer object.
+     * ID is unknown.
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param address
+     * @param postcode 
+     */
+    public Customer(String firstName, String lastName,
+            String email, String address, String postcode) {
       this.customerID = 0;
-      this.firstName = "";
-      this.lastName = "";
-      this.email = "";
-      this.address = "";
-      this.postcode = "";
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.address = address;
+      this.postcode = postcode;
+    }
+
+//    public Customer() {
+//      this.customerID = 0;
+//      this.firstName = "";
+//      this.lastName = "";
+//      this.email = "";
+//      this.address = "";
+//      this.postcode = "";
+//    }
+
+    @Override
+    public LinkedList<IBooking> getBookings() {
+        if (bookings == null) {
+            throw new NullPointerException("Null bookings list");
+        } else return bookings;
     }
 
     @Override
-    public LinkedList<Booking> getBookings() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Booking getBooking(Integer bookingId) {
+    public LinkedList<IBooking> getBookingByTicket(Ticket ticket) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -121,12 +150,6 @@ public class Customer extends User implements IHaveReviews {
     @Override
     public Boolean getCustomerID() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setCustomerID(int ID) {
-        
-        return false;
     }
 
     @Override

@@ -6,7 +6,10 @@
 package people;
 
 import bookings.Booking;
+import bookings.IBooking;
 import database.DatabaseTable;
+import java.util.LinkedList;
+import tickets.Ticket;
 import utilities.observer.IObserver;
 
 /**
@@ -16,11 +19,9 @@ import utilities.observer.IObserver;
 public class Guest extends User {
 
     @Override
-    public Booking getBooking(Integer bookingId) {
+    public LinkedList<IBooking> getBookingByTicket(Ticket ticket) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-  
 
     @Override
     public String getEmail() {
@@ -69,11 +70,6 @@ public class Guest extends User {
 
     @Override
     public Boolean setPostcode(String postcode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setCustomerID(int ID) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

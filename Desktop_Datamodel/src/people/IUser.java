@@ -5,8 +5,9 @@
  */
 package people;
 
-import bookings.Booking;
+import bookings.IBooking;
 import java.util.LinkedList;
+import tickets.Ticket;
 
 /**
  *
@@ -14,13 +15,12 @@ import java.util.LinkedList;
  */
 public interface IUser extends IPerson {
     
-    LinkedList<Booking> getBookings();
-    Booking getBooking(Integer bookingId);
+    LinkedList<IBooking> getBookings();
+    LinkedList<IBooking> getBookingByTicket(Ticket ticket);
     
     String getAddress();
     Boolean setAddress(String address);
     
-    Boolean setCustomerID(int ID);
     Boolean getCustomerID();
     
     String getPostcode();

@@ -5,7 +5,7 @@
  */
 package people;
 
-import bookings.Booking;
+import bookings.IBooking;
 import java.util.LinkedList;
 
 /**
@@ -14,11 +14,11 @@ import java.util.LinkedList;
  */
 public abstract class User implements IUser {
     
-    protected LinkedList<Booking> bookings;
+    protected LinkedList<IBooking> bookings;
     protected String firstName, lastName, email, address, postcode;
     
     @Override
-    public LinkedList<Booking> getBookings() {
+    public LinkedList<IBooking> getBookings() {
         return bookings;
     }
 }

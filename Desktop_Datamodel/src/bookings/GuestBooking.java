@@ -18,8 +18,6 @@ import utilities.observer.IObserver;
 public class GuestBooking extends Booking {
     
     private String email, address, postcode;
-
-    public GuestBooking(){}
     
     public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
             String email, String address, String postcode) {
