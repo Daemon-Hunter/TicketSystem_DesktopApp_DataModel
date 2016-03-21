@@ -5,7 +5,7 @@
  */
 package bookings;
 
-import people.Customer;
+import people.User;
 import tickets.Ticket;
 
 /**
@@ -14,10 +14,8 @@ import tickets.Ticket;
  */
 public class CustomerBookingFactory implements IBookingFactory {
 
-    
     @Override
-    public CustomerBooking createBooking(Ticket ticket, Customer customer, Integer quantity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Booking createBooking(Ticket ticket, User user, Integer quantity) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }

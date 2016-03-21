@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import people.Customer;
+import people.User;
 import tickets.Ticket;
 
 /**
@@ -48,7 +49,7 @@ public class CustomerBookingFactoryTest {
     public void testCreateBooking() {
         System.out.println("createBooking");
         Ticket ticket = new Ticket(null, null, null, null, null, null);
-        Customer customer = new Customer(null, null, null, null, null, "PL48LD");
+        User customer = new Customer(null, null, null, null, null, "PL48LD");
         Integer quantity = 1;
         CustomerBookingFactory instance = new CustomerBookingFactory();
         CustomerBooking result = instance.createBooking(ticket, customer, quantity);

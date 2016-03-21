@@ -5,7 +5,7 @@
  */
 package bookings;
 
-import people.Customer;
+import people.User;
 import tickets.Ticket;
 
 /**
@@ -14,6 +14,6 @@ import tickets.Ticket;
  */
 public interface IBookingFactory {
     
-    public Booking createBooking(Ticket ticket, Customer customer, Integer quantity);
+    public Booking createBooking(Ticket ticket, User user, Integer quantity);
     
 }
