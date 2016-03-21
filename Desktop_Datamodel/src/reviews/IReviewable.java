@@ -5,7 +5,6 @@
  */
 package reviews;
 
-
 /**
  *
  * @author 10512691
@@ -13,5 +12,5 @@ package reviews;
 public interface IReviewable extends IHaveReviews {
     
     // Inside create review method, call getReviewFactory() on 'this' object
-    public Review createReview(Integer customerID, Integer rating, String body);
+    public IReview createReview(Integer customerID, Integer rating, String body);
 }

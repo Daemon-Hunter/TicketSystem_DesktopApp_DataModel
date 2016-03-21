@@ -41,6 +41,10 @@ public class Venue extends ReviewBase implements IVenue {
     private Boolean disabledAccess;
     private String  facilities;
     
+    public void getVenuesfmsfnifos() {
+        
+    }
+    
     public Venue() {
         // Initialize table variable -> matches Java object to database table
         table            = DatabaseTable.VENUE;
