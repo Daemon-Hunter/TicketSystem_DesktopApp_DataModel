@@ -51,7 +51,7 @@ public class GuestBookingFactoryTest {
         Integer quantity = 1;
         IBookingFactory instance = new GuestBookingFactory();
         Booking result = instance.createBooking(ticket, guest, quantity);
-        if (!result.getUser().getName().equals("GUEST")) {
+        if (!result.getUser().getFirstName().equals("GUEST")) {
             fail("The booking wasn't made correctly.");
         }
     }

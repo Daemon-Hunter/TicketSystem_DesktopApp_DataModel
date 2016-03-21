@@ -23,7 +23,7 @@ public class MapToObject {
     public Customer Convert(Map<String,String> custMap)
   {
      Customer cust = new Customer();
-     
+     cust.setFirstName(custMap.get("CUSTOMER_FIRST_NAME"));
      
         
      
