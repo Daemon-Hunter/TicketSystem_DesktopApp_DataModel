@@ -11,13 +11,12 @@ import java.util.LinkedList;
 import reviews.IHaveReviews;
 import reviews.Review;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
  * @author 10512691
  */
-public class Customer implements IUser, IHaveReviews {
+public class Customer extends User implements IHaveReviews {
     private int    customerID;
     private String customerFirstName;
     private String customerLastName;
