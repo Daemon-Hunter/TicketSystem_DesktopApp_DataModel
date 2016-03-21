@@ -7,6 +7,7 @@ package desktop_datamodel;
 
 import database.APIConnection;
 import database.DatabaseTable;
+import database.MapToObject;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.After;
