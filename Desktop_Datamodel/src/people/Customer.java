@@ -18,31 +18,26 @@ import utilities.observer.IObserver;
  */
 public class Customer extends User implements IHaveReviews {
     private int    customerID;
-    private String customerFirstName;
-    private String customerLastName;
-    private String customerEmail;
-    private String customerAddress;
-    private String customerPostcode;
     
     
     public Customer(Integer ID, String firstName, String lastName,
             String email, String address, String postcode) {
       this.customerID = ID;
-      this.customerFirstName = firstName;
-      this.customerLastName = lastName;
-      this.customerEmail = email;
-      this.customerAddress = address;
-      this.customerPostcode = postcode;
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.email = email;
+      this.address = address;
+      this.postcode = postcode;
               
     }
 
     public Customer() {
       this.customerID = 0;
-      this.customerFirstName = "";
-      this.customerLastName = "";
-      this.customerEmail = "";
-      this.customerAddress = "";
-      this.customerPostcode = "";
+      this.firstName = "";
+      this.lastName = "";
+      this.email = "";
+      this.address = "";
+      this.postcode = "";
     }
 
     @Override

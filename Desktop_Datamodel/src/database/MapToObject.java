@@ -24,10 +24,11 @@ public class MapToObject {
   {
      Customer cust = new Customer();
      cust.setFirstName(custMap.get("CUSTOMER_FIRST_NAME"));
-     
-        
-     
-     
+     cust.setLastName(custMap.get("CUSTOMER_LAST_NAME"));
+     cust.setCustomerID(Integer.parseInt(custMap.get("CUSTOMER_ID")));
+     cust.setAddress(custMap.get("CUSTOMER_ADDRESS"));
+     cust.setEmail(custMap.get("CUSTOMER_EMAIL"));
+     cust.setPostcode(custMap.get("CUSTOMER_POSTCODE"));
        return cust;
     }
 }
