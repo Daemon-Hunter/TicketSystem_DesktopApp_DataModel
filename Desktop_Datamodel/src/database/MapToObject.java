@@ -14,6 +14,7 @@ import java.util.Map;
 import people.Customer;
 import reviews.ArtistReview;
 import reviews.ArtistReviewFactory;
+import reviews.IReview;
 import reviews.Review;
 
 /**
@@ -54,7 +55,7 @@ public class MapToObject {
            String tags = artistMap.get("ARTIST_TAGS");
            String[] tempArr = tags.split("#");
            LinkedList<String> listOfTags = new LinkedList<>();
-           LinkedList<Review> listOfReviews = new LinkedList<>();
+           LinkedList<IReview> listOfReviews = new LinkedList<>();
            List<Map<String,String>> allReviews;
            allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTIST);
            
