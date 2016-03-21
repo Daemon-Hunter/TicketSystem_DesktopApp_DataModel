@@ -75,12 +75,10 @@ public class CustomerBookingTest {
     @Test
     public void testGetTicket() {
         System.out.println("getTicket");
-        CustomerBooking instance = new CustomerBooking();
-        Ticket expResult = null;
+        Ticket expResult = new Ticket();
+        CustomerBooking instance = new CustomerBooking(null, expResult, null, null, null);
         Ticket result = instance.getTicket();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -89,7 +87,7 @@ public class CustomerBookingTest {
     @Test
     public void testSetTicket() {
         System.out.println("setTicket");
-        Ticket ticket = null;
+        Ticket ticket = new Ticket();
         CustomerBooking instance = new CustomerBooking();
         Boolean expResult = null;
         Boolean result = instance.setTicket(ticket);
