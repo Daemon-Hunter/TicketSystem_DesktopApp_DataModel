@@ -15,7 +15,7 @@ import tickets.Ticket;
 public class CustomerBookingFactory implements IBookingFactory {
 
     @Override
-    public Booking createBooking(Ticket ticket, User user, Integer quantity) {
+    public CustomerBooking createBooking(Ticket ticket, User user, Integer quantity) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

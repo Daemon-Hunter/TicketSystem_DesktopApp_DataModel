@@ -15,7 +15,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import tickets.Ticket;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
@@ -186,92 +185,4 @@ public class GuestBookingTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of getGuestEmail method, of class GuestBooking.
-     */
-    @Test
-    public void testGetGuestEmail() {
-        System.out.println("getGuestEmail");
-        GuestBooking instance = new GuestBooking();
-        String expResult = "";
-        String result = instance.getGuestEmail();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setGuestEmail method, of class GuestBooking.
-     */
-    @Test
-    public void testSetGuestEmail() {
-        System.out.println("setGuestEmail");
-        String email = "";
-        GuestBooking instance = new GuestBooking();
-        Boolean expResult = null;
-        Boolean result = instance.setGuestEmail(email);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getGuestAddress method, of class GuestBooking.
-     */
-    @Test
-    public void testGetGuestAddress() {
-        System.out.println("getGuestAddress");
-        GuestBooking instance = new GuestBooking();
-        String expResult = "";
-        String result = instance.getGuestAddress();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setGuestAddress method, of class GuestBooking.
-     */
-    @Test
-    public void testSetGuestAddress() {
-        System.out.println("setGuestAddress");
-        String address = "";
-        GuestBooking instance = new GuestBooking();
-        Boolean expResult = null;
-        Boolean result = instance.setGuestAddress(address);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getGuestPostcode method, of class GuestBooking.
-     */
-    @Test
-    public void testGetGuestPostcode() {
-        System.out.println("getGuestPostcode");
-        GuestBooking instance = new GuestBooking();
-        String expResult = "";
-        String result = instance.getGuestPostcode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setGuestPostcode method, of class GuestBooking.
-     */
-    @Test
-    public void testSetGuestPostcode() {
-        System.out.println("setGuestPostcode");
-        String postcode = "";
-        GuestBooking instance = new GuestBooking();
-        Boolean expResult = null;
-        Boolean result = instance.setGuestPostcode(postcode);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

@@ -14,7 +14,6 @@ import utilities.observer.IObserver;
  * @author 10512691
  */
 public class Guest extends User {
-    
 
     @Override
     public Booking getBooking(Integer bookingId) {

@@ -15,8 +15,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import people.Customer;
 import tickets.Ticket;
-import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
@@ -75,7 +73,7 @@ public class CustomerBookingTest {
     @Test
     public void testGetTicket() {
         System.out.println("getTicket");
-        Ticket expResult = new Ticket();
+        Ticket expResult = new Ticket(null, null, null, null, null, null);
         CustomerBooking instance = new CustomerBooking(null, expResult, null, null, null);
         Ticket result = instance.getTicket();
         assertEquals(expResult, result);
@@ -87,7 +85,7 @@ public class CustomerBookingTest {
     @Test
     public void testSetTicket() {
         System.out.println("setTicket");
-        Ticket ticket = new Ticket();
+        Ticket ticket = new Ticket(null, null, null, null, null, null);
         CustomerBooking instance = new CustomerBooking();
         Boolean expResult = null;
         Boolean result = instance.setTicket(ticket);

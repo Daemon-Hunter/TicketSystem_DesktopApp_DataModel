@@ -51,10 +51,10 @@ public class CustomerBookingFactoryTest {
         Ticket ticket = new Ticket(null, null, null, null, null, null);
         User customer = new Customer(null, null, null, null, null, "PL48LD");
         Integer quantity = 1;
-        CustomerBookingFactory instance = new CustomerBookingFactory();
-        CustomerBooking result = instance.createBooking(ticket, customer, quantity);
+        IBookingFactory instance = new CustomerBookingFactory();
+        IBooking result = instance.createBooking(ticket, customer, quantity);
         
-        if (!result.getCustomer().getPostcode().equals("PL48LD")) {
+        if (!result.getUser().getPostcode().equals("PL48LD")) {
             fail("The booking was not made correctly");
         }
     }

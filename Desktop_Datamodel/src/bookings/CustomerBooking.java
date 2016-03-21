@@ -8,6 +8,7 @@ package bookings;
 import database.DatabaseTable;
 import java.util.Date;
 import people.Customer;
+import people.User;
 import tickets.Ticket;
 import utilities.observer.IObserver;
 import utilities.observer.ISubject;
@@ -95,33 +96,12 @@ public class CustomerBooking extends Booking implements ICustomerBooking {
     }
 
     @Override
-    public String getCustomerAddress() {
+    public User getUser() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean setCustomerAddress(String address) {
+    public Boolean setUser(User user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public String getCustomerEmail() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setCustomerEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getCustomerPostcode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setCustomerPostcode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

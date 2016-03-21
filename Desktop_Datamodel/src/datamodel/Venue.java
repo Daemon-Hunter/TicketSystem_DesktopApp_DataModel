@@ -65,7 +65,7 @@ public class Venue extends ReviewBase implements IVenue {
     
     /**
      * For use when creating new Venues on the Administrators application.
-     * No ID is given, it will be assigned from a returning call to the API
+     * No ID is given, it will be assigned from a returning call to the API.
      * in the setID() method.
      * @param social
      * @param description
