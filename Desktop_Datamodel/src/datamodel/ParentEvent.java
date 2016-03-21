@@ -8,22 +8,18 @@ package datamodel;
 import database.DatabaseTable;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.Optional;
 import reviews.Review;
 import reviews.ReviewBase;
 import reviews.IReviewFactory;
+import reviews.ParentEventReviewFactory;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
  * @author 10512691
  */
-public class ParentEvent extends ReviewBase {
-    
-    // Initialise 'Social' variables
-    private Integer socialId;
-    private URL     image, instagram, soundcloud, 
-                    spotify, twitter, website;
+public class ParentEvent extends ReviewBase implements IParentEvent {
     
     private LinkedList<ChildEvent> childEvents;
     
@@ -31,135 +27,125 @@ public class ParentEvent extends ReviewBase {
      * Empty constructor initializes it's review factory and child event list.
      */
     public ParentEvent() {
+        super();
         // Initialize table variable, which matches Java object to database table
         table = DatabaseTable.PARENTEVENT;
-    }
-    
-    public ParentEvent createEvent() {
-        return this;
+        childEvents = new LinkedList<>();
+        reviewFactory = new ParentEventReviewFactory();
     }
 
     @Override
     public Integer getSocialId() {
-        return socialId;
+        return socialMedia.getSocialId();
     }
 
     @Override
     public Boolean setSocialId(Integer socialId) {
-        this.socialId = socialId;
-        return true;
+        return socialMedia.setSocialId(socialId);
     }
 
+    @Override
     public LinkedList<ChildEvent> getChildEvents() {
-        return childEvents;
-    }
-
-    public void setChildEvents(LinkedList<ChildEvent> childEvents) {
-        this.childEvents = childEvents;
-    }
-    
-    @Override
-    public void notifyObservers() {
+        if (childEvents == null) {
+            throw new NullPointerException("Null child event list");
+        } else {
+            return childEvents;
+        }
     }
 
     @Override
-    public DatabaseTable getTable() {
-        return table;
+    public Integer getParentEventID() {
+        if (ID == null) {
+            throw new NullPointerException("Null ID");
+        } else {
+            return ID;
+        }
     }
 
     @Override
-    public URL getImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getParentEventName() {
+        if (name == null) {
+            throw new NullPointerException("Null name");
+        } else {
+            return name;
+        }
     }
 
     @Override
-    public Boolean setImage(URL img) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getParentEventDescription() {
+        if (description == null) {
+            throw new NullPointerException("Null description");
+        } else {
+            return description;
+        }
     }
 
     @Override
-    public URL getFacebook() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean setParentEventName(String name) {
+        if (name == null) {
+            throw new NullPointerException("Null name");
+        } else {
+            Boolean valid = validator.nameValidator(name);
+            if (valid) {
+                this.name = name;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
-    public Boolean setFacebook(URL fb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean setParentEventDescription(String description) {
+        if (description == null) {
+            throw new NullPointerException("Null description");
+        } else {
+            Boolean valid = validator.descriptionValidator(description);
+            if (valid) {
+                this.description = description;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
-    public URL getTwitter() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean addChildEvent(ChildEvent childEvent) {
+        if (childEvent == null) {
+            throw new NullPointerException("Null child event");
+        } else {
+            Boolean valid = validator.childEventValidator(childEvent);
+            if (valid) {
+                childEvents.add(childEvent);
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
-    public Boolean setTwitter(URL tw) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ChildEvent getChildEvent(Integer childEventID) {
+        if (childEventID == null) {
+            throw new NullPointerException("Null child event ID");
+        } else {
+            Optional<ChildEvent> event = childEvents.stream()
+                                                    .findFirst()
+                                                    .filter(e -> e.getChildEventID().equals(childEventID));
+            if (event.isPresent()) {
+                return event.get();
+            } else {
+                throw new IllegalArgumentException("Child event not in events list");
+            }
+        }
     }
 
     @Override
-    public URL getInstagram() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setInstagram(URL insta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getSoundcloud() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setSoundcloud(URL sc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getWebsite() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setWebsite(URL web) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public URL getSpotify() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setSpotify(URL sp) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Review getReview(Integer uniqueID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean deleteReview(Review review) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public IReviewFactory getReviewFactory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean removeChildEvent(ChildEvent childEvent) {
+        if (childEvent == null) {
+            throw new NullPointerException("Null child event");
+        } else {
+            childEvents.remove(childEvent);
+            return true;
+        }
     }
     
 }

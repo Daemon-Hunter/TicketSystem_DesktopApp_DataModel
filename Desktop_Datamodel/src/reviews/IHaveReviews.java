@@ -14,7 +14,7 @@ import utilities.observer.IDbSubject;
  */
 public interface IHaveReviews extends IDbSubject {
     
-    public LinkedList<Review> getReviews();
-    public Review getReview(Integer uniqueID);
-    public Boolean deleteReview(Review review);
+    public LinkedList<IReview> getReviews();
+    public IReview getReview(Integer uniqueID);
+    public Boolean deleteReview(IReview review);
 }

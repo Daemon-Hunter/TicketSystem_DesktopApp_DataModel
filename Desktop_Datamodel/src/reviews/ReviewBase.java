@@ -21,13 +21,22 @@ import utilities.observer.IObserver;
 public abstract class ReviewBase implements ISocial, IReviewable {
     
     protected IReviewFactory        reviewFactory;
-    protected LinkedList<Review>    reviews;
+    protected LinkedList<IReview>   reviews;
     protected LinkedList<IObserver> observers;
     protected SocialMedia           socialMedia;
     protected Integer               ID;
-    protected String                name;
+    protected String                name, description;
     protected DatabaseTable         table;
     protected Validator             validator;
+    
+    public ReviewBase() {
+        reviews = new LinkedList<>();
+        observers = new LinkedList<>();
+        socialMedia = new SocialMedia(0, null, null, null, null, null, null, null);
+        ID = 0;
+        name = "UNKNOWN";
+        validator = new Validator();
+    }
     
     @Override
     public Integer getSocialId() {
@@ -92,14 +101,14 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     }
     
     @Override
-    public Review getReview(Integer customerID) {
+    public IReview getReview(Integer customerID) {
         if (customerID == null) {
             throw new NullPointerException();
         } else {
             Boolean valid = validator.idValidator(customerID);
             
             if (valid) {
-                Optional<Review> value = reviews.stream()
+                Optional<IReview> value = reviews.stream()
                                                 .findAny()
                                                 .filter(r -> r.getCustomerID()
                                                 .equals(customerID));
@@ -127,7 +136,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     }
     
     @Override
-    public LinkedList<Review> getReviews() {
+    public LinkedList<IReview> getReviews() {
         if (reviews == null) {
             throw new NullPointerException();
         } else {
@@ -136,7 +145,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     }
     
     @Override
-    public Boolean deleteReview(Review review) {
+    public Boolean deleteReview(IReview review) {
         if (review == null) {
             throw new NullPointerException("Review to be deleted was null");
         } else if (!reviews.contains(review)) {

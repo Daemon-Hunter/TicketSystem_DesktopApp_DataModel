@@ -14,7 +14,7 @@ import database.DatabaseTable;
 public class ParentEventReviewFactory implements IReviewFactory {
 
     @Override
-    public Review createReview(Integer ID, DatabaseTable table, Integer customerID, Integer rating, 
+    public IReview createReview(Integer ID, DatabaseTable table, Integer customerID, Integer rating, 
             String body) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

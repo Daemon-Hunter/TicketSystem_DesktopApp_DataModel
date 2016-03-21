@@ -10,9 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import reviews.ArtistReviewFactory;
+import reviews.IReview;
 import reviews.ReviewBase;
 import reviews.IReviewFactory;
-import reviews.Review;
 import utilities.Validator;
 
 /**
@@ -24,22 +24,15 @@ public class Artist extends ReviewBase implements IArtist {
     private LinkedList<String> tags;
     
     public Artist() {
+        super();
         // Initialize table variable - matches Java object to database table
         table = DatabaseTable.ARTIST;
-        
-        // Initialise default values for rest of attributes
         tags = new LinkedList<>();
-        ID = 0;
-        this.validator = new Validator();
-        socialMedia = new SocialMedia(0, null, null, null, null, null, null, null);
-        reviews = new LinkedList<>();
         reviewFactory = new ArtistReviewFactory();
-        observers = new LinkedList<>();
-        name = "UNKNOWN";
     }
 
     public Artist(Integer ID, String name, LinkedList<String> tags, SocialMedia social,
-            LinkedList<Review> reviews) {
+            LinkedList<IReview> reviews) {
         // Initialize table variable - matches Java object to database table
         table = DatabaseTable.ARTIST;
         

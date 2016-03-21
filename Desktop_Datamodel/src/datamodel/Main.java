@@ -41,7 +41,5 @@ public class Main {
         sumArraySquared(numbers);
         
         Venue venue = new Venue();
-        venue.get
     }
-    
 }

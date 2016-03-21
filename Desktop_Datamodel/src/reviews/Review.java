@@ -8,7 +8,6 @@ package reviews;
 import database.DatabaseTable;
 import java.util.Date;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
