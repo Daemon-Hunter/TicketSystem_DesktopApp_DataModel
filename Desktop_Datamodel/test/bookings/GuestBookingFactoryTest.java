@@ -47,7 +47,7 @@ public class GuestBookingFactoryTest {
     public void testCreateBooking() {
         System.out.println("createBooking");
         Ticket ticket = new Ticket(null, null, null, null, null, null);
-        User guest = new Guest();
+        User guest = new Guest("some", "name", "email@email.com", "address", "postcode");
         Integer quantity = 1;
         IBookingFactory instance = new GuestBookingFactory();
         Booking result = instance.createBooking(ticket, guest, quantity);

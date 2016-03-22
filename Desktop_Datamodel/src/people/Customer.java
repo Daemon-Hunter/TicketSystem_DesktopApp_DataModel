@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import reviews.IHaveReviews;
 import reviews.IReview;
+import utilities.Validator;
 
 /**
  *
@@ -70,7 +71,7 @@ public class Customer extends User implements IHaveReviews {
         if (customerID == null) {
             throw new NullPointerException();
         } else {
-            Boolean valid = validator.idValidator(customerID);
+            Boolean valid = Validator.idValidator(customerID);
             
             if (valid) {
                 Optional<IReview> value = reviews.stream()
@@ -127,7 +128,7 @@ public class Customer extends User implements IHaveReviews {
         if (address == null) {
             throw new NullPointerException("Cannot set address to null");
         } else {
-            Boolean valid = validator.addressValidator(address);
+            Boolean valid = Validator.addressValidator(address);
             if (valid) {
                 this.address = address;
                 notifyObservers();
@@ -150,7 +151,7 @@ public class Customer extends User implements IHaveReviews {
         if (postcode == null) {
             throw new NullPointerException("Cannot set postcode to null");
         } else {
-            Boolean valid = validator.postcodeValidator(postcode);
+            Boolean valid = Validator.postcodeValidator(postcode);
             if (valid) {
                 this.postcode = postcode;
                 notifyObservers();
@@ -160,22 +161,30 @@ public class Customer extends User implements IHaveReviews {
     }
 
     @Override
-    public String getFirstName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Boolean setFirstName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getLastName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (name == null) {
+            throw new NullPointerException("Cannot set name to null");
+        } else {
+            Boolean valid = Validator.nameValidator(name);
+            if (valid) {
+                firstName = name;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
     public Boolean setLastName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (name == null) {
+            throw new NullPointerException("Cannot set name to null");
+        } else {
+            Boolean valid = Validator.nameValidator(name);
+            if (valid) {
+                lastName = name;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 }

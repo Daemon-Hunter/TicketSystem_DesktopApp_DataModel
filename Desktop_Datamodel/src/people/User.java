@@ -21,7 +21,6 @@ public abstract class User implements IUser {
     protected LinkedList<IBooking> bookings;
     protected LinkedList<IObserver> observers;
     protected String firstName, lastName, email, address, postcode;
-    protected Validator validator;
     protected Integer ID;
     
     
@@ -148,6 +147,24 @@ public abstract class User implements IUser {
             throw new NullPointerException("ID is null");
         } else {
             return ID;
+        }
+    }
+    
+    @Override
+    public String getFirstName() {
+        if (firstName == null) {
+            throw new NullPointerException("Null first name");
+        } else {
+            return firstName;
+        }
+    }
+    
+    @Override
+    public String getLastName() {
+        if (lastName == null) {
+            throw new NullPointerException("Null last name");
+        } else {
+            return lastName;
         }
     }
 }

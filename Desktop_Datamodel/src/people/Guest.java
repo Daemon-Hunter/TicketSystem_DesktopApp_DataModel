@@ -6,6 +6,7 @@
 package people;
 
 import database.DatabaseTable;
+import utilities.Validator;
 
 /**
  *
@@ -16,19 +17,35 @@ public class Guest extends User {
     DatabaseTable table = DatabaseTable.GUESTBOOKING;
     
     public Guest(String fName, String lName, String email_, String address_, String pcode) {
-        super(fName, lName, email_, address_, pcode);
+        ID        = 0;
+        firstName = "GUEST";
+        lastName  = "ACCOUNT";
+        email     = email_;
+        address   = address_;
+        postcode  = pcode;
     }
     
     @Override
     public String getEmail() {
-        return email;
+        if (email == null) {
+            throw new NullPointerException("Null email");
+        } else {
+            return email;
+        }
     }
 
     @Override
     public Boolean setEmail(String email) {
-        this.email = email;
-        notifyObservers();
-        return (this.email == email);
+        if (email == null) {
+            throw new NullPointerException("Null email");
+        } else {
+            Boolean valid = Validator.emailValidator(email);
+            if (valid) {
+                this.email = email;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
@@ -45,7 +62,7 @@ public class Guest extends User {
     public Boolean setAddress(String address) {
         this.address = address;
         notifyObservers();
-        return (this.address == address);
+        return (this.address.equals(address));
     }
 
     @Override
@@ -57,12 +74,12 @@ public class Guest extends User {
     public Boolean setPostcode(String postcode) {
         this.postcode = postcode;
         notifyObservers();
-        return (this.postcode == postcode);
+        return (this.postcode.equals(postcode));
     }
 
     @Override
     public String getFirstName() {
-        return "Guest";
+        return firstName;
     }
 
     @Override
@@ -72,7 +89,7 @@ public class Guest extends User {
 
     @Override
     public String getLastName() {
-        return "Account";
+        return lastName;
     }
 
     @Override
