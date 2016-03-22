@@ -37,13 +37,8 @@ public class Customer extends User implements IHaveReviews {
      */
     public Customer(Integer ID, String firstName, String lastName,
             String email, String address, String postcode) {
-      this.ID = ID;
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.email = email;
-      this.address = address;
-      this.postcode = postcode;
-      validator = new Validator();
+        super(firstName, lastName, email, address, postcode);
+        this.ID = ID;
     }
     
     /**
@@ -57,13 +52,8 @@ public class Customer extends User implements IHaveReviews {
      */
     public Customer(String firstName, String lastName,
             String email, String address, String postcode) {
+      super(firstName, lastName, email, address, postcode);
       this.ID = 0;
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.email = email;
-      this.address = address;
-      this.postcode = postcode;
-      validator = new Validator();
     }
 
 //    public Customer() {
