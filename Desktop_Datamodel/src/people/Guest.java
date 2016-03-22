@@ -17,63 +17,51 @@ import utilities.observer.IObserver;
  */
 public class Guest extends User {
 
+    DatabaseTable table = DatabaseTable.GUESTBOOKING;
+    
     public Guest(String fName, String lName, String email_, String address_, String pcode) {
         super(fName, lName, email_, address_, pcode);
     }
-
-    @Override
-    public LinkedList<IBooking> getBookingByTicket(Ticket ticket) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public String getEmail() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return email;
     }
 
     @Override
     public Boolean setEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.email = email;
+        notifyObservers();
+        return (this.email == email);
     }
 
     @Override
     public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return table;
     }
 
     @Override
     public String getAddress() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.address;
     }
 
     @Override
     public Boolean setAddress(String address) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.address = address;
+        notifyObservers();
+        return (this.address == address);
     }
 
     @Override
     public String getPostcode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return postcode;
     }
 
     @Override
     public Boolean setPostcode(String postcode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.postcode = postcode;
+        notifyObservers();
+        return (this.postcode == postcode);
     }
 
     @Override
@@ -88,7 +76,9 @@ public class Guest extends User {
 
     @Override
     public Boolean setFirstName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.firstName = name;
+        notifyObservers();
+        return (this.firstname == name);
     }
 
     @Override
@@ -98,7 +88,9 @@ public class Guest extends User {
 
     @Override
     public Boolean setLastName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.lastName = name;
+        notifyObservers();
+        return (this.lastName == name);
     }
     
 }
