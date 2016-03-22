@@ -138,18 +138,25 @@ public class Customer extends User implements IHaveReviews {
 
     @Override
     public String getPostcode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (postcode == null) {
+            throw new NullPointerException("Null postcode");
+        } else {
+            return postcode;
+        }
     }
 
     @Override
     public Boolean setPostcode(String postcode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-
-    @Override
-    public Boolean getCustomerID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (postcode == null) {
+            throw new NullPointerException("Cannot set postcode to null");
+        } else {
+            Boolean valid = validator.postcodeValidator(postcode);
+            if (valid) {
+                this.postcode = postcode;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
