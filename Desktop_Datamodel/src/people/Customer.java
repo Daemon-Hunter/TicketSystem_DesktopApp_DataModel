@@ -8,10 +8,13 @@ package people;
 import bookings.IBooking;
 import database.DatabaseTable;
 import java.util.LinkedList;
+import java.util.Optional;
+import java.util.stream.Stream;
 import reviews.IHaveReviews;
 import reviews.IReview;
 import reviews.Review;
 import tickets.Ticket;
+import utilities.Validator;
 import utilities.observer.IObserver;
 
 /**
@@ -19,7 +22,9 @@ import utilities.observer.IObserver;
  * @author 10512691
  */
 public class Customer extends User implements IHaveReviews {
-    private int customerID;
+    
+    private Integer ID;
+    private DatabaseTable table = DatabaseTable.CUSTOMER;
     
     /**
      * Use this when creating a customer object from the database.
@@ -32,12 +37,13 @@ public class Customer extends User implements IHaveReviews {
      */
     public Customer(Integer ID, String firstName, String lastName,
             String email, String address, String postcode) {
-      this.customerID = ID;
+      this.ID = ID;
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
       this.address = address;
       this.postcode = postcode;
+      validator = new Validator();
     }
     
     /**
@@ -51,12 +57,13 @@ public class Customer extends User implements IHaveReviews {
      */
     public Customer(String firstName, String lastName,
             String email, String address, String postcode) {
-      this.customerID = 0;
+      this.ID = 0;
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
       this.address = address;
       this.postcode = postcode;
+      validator = new Validator();
     }
 
 //    public Customer() {
@@ -66,6 +73,7 @@ public class Customer extends User implements IHaveReviews {
 //      this.email = "";
 //      this.address = "";
 //      this.postcode = "";
+//      validator = new Validator();
 //    }
 
     @Override
@@ -77,23 +85,50 @@ public class Customer extends User implements IHaveReviews {
 
     @Override
     public LinkedList<IBooking> getBookingByTicket(Ticket ticket) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (ticket == null) {
+            throw new NullPointerException("Null ticket");
+        } else {
+            // Gets a Stream of IBooking objects from Customers list of bookings.
+            // Filters by ticket.
+            Stream<IBooking> relevantBookingsStream = bookings.stream()
+                                                        .filter     //filter bookings array where current booking's ticket = parameter
+                                                        (booking -> booking.getTicket().equals(ticket));
+            
+            // Declare LinkedList and populate with relevant bookings
+            LinkedList<IBooking> relevantBookings = new LinkedList<>();
+            relevantBookingsStream.forEach(booking -> relevantBookings.add(booking));
+            
+            return relevantBookings;
+        }
     }
 
    
     @Override
     public String getEmail() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (email == null) {
+            throw new NullPointerException("Null email");
+        } else {
+            return email;
+        }
     }
 
     @Override
     public Boolean setEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (email == null) {
+            throw new NullPointerException("Cannot set email to null");
+        } else {
+            Boolean valid = validator.emailValidator(email);
+            if (valid) {
+                this.email = email;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
     public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return table;
     }
 
     @Override
@@ -171,5 +206,4 @@ public class Customer extends User implements IHaveReviews {
     public Boolean setLastName(String name) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

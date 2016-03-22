@@ -7,6 +7,7 @@ package people;
 
 import bookings.IBooking;
 import java.util.LinkedList;
+import utilities.Validator;
 
 /**
  *
@@ -16,6 +17,7 @@ public abstract class User implements IUser {
     
     protected LinkedList<IBooking> bookings;
     protected String firstName, lastName, email, address, postcode;
+    protected Validator validator;
     
     @Override
     public LinkedList<IBooking> getBookings() {
