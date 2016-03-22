@@ -24,6 +24,9 @@ public abstract class User implements IUser {
     protected Validator validator;
     protected Integer ID;
     
+    
+    public User(){}
+    
     /**
      * Use when creating an object from the database.
      * e.g. ID is known.

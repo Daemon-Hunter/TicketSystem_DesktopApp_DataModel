@@ -53,15 +53,7 @@ public class Customer extends User implements IHaveReviews {
       this.ID = 0;
     }
 
-//    public Customer() {
-//      this.customerID = 0;
-//      this.firstName = "";
-//      this.lastName = "";
-//      this.email = "";
-//      this.address = "";
-//      this.postcode = "";
-//      validator = new Validator();
-//    }
+    public Customer() {}
 
     @Override
     public DatabaseTable getTable() {
