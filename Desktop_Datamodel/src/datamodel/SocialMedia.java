@@ -7,8 +7,8 @@ package datamodel;
 
 import database.DatabaseTable;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 import utilities.Validator;
-import java.net.URL;
 import utilities.observer.IObserver;
 
 /**
@@ -20,6 +20,8 @@ public class SocialMedia implements ISocial {
     private Integer id;
     private String  facebook, twitter, instagram, soundcloud, website, spotify;
     private BufferedImage image;
+    private final DatabaseTable table = DatabaseTable.SOCIALMEDIA;
+    private LinkedList<IObserver> observers;
     
     public SocialMedia(Integer id, BufferedImage img, String fb, String tw, 
             String insta, String sc, String web, String sp) {
@@ -31,6 +33,7 @@ public class SocialMedia implements ISocial {
         soundcloud = sc;
         website    = web;
         spotify    = sp;
+        observers = new LinkedList<>();
     }
     
     public SocialMedia(){
@@ -185,21 +188,35 @@ public class SocialMedia implements ISocial {
 
     @Override
     public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return table;
     }
 
     @Override
     public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        observers.stream().forEach(observer -> { observer.update(this); });
     }
 
     @Override
     public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("Observer is null");
+        } else if (observers.contains(o)) {
+            throw new IllegalArgumentException("Observer already exists in list");
+        } else {
+            observers.add(o);
+            return true;
+        }
     }
 
     @Override
     public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("Observer is null");
+        } else if (!observers.contains(o)) {
+            throw new IllegalArgumentException("Observer doesn't exist in list");
+        } else {
+            observers.remove(o);
+            return true;
+        }
     }
 }
