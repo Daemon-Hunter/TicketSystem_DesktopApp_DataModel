@@ -5,7 +5,6 @@
  */
 package people;
 
-import bookings.Booking;
 import bookings.IBooking;
 import database.DatabaseTable;
 import java.util.LinkedList;

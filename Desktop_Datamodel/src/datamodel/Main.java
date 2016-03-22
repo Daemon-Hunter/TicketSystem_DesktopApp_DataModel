@@ -39,7 +39,5 @@ public class Main {
         
         printValues(numbers);
         sumArraySquared(numbers);
-        
-        Venue venue = new Venue();
     }
 }

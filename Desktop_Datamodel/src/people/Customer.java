@@ -24,7 +24,7 @@ import utilities.observer.IObserver;
 public class Customer extends User implements IHaveReviews {
     
     private Integer ID;
-    private DatabaseTable table = DatabaseTable.CUSTOMER;
+    private final DatabaseTable table = DatabaseTable.CUSTOMER;
     
     /**
      * Use this when creating a customer object from the database.
@@ -129,21 +129,6 @@ public class Customer extends User implements IHaveReviews {
     @Override
     public DatabaseTable getTable() {
         return table;
-    }
-
-    @Override
-    public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
