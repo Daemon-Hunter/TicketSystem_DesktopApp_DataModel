@@ -19,6 +19,14 @@ public abstract class User implements IUser {
     protected String firstName, lastName, email, address, postcode;
     protected Validator validator;
     
+    public User(String fName, String lName, String email_, String address_, String pcode){
+        firstName = fName;
+        lastName = lName;
+        email = email_;
+        address = address_;
+        postcode = pcode;
+    }
+    
     @Override
     public LinkedList<IBooking> getBookings() {
         return bookings;

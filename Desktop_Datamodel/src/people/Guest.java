@@ -18,6 +18,10 @@ import utilities.observer.IObserver;
  */
 public class Guest extends User {
 
+    public Guest(String fName, String lName, String email_, String address_, String pcode) {
+        super(fName, lName, email_, address_, pcode);
+    }
+
     @Override
     public LinkedList<IBooking> getBookingByTicket(Ticket ticket) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
