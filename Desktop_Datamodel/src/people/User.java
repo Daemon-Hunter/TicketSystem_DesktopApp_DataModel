@@ -27,6 +27,7 @@ public abstract class User implements IUser {
         email = email_;
         address = address_;
         postcode = pcode;
+        validator = new Validator();
     }
     
     @Override
