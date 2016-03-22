@@ -44,7 +44,6 @@ public abstract class User implements IUser {
         email = email_;
         address = address_;
         postcode = pcode;
-        validator = new Validator();
     }
     
     /**
@@ -62,7 +61,6 @@ public abstract class User implements IUser {
         email = email_;
         address = address_;
         postcode = pcode;
-        validator = new Validator();
     }
     
     @Override
@@ -135,7 +133,7 @@ public abstract class User implements IUser {
         if (email == null) {
             throw new NullPointerException("Cannot set email to null");
         } else {
-            Boolean valid = validator.emailValidator(email);
+            Boolean valid = Validator.emailValidator(email);
             if (valid) {
                 this.email = email;
                 notifyObservers();

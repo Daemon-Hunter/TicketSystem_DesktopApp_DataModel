@@ -35,7 +35,6 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         socialMedia = new SocialMedia(0, null, null, null, null, null, null, null);
         ID = 0;
         name = "UNKNOWN";
-        validator = new Validator();
     }
     
     @Override
@@ -105,7 +104,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         if (customerID == null) {
             throw new NullPointerException();
         } else {
-            Boolean valid = validator.idValidator(customerID);
+            Boolean valid = Validator.idValidator(customerID);
             
             if (valid) {
                 Optional<IReview> value = reviews.stream()

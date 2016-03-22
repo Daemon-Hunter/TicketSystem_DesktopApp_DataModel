@@ -65,11 +65,6 @@ public class Guest extends User {
     }
 
     @Override
-    public Boolean getCustomerID() {
-        return customerID;
-    }
-
-    @Override
     public String getFirstName() {
         return "Guest";
     }
