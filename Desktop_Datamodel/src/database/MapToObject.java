@@ -33,13 +33,16 @@ public class MapToObject {
   
     public static Customer ConvertCustomer(Map<String,String> custMap)
   {
-     Customer cust = new Customer();
-     cust.setFirstName(custMap.get("CUSTOMER_FIRST_NAME"));
-     cust.setLastName(custMap.get("CUSTOMER_LAST_NAME"));
-     cust.setCustomerID(Integer.parseInt(custMap.get("CUSTOMER_ID")));
-     cust.setAddress(custMap.get("CUSTOMER_ADDRESS"));
-     cust.setEmail(custMap.get("CUSTOMER_EMAIL"));
-     cust.setPostcode(custMap.get("CUSTOMER_POSTCODE"));
+     String firstName, lastName,address, email, postcode; 
+     firstName = custMap.get("CUSTOMER_FIRST_NAME");
+     lastName = custMap.get("CUSTOMER_LAST_NAME");
+     int ID = Integer.parseInt(custMap.get("CUSTOMER_ID"));
+     address = custMap.get("CUSTOMER_ADDRESS");
+     email = custMap.get("CUSTOMER_EMAIL");
+     postcode = custMap.get("CUSTOMER_POSTCODE");
+     
+     Customer cust = new Customer(ID,firstName, lastName, email, address, postcode);
+     
        return cust;
     }
     
