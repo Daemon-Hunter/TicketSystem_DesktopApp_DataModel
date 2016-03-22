@@ -7,6 +7,7 @@ package utilities;
 
 import datamodel.ChildEvent;
 import java.net.URL;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,15 @@ import java.util.regex.Pattern;
  * @author 10512691
  */
 public final class Validator {
+
+    public static Boolean quantityValidator(Integer qty) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    // date / time shouldn't be before 'time of app launch' or after 'now'
+    public static Boolean dateTimeValidator(Date time) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     private Validator(){}
     

@@ -7,9 +7,8 @@ package bookings;
 
 import database.DatabaseTable;
 import java.util.Date;
-import people.User;
+import people.Guest;
 import tickets.Ticket;
-import utilities.observer.IObserver;
 
 /**
  *
@@ -17,76 +16,41 @@ import utilities.observer.IObserver;
  */
 public class GuestBooking extends Booking {
     
-    private String email, address, postcode;
-    
+    /**
+     * Use this constructor when creating object from the database.
+     * ID is known.
+     * @param ID
+     * @param ticket
+     * @param ticketQty
+     * @param dateTime
+     * @param email
+     * @param address
+     * @param postcode 
+     */
     public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
-            String email, String address, String postcode) {
+            String email, String address, String postcode) 
+    {
         super(ID, ticket, ticketQty, dateTime);
+        table = DatabaseTable.GUESTBOOKING;
+        user = new Guest(null, null, email, address, postcode);
         
     }
     
-    @Override
-    public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getBookingID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Ticket getTicket() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setTicket(Ticket ticket) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getQuantity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setQuantity(Integer qty) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Date getBookingTime() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setBookingTime(Date time) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public User getUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Use this constructor when creating a new GuestBooking.
+     * ID is unknown.
+     * @param ticket
+     * @param ticketQty
+     * @param dateTime
+     * @param email
+     * @param address
+     * @param postcode 
+     */
+    public GuestBooking (Ticket ticket, Integer ticketQty, Date dateTime,
+            String email, String address, String postcode) 
+    {
+        super(ticket, ticketQty, dateTime);
+        table = DatabaseTable.GUESTBOOKING;
+        user = new Guest(null, null, email, address, postcode);
     }
 }

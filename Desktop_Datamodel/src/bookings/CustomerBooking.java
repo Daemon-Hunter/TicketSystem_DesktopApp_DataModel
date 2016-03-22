@@ -11,94 +11,39 @@ import people.Customer;
 import people.User;
 import tickets.Ticket;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
  * @author 10512691
  */
-public class CustomerBooking extends Booking implements ICustomerBooking {
+public class CustomerBooking extends Booking {
     
-    private Customer customer;
-    
+    /**
+     * Use this constructor when creating a booking object from the database.
+     * @param ID
+     * @param ticket
+     * @param ticketQty
+     * @param dateTime
+     * @param cust 
+     */
     public CustomerBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
             Customer cust) {
-        super(ID, ticket, ticketQty, dateTime);
-        customer = cust;
+        super(ID, ticket, cust, ticketQty, dateTime);
+        user = cust;
+        table = DatabaseTable.BOOKING;
     }
-
-    @Override
-    public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getBookingID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Ticket getTicket() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setTicket(Ticket ticket) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Customer getCustomer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setCustomer(Customer c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Integer getQuantity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setQuantity(Integer qty) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Date getBookingTime() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setBookingTime(Date time) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public User getUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean setUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    /**
+     * Use this constructor when creating a new customer booking object.
+     * @param ticket
+     * @param ticketQty
+     * @param dateTime
+     * @param cust 
+     */
+    public CustomerBooking (Ticket ticket, Integer ticketQty, Date dateTime,
+            Customer cust) {
+        super(ticket, cust, ticketQty, dateTime);
+        user = cust;
+        table = DatabaseTable.BOOKING;
     }
 }
