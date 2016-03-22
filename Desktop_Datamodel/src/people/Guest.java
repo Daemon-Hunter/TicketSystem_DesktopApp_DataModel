@@ -66,24 +66,24 @@ public class Guest extends User {
 
     @Override
     public Boolean getCustomerID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return customerID;
     }
 
     @Override
     public String getFirstName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return firstName;
     }
 
     @Override
     public Boolean setFirstName(String name) {
         this.firstName = name;
         notifyObservers();
-        return (this.firstname == name);
+        return (this.firstName == name);
     }
 
     @Override
     public String getLastName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return lastName;
     }
 
     @Override
@@ -92,5 +92,4 @@ public class Guest extends User {
         notifyObservers();
         return (this.lastName == name);
     }
-    
 }
