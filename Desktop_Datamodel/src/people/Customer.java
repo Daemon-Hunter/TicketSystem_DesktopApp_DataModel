@@ -5,15 +5,11 @@
  */
 package people;
 
-import bookings.IBooking;
 import database.DatabaseTable;
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.stream.Stream;
 import reviews.IHaveReviews;
 import reviews.IReview;
-import reviews.Review;
-import tickets.Ticket;
 
 /**
  *

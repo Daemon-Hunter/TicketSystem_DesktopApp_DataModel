@@ -8,7 +8,6 @@ package datamodel;
 import database.DatabaseTable;
 import java.util.LinkedList;
 import reviews.IReview;
-import reviews.Review;
 import reviews.ReviewBase;
 import reviews.VenueReviewFactory;
 import utilities.Validator;

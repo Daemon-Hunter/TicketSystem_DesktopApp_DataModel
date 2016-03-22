@@ -5,11 +5,7 @@
  */
 package people;
 
-import bookings.IBooking;
 import database.DatabaseTable;
-import java.util.LinkedList;
-import tickets.Ticket;
-import utilities.observer.IObserver;
 
 /**
  *
