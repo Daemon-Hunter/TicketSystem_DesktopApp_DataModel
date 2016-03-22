@@ -5,6 +5,7 @@
  */
 package datamodel;
 
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import utilities.observer.IDbSubject;
 
@@ -17,24 +18,24 @@ public interface ISocial extends IDbSubject {
     Integer getSocialId();
     Boolean setSocialId(Integer id);
     
-    URL getImage();
-    Boolean setImage(URL img);
+    BufferedImage getImage();
+    Boolean setImage(BufferedImage img);
     
-    URL getFacebook();
-    Boolean setFacebook(URL fb);
+    String getFacebook();
+    Boolean setFacebook(String fb);
     
-    URL getTwitter();
-    Boolean setTwitter(URL tw);
+    String getTwitter();
+    Boolean setTwitter(String tw);
     
-    URL getInstagram();
-    Boolean setInstagram(URL insta);
+    String getInstagram();
+    Boolean setInstagram(String insta);
     
-    URL getSoundcloud();
-    Boolean setSoundcloud(URL sc);
+    String getSoundcloud();
+    Boolean setSoundcloud(String sc);
     
-    URL getWebsite();
-    Boolean setWebsite(URL web);
+    String getWebsite();
+    Boolean setWebsite(String web);
     
-    URL getSpotify();
-    Boolean setSpotify(URL sp);
+    String getSpotify();
+    Boolean setSpotify(String sp);
 }

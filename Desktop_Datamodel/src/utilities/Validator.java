@@ -24,7 +24,7 @@ public final class Validator {
         return matcher.matches();
     }
     
-    public static Boolean URLValidator(URL url) {
+    public static Boolean URLValidator(String url) {
         return url != null;
     }
 

@@ -6,6 +6,7 @@
 package desktop_datamodel;
 
 import datamodel.SocialMedia;
+import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.junit.After;
@@ -120,40 +121,6 @@ public class SocialMediaTest {
         assertEquals("Fail, setId didn't return false when setting an "
                 + "id who's length is too large", expResult, result);
     }
-
-    /**
-     * Test of getImage method, of class SocialMedia.
-     */
-    @Test
-    public void testGetImage() {
-        System.out.println("getImage");
-        try {
-            URL img = new URL("https://i.ytimg.com/vi/qaEYggF38hk/maxresdefault.jpg");
-            SocialMedia instance = new SocialMedia(null, img, null, null, null, null, null, null);
-            URL result = instance.getImage();
-            assertEquals("Fail, the returned URL didn't match the one set", img, result);
-        }
-        catch (MalformedURLException ex)  {
-            fail("Error in test image URL");
-        }
-    }
-
-    /**
-     * Test of setImage method, of class SocialMedia.
-     */
-    @Test
-    public void testSetImage() {
-        System.out.println("setImage");
-        try {
-            URL img = new URL("https://i.ytimg.com/vi/qaEYggF38hk/maxresdefault.jpg");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-            Boolean result = instance.setImage(img);
-            assertEquals("Fail, method didn't return true", true, result);
-        }
-        catch (MalformedURLException ex) {
-            fail("Error in test image URL");
-        }
-    }
     
     /**
      * Test of setImage method, of class SocialMedia.
@@ -161,7 +128,7 @@ public class SocialMediaTest {
     @Test
     public void testSetImageNull() {
         System.out.println("setImage - null");
-        URL img = null;
+        BufferedImage img = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean set = instance.setImage(img);
         assertEquals("The method did not return false", set, false);
@@ -173,15 +140,10 @@ public class SocialMediaTest {
     @Test
     public void testGetFacebook() {
         System.out.println("getFacebook");
-        try {
-            URL fb = new URL("https://www.facebook.com/Mungos_HiFi");
-            SocialMedia instance = new SocialMedia(null, null, fb, null, null, null, null, null);
-            URL result = instance.getFacebook();
-            assertEquals("Fail, the returned URL didn't match the one set", fb, result);
-        }
-        catch (MalformedURLException ex)  {
-            fail("Error in test image URL");
-        }
+        String fb = "https://www.facebook.com/Mungos_HiFi";
+        SocialMedia instance = new SocialMedia(null, null, fb, null, null, null, null, null);
+        String result = instance.getFacebook();
+        assertEquals("Fail, the returned URL didn't match the one set", fb, result);
     }
 
     /**
@@ -190,15 +152,10 @@ public class SocialMediaTest {
     @Test
     public void testSetFacebook() {
         System.out.println("setFacebook");
-        try {
-            URL fb = new URL("https://www.facebook.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-            Boolean result = instance.setFacebook(fb);
-            assertEquals("Fail, method didn't return true", true, result);
-        }
-        catch (MalformedURLException ex) {
-            fail("Error in test image URL");
-        }
+        String fb = "https://www.facebook.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
+        Boolean result = instance.setFacebook(fb);
+        assertEquals("Fail, method didn't return true", true, result);
     }
     
     /**
@@ -207,9 +164,9 @@ public class SocialMediaTest {
     @Test
     public void testSetFacebookNull() {
         System.out.println("setImage - null");
-        URL fb = null;
+        String fb = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-        Boolean set = instance.setImage(fb);
+        Boolean set = instance.setFacebook(fb);
         assertEquals("The method did not return false", set, false);
     }
 
@@ -219,15 +176,10 @@ public class SocialMediaTest {
     @Test
     public void testGetTwitter() {
         System.out.println("getTwitter");
-        try {
-            URL tw = new URL("https://www.twitter.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, tw, null, null, null, null);
-            URL result = instance.getTwitter();
-            assertEquals("Fail, the returned URL didn't match the one set", tw, result);
-        }
-        catch (MalformedURLException ex)  {
-            fail("Error in test image URL");
-        }
+        String tw = "https://www.twitter.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, tw, null, null, null, null);
+        String result = instance.getTwitter();
+        assertEquals("Fail, the returned string didn't match the one set", tw, result);
     }
 
     /**
@@ -236,15 +188,10 @@ public class SocialMediaTest {
     @Test
     public void testSetTwitter() {
         System.out.println("setTwitter");
-        try {
-            URL tw = new URL("https://www.twitter.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-            Boolean result = instance.setTwitter(tw);
-            assertEquals("Fail, method didn't return true", true, result);
-        }
-        catch (MalformedURLException ex) {
-            fail("Error in test image URL");
-        }
+        String tw = "https://www.twitter.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
+        Boolean result = instance.setTwitter(tw);
+        assertEquals("Fail, method didn't return true", true, result);
     }
     
     /**
@@ -253,7 +200,7 @@ public class SocialMediaTest {
     @Test
     public void testSetTwitterNull() {
         System.out.println("setTwitter - null");
-        URL tw = null;
+        String tw = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean set = instance.setTwitter(tw);
         assertEquals("The method did not return false", set, false);
@@ -265,15 +212,10 @@ public class SocialMediaTest {
     @Test
     public void testGetInstagram() {
         System.out.println("getInstagram");
-        try {
-            URL insta = new URL("https://www.instagram.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, insta, null, null, null);
-            URL result = instance.getInstagram();
-            assertEquals("Fail, the returned URL didn't match the one set", insta, result);
-        }
-        catch (MalformedURLException ex)  {
-            fail("Error in test image URL");
-        }
+        String insta = "https://www.instagram.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, insta, null, null, null);
+        String result = instance.getInstagram();
+        assertEquals("Fail, the returned URL didn't match the one set", insta, result);
     }
 
     /**
@@ -282,15 +224,10 @@ public class SocialMediaTest {
     @Test
     public void testSetInstagram() {
         System.out.println("setInstagram");
-        try {
-            URL insta = new URL("https://www.instagram.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-            Boolean result = instance.setInstagram(insta);
-            assertEquals("Fail, method didn't return true", true, result);
-        }
-        catch (MalformedURLException ex) {
-            fail("Error in test image URL");
-        }
+        String insta = "https://www.instagram.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
+        Boolean result = instance.setInstagram(insta);
+        assertEquals("Fail, method didn't return true", true, result);
     }
 
     /**
@@ -299,7 +236,7 @@ public class SocialMediaTest {
     @Test
     public void testSetInstagramNull() {
         System.out.println("setInstagram - null");
-        URL insta = null;
+        String insta = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean set = instance.setInstagram(insta);
         assertEquals("The method did not return false", set, false);
@@ -311,15 +248,10 @@ public class SocialMediaTest {
     @Test
     public void testGetSoundcloud() {
         System.out.println("getSoundcloud");
-        try {
-            URL sc = new URL("https://www.soundcloud.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, sc, null, null);
-            URL result = instance.getSoundcloud();
-            assertEquals("Fail, the returned URL didn't match the one set", sc, result);
-        }
-        catch (MalformedURLException ex)  {
-            fail("Error in test image URL");
-        }
+        String sc = "https://www.soundcloud.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, sc, null, null);
+        String result = instance.getSoundcloud();
+        assertEquals("Fail, the returned URL didn't match the one set", sc, result);
     }
 
     /**
@@ -328,15 +260,10 @@ public class SocialMediaTest {
     @Test
     public void testSetSoundcloud() {
         System.out.println("setSoundcloud");
-        try {
-            URL sc = new URL("https://www.soundcloud.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-            Boolean result = instance.setSoundcloud(sc);
-            assertEquals("Fail, method didn't return true", true, result);
-        }
-        catch (MalformedURLException ex) {
-            fail("Error in test image URL");
-        }
+        String sc = "https://www.soundcloud.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
+        Boolean result = instance.setSoundcloud(sc);
+        assertEquals("Fail, method didn't return true", true, result);
     }
     
     /**
@@ -345,7 +272,7 @@ public class SocialMediaTest {
     @Test
     public void testSetSoundcloudNull() {
         System.out.println("setSoundcloud - null");
-        URL sc = null;
+        String sc = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean set = instance.setSoundcloud(sc);
         assertEquals("The method did not return false", set, false);
@@ -357,15 +284,10 @@ public class SocialMediaTest {
     @Test
     public void testGetWebsite() {
         System.out.println("getWebsite");
-        try {
-            URL web = new URL("https://www.mungos-hifi.com");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, web, null);
-            URL result = instance.getWebsite();
-            assertEquals("Fail, the returned URL didn't match the one set", web, result);
-        }
-        catch (MalformedURLException ex)  {
-            fail("Error in test image URL");
-        }
+        String web = "https://www.mungos-hifi.com";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, web, null);
+        String result = instance.getWebsite();
+        assertEquals("Fail, the returned URL didn't match the one set", web, result);
     }
 
     /**
@@ -374,15 +296,10 @@ public class SocialMediaTest {
     @Test
     public void testSetWebsite() {
         System.out.println("setWebsite");
-        try {
-            URL web = new URL("https://www.mungos-hifi.com");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-            Boolean result = instance.setSoundcloud(web);
-            assertEquals("Fail, method didn't return true", true, result);
-        }
-        catch (MalformedURLException ex) {
-            fail("Error in test image URL");
-        }
+        String web = "https://www.mungos-hifi.com";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
+        Boolean result = instance.setSoundcloud(web);
+        assertEquals("Fail, method didn't return true", true, result);
     }
     
     /**
@@ -391,7 +308,7 @@ public class SocialMediaTest {
     @Test
     public void testSetWebsiteNull() {
         System.out.println("setWebsite - null");
-        URL web = null;
+        String web = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean set = instance.setWebsite(web);
         assertEquals("The method did not return false", set, false);
@@ -403,15 +320,10 @@ public class SocialMediaTest {
     @Test
     public void testGetSpotify() {
         System.out.println("getSpotify");
-        try {
-            URL sp = new URL("https://www.spotify.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, sp);
-            URL result = instance.getSpotify();
-            assertEquals("Fail, the returned URL didn't match the one set", sp, result);
-        }
-        catch (MalformedURLException ex)  {
-            fail("Error in test image URL");
-        }
+        String sp = "https://www.spotify.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, sp);
+        String result = instance.getSpotify();
+        assertEquals("Fail, the returned URL didn't match the one set", sp, result);
     }
 
     /**
@@ -420,15 +332,10 @@ public class SocialMediaTest {
     @Test
     public void testSetSpotify() {
         System.out.println("setSpotify");
-        try {
-            URL sp = new URL("https://www.spotify.com/mungos_hifi");
-            SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
-            Boolean result = instance.setSoundcloud(sp);
-            assertEquals("Fail, method didn't return true", true, result);
-        }
-        catch (MalformedURLException ex) {
-            fail("Error in test image URL");
-        }
+        String sp = "https://www.spotify.com/mungos_hifi";
+        SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
+        Boolean result = instance.setSoundcloud(sp);
+        assertEquals("Fail, method didn't return true", true, result);
     }
     
     /**
@@ -437,7 +344,7 @@ public class SocialMediaTest {
     @Test
     public void testSetSpotifyNull() {
         System.out.println("setSpotify - null");
-        URL sp = null;
+        String sp = null;
         SocialMedia instance = new SocialMedia(null, null, null, null, null, null, null, null);
         Boolean set = instance.setTwitter(sp);
         assertEquals("The method did not return false", set, false);

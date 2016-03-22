@@ -8,6 +8,7 @@ package reviews;
 import database.DatabaseTable;
 import datamodel.ISocial;
 import datamodel.SocialMedia;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -166,72 +167,72 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     }
     
     @Override
-    public URL getImage() {
+    public BufferedImage getImage() {
         return socialMedia.getImage();
     }
 
     @Override
-    public Boolean setImage(URL img) {
+    public Boolean setImage(BufferedImage img) {
         return socialMedia.setImage(img);
     }
 
     @Override
-    public URL getFacebook() {
+    public String getFacebook() {
         return socialMedia.getFacebook();
     }
 
     @Override
-    public Boolean setFacebook(URL fb) {
+    public Boolean setFacebook(String fb) {
         return socialMedia.setFacebook(fb);
     }
 
     @Override
-    public URL getTwitter() {
+    public String getTwitter() {
         return socialMedia.getTwitter();
     }
 
     @Override
-    public Boolean setTwitter(URL tw) {
+    public Boolean setTwitter(String tw) {
         return socialMedia.setTwitter(tw);
     }
 
     @Override
-    public URL getInstagram() {
+    public String getInstagram() {
         return socialMedia.getInstagram();
     }
 
     @Override
-    public Boolean setInstagram(URL insta) {
+    public Boolean setInstagram(String insta) {
         return socialMedia.setInstagram(insta);
     }
 
     @Override
-    public URL getSoundcloud() {
+    public String getSoundcloud() {
         return socialMedia.getSoundcloud();
     }
 
     @Override
-    public Boolean setSoundcloud(URL sc) {
+    public Boolean setSoundcloud(String sc) {
         return socialMedia.setSoundcloud(sc);
     }
 
     @Override
-    public URL getWebsite() {
+    public String getWebsite() {
         return socialMedia.getWebsite();
     }
 
     @Override
-    public Boolean setWebsite(URL web) {
+    public Boolean setWebsite(String web) {
         return socialMedia.setWebsite(web);
     }
 
     @Override
-    public URL getSpotify() {
+    public String getSpotify() {
         return socialMedia.getSpotify();
     }
 
     @Override
-    public Boolean setSpotify(URL sp) {
+    public Boolean setSpotify(String sp) {
         return socialMedia.setSpotify(sp);
     }
 }

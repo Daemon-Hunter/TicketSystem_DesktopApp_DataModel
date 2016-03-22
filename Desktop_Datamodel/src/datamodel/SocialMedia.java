@@ -6,6 +6,7 @@
 package datamodel;
 
 import database.DatabaseTable;
+import java.awt.image.BufferedImage;
 import utilities.Validator;
 import java.net.URL;
 import utilities.observer.IObserver;
@@ -16,12 +17,12 @@ import utilities.observer.IObserver;
  */
 public class SocialMedia implements ISocial {
     
-    private Integer   id;
-    private URL       image, facebook, twitter, instagram,
-                      soundcloud, website, spotify;
+    private Integer id;
+    private String  facebook, twitter, instagram, soundcloud, website, spotify;
+    private BufferedImage image;
     
-    public SocialMedia(Integer id, URL img, URL fb, URL tw, URL insta,
-                    URL sc, URL web, URL sp) {
+    public SocialMedia(Integer id, BufferedImage img, String fb, String tw, 
+            String insta, String sc, String web, String sp) {
         this.id    = id;
         image      = img;
         facebook   = fb;
@@ -54,29 +55,30 @@ public class SocialMedia implements ISocial {
         Boolean valid = Validator.idValidator(id);
         if (valid) {
             this.id = id;
+            notifyObservers();
         }
-        notifyObservers();
         return valid;
     }
 
     @Override
-    public URL getImage() {
+    public BufferedImage getImage() {
         if (image == null) {
             throw new NullPointerException();
         } else return image;
     }
 
     @Override
-    public Boolean setImage(URL img) {
-        Boolean valid = Validator.URLValidator(img);
-        if (valid) {
+    public Boolean setImage(BufferedImage img) {
+        if (img == null) {
+            throw new NullPointerException("Null image");
+        } else {
             image = img;
+            return true;
         }
-        return valid;
     }
 
     @Override
-    public URL getFacebook() {
+    public String getFacebook() {
         if (facebook == null) {
             throw new NullPointerException();
         } else {
@@ -85,7 +87,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setFacebook(URL fb) {
+    public Boolean setFacebook(String fb) {
         Boolean valid = Validator.URLValidator(fb);
         if (valid) {
             facebook = fb;
@@ -94,7 +96,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public URL getTwitter() {
+    public String getTwitter() {
         if (twitter == null) {
             throw new NullPointerException();
         } else {
@@ -103,7 +105,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setTwitter(URL tw) {
+    public Boolean setTwitter(String tw) {
         Boolean valid = Validator.URLValidator(tw);
         if (valid) {
             twitter = tw;
@@ -112,7 +114,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public URL getInstagram() {
+    public String getInstagram() {
         if (instagram == null) {
             throw new NullPointerException();
         } else {
@@ -121,7 +123,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setInstagram(URL insta) {
+    public Boolean setInstagram(String insta) {
         Boolean valid = Validator.URLValidator(insta);
         if (valid) {
             instagram = insta;
@@ -130,7 +132,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public URL getSoundcloud() {
+    public String getSoundcloud() {
         if (soundcloud == null) {
             throw new NullPointerException();
         }
@@ -138,7 +140,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setSoundcloud(URL sc) {
+    public Boolean setSoundcloud(String sc) {
         Boolean valid = Validator.URLValidator(sc);
         if (valid) {
             soundcloud = sc;
@@ -147,7 +149,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public URL getWebsite() {
+    public String getWebsite() {
         if (website == null) {
             throw new NullPointerException();
         }
@@ -155,7 +157,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setWebsite(URL web) {
+    public Boolean setWebsite(String web) {
         Boolean valid = Validator.URLValidator(web);
         if (valid) {
             website = web;
@@ -164,7 +166,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public URL getSpotify() {
+    public String getSpotify() {
         if (spotify == null) {
             throw new NullPointerException();
         } else {
@@ -173,7 +175,7 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setSpotify(URL sp) {
+    public Boolean setSpotify(String sp) {
         Boolean valid = Validator.URLValidator(sp);
         if (valid) {
             spotify = sp;
