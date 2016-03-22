@@ -14,17 +14,15 @@ import reviews.IHaveReviews;
 import reviews.IReview;
 import reviews.Review;
 import tickets.Ticket;
-import utilities.Validator;
-import utilities.observer.IObserver;
 
 /**
  *
  * @author 10512691
  */
 public class Customer extends User implements IHaveReviews {
-    
-    private Integer ID;
+
     private final DatabaseTable table = DatabaseTable.CUSTOMER;
+    private LinkedList<IReview> reviews;
     
     /**
      * Use this when creating a customer object from the database.
@@ -37,8 +35,7 @@ public class Customer extends User implements IHaveReviews {
      */
     public Customer(Integer ID, String firstName, String lastName,
             String email, String address, String postcode) {
-        super(firstName, lastName, email, address, postcode);
-        this.ID = ID;
+        super(ID, firstName, lastName, email, address, postcode);
     }
     
     /**
@@ -67,83 +64,88 @@ public class Customer extends User implements IHaveReviews {
 //    }
 
     @Override
-    public LinkedList<IBooking> getBookings() {
-        if (bookings == null) {
-            throw new NullPointerException("Null bookings list");
-        } else return bookings;
-    }
-
-    @Override
-    public LinkedList<IBooking> getBookingByTicket(Ticket ticket) {
-        if (ticket == null) {
-            throw new NullPointerException("Null ticket");
-        } else {
-            // Gets a Stream of IBooking objects from Customers list of bookings.
-            // Filters by ticket.
-            Stream<IBooking> relevantBookingsStream = bookings.stream()
-                                                        .filter     //filter bookings array where current booking's ticket = parameter
-                                                        (booking -> booking.getTicket().equals(ticket));
-            
-            // Declare LinkedList and populate with relevant bookings
-            LinkedList<IBooking> relevantBookings = new LinkedList<>();
-            relevantBookingsStream.forEach(booking -> relevantBookings.add(booking));
-            
-            return relevantBookings;
-        }
-    }
-
-   
-    @Override
-    public String getEmail() {
-        if (email == null) {
-            throw new NullPointerException("Null email");
-        } else {
-            return email;
-        }
-    }
-
-    @Override
-    public Boolean setEmail(String email) {
-        if (email == null) {
-            throw new NullPointerException("Cannot set email to null");
-        } else {
-            Boolean valid = validator.emailValidator(email);
-            if (valid) {
-                this.email = email;
-                notifyObservers();
-            }
-            return valid;
-        }
-    }
-
-    @Override
     public DatabaseTable getTable() {
         return table;
     }
 
     @Override
     public LinkedList<IReview> getReviews() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (reviews == null) {
+            throw new NullPointerException();
+        } else {
+            return reviews;
+        }
     }
 
     @Override
-    public Review getReview(Integer uniqueID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public IReview getReview(Integer customerID) {
+        if (customerID == null) {
+            throw new NullPointerException();
+        } else {
+            Boolean valid = validator.idValidator(customerID);
+            
+            if (valid) {
+                Optional<IReview> value = reviews.stream()
+                                                .findAny()
+                                                .filter(r -> r.getCustomerID()
+                                                .equals(customerID));
+                if (value.isPresent()) {
+                    return value.get();
+                } else {
+                    throw new IllegalArgumentException("No customers with that ID have "
+                        + "written a review for this venue.");
+                }
+                
+//              ***** JAVA 7 VERSION (NON-LAMBDA) *****
+//                for (Review r : reviews) {
+//                    if (r.getCustomerID().equals(customerID)) {
+//                        return r;
+//                    }
+//                }
+//                throw new IllegalArgumentException("No customers with that ID have "
+//                     + "written a review for this venue.");
+
+            } else {
+                throw new IllegalArgumentException("Invalid ID");
+            }
+        }
+        
     }
 
     @Override
     public Boolean deleteReview(IReview review) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (review == null) {
+            throw new NullPointerException("Review to be deleted was null");
+        } else if (!reviews.contains(review)) {
+            throw new IllegalArgumentException("Review to be deleted wasn't in list");
+        } else {
+            reviews.remove(review);
+            notifyObservers();
+            return true;
+        }
     }
 
     @Override
     public String getAddress() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (address == null) {
+            throw new NullPointerException("Null address");
+        } else {
+            return address;
+        }
     }
 
     @Override
     public Boolean setAddress(String address) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (address == null) {
+            throw new NullPointerException("Cannot set address to null");
+        } else {
+            Boolean valid = validator.addressValidator(address);
+            if (valid) {
+                this.address = address;
+                notifyObservers();
+            }
+            return valid;
+        }
     }
 
     @Override
