@@ -29,8 +29,7 @@ public class Venue extends ReviewBase implements IVenue {
         DatabaseTable         table;
      */
     
-    private String  description,
-                    phoneNumber,
+    private String  phoneNumber,
                     email,
                     address,
                     postcode;
