@@ -16,7 +16,6 @@ import utilities.observer.IObserver;
  */
 public class SocialMedia implements ISocial {
     
-    private final Validator validator;
     private Integer   id;
     private URL       image, facebook, twitter, instagram,
                       soundcloud, website, spotify;
@@ -31,13 +30,9 @@ public class SocialMedia implements ISocial {
         soundcloud = sc;
         website    = web;
         spotify    = sp;
-        validator  = new Validator();
     }
     
-    public SocialMedia()
-    {
-      validator  = new Validator();
-
+    public SocialMedia(){
     }
     
 
@@ -56,7 +51,7 @@ public class SocialMedia implements ISocial {
      */
     @Override
     public Boolean setSocialId(Integer id) {
-        Boolean valid = validator.idValidator(id);
+        Boolean valid = Validator.idValidator(id);
         if (valid) {
             this.id = id;
         }
@@ -73,7 +68,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setImage(URL img) {
-        Boolean valid = validator.URLValidator(img);
+        Boolean valid = Validator.URLValidator(img);
         if (valid) {
             image = img;
         }
@@ -91,7 +86,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setFacebook(URL fb) {
-        Boolean valid = validator.URLValidator(fb);
+        Boolean valid = Validator.URLValidator(fb);
         if (valid) {
             facebook = fb;
         }
@@ -109,7 +104,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setTwitter(URL tw) {
-        Boolean valid = validator.URLValidator(tw);
+        Boolean valid = Validator.URLValidator(tw);
         if (valid) {
             twitter = tw;
         }
@@ -127,7 +122,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setInstagram(URL insta) {
-        Boolean valid = validator.URLValidator(insta);
+        Boolean valid = Validator.URLValidator(insta);
         if (valid) {
             instagram = insta;
         }
@@ -144,7 +139,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setSoundcloud(URL sc) {
-        Boolean valid = validator.URLValidator(sc);
+        Boolean valid = Validator.URLValidator(sc);
         if (valid) {
             soundcloud = sc;
         }
@@ -161,7 +156,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setWebsite(URL web) {
-        Boolean valid = validator.URLValidator(web);
+        Boolean valid = Validator.URLValidator(web);
         if (valid) {
             website = web;
         }
@@ -179,7 +174,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setSpotify(URL sp) {
-        Boolean valid = validator.URLValidator(sp);
+        Boolean valid = Validator.URLValidator(sp);
         if (valid) {
             spotify = sp;
         }

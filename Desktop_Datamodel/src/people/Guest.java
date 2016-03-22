@@ -71,25 +71,21 @@ public class Guest extends User {
 
     @Override
     public String getFirstName() {
-        return firstName;
+        return "Guest";
     }
 
     @Override
     public Boolean setFirstName(String name) {
-        this.firstName = name;
-        notifyObservers();
-        return (this.firstName == name);
+        return false;
     }
 
     @Override
     public String getLastName() {
-        return lastName;
+        return "Account";
     }
 
     @Override
     public Boolean setLastName(String name) {
-        this.lastName = name;
-        notifyObservers();
-        return (this.lastName == name);
+        return false;
     }
 }

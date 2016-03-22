@@ -39,7 +39,6 @@ public class Artist extends ReviewBase implements IArtist {
         // Initialise default values for rest of attributes
         this.tags = tags;
         this.ID = ID;
-        this.validator = new Validator();
         socialMedia = social;
         this.reviews = reviews;
         this.name = name;
@@ -77,7 +76,7 @@ public class Artist extends ReviewBase implements IArtist {
         if (tag == null) {
             throw new NullPointerException();
         } else {
-            Boolean valid = validator.tagValidator(tag);
+            Boolean valid = Validator.tagValidator(tag);
             if (valid) {
                 tags.add(tag);
                 notifyObservers();

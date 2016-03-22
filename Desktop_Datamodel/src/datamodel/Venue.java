@@ -100,7 +100,6 @@ public class Venue extends ReviewBase implements IVenue {
         this.postcode    = postcode;
         this.name        = name;
         this.reviews     = reviews;
-        validator        = new Validator();
         reviewFactory    = new VenueReviewFactory();
     }
     
@@ -148,7 +147,6 @@ public class Venue extends ReviewBase implements IVenue {
         this.postcode    = postcode;
         this.name        = name;
         this.reviews     = reviews;
-        validator        = new Validator();
         reviewFactory    = new VenueReviewFactory();
     }
 
@@ -265,7 +263,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (name == null) {
             throw new NullPointerException("Cannot set name null");
         } else {
-            Boolean valid = validator.nameValidator(name);
+            Boolean valid = Validator.nameValidator(name);
             if (valid) {
                 this.name = name;
                 notifyObservers();
@@ -279,7 +277,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (description == null) {
             throw new NullPointerException("Cannot set description null");
         } else {
-            Boolean valid = validator.descriptionValidator(description);
+            Boolean valid = Validator.descriptionValidator(description);
             if (valid) {
                 this.description = description;
                 notifyObservers();
@@ -293,7 +291,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (standing == null) {
             throw new NullPointerException("Cannot set capacity to null");
         } else {
-            Boolean valid = validator.capacityValidator(standing);
+            Boolean valid = Validator.capacityValidator(standing);
             if (valid) {
                 capacityStanding = standing;
                 notifyObservers();
@@ -307,7 +305,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (seating == null) {
             throw new NullPointerException("Cannot set capacity to null");
         } else {
-            Boolean valid = validator.capacityValidator(seating);
+            Boolean valid = Validator.capacityValidator(seating);
             if (valid) {
                 capacitySeating = seating;
                 notifyObservers();
@@ -332,7 +330,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (facilities == null) {
             throw new NullPointerException("Cannot set facilities to null");
         } else {
-            Boolean valid = validator.facilitiesValidator(facilities);
+            Boolean valid = Validator.facilitiesValidator(facilities);
             if (valid) {
                 this.facilities = facilities;
                 notifyObservers();
@@ -346,7 +344,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (parking == null) {
             throw new NullPointerException("Cannot set parking spaces to null");
         } else {
-            Boolean valid = validator.parkingSpaceValidator(parking);
+            Boolean valid = Validator.parkingSpaceValidator(parking);
             if (valid) {
                 parkingSpaces = parking;
                 notifyObservers();
@@ -360,7 +358,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (email == null) {
             throw new NullPointerException("Cannot set email to null");
         } else {
-            Boolean valid = validator.emailValidator(email);
+            Boolean valid = Validator.emailValidator(email);
             if (valid) {
                 this.email = email;
                 notifyObservers();
@@ -374,7 +372,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (phoneNumber == null) {
             throw new NullPointerException("Cannot set phone number to null");
         } else {
-            Boolean valid = validator.phoneNumberValidator(phoneNumber);
+            Boolean valid = Validator.phoneNumberValidator(phoneNumber);
             if (valid) {
                 this.phoneNumber = phoneNumber;
                 notifyObservers();
@@ -388,7 +386,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (address == null) {
             throw new NullPointerException("Cannot set address to null");
         } else {
-            Boolean valid = validator.addressValidator(address);
+            Boolean valid = Validator.addressValidator(address);
             if (valid) {
                 this.address = address;
                 notifyObservers();
@@ -402,7 +400,7 @@ public class Venue extends ReviewBase implements IVenue {
         if (postcode == null) {
             throw new NullPointerException("Cannot set postcode to null");
         } else {
-            Boolean valid = validator.postcodeValidator(postcode);
+            Boolean valid = Validator.postcodeValidator(postcode);
             if (valid) {
                 this.postcode = postcode;
                 notifyObservers();

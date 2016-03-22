@@ -14,62 +14,64 @@ import java.util.regex.Pattern;
  *
  * @author 10512691
  */
-public class Validator {
+public final class Validator {
     
-    public Boolean idValidator(Integer id) {
+    private Validator(){}
+    
+    public static Boolean idValidator(Integer id) {
         Pattern idPattern = Pattern.compile("[1-9]{1}[0-9]{0,7}");
         Matcher matcher = idPattern.matcher(id.toString());
         return matcher.matches();
     }
     
-    public Boolean URLValidator(URL url) {
+    public static Boolean URLValidator(URL url) {
         return url != null;
     }
 
-    public Boolean nameValidator(String name) {
+    public static Boolean nameValidator(String name) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // May just need to be length.
-    public Boolean descriptionValidator(String description) {
+    public static Boolean descriptionValidator(String description) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Boolean capacityValidator(Integer standing) {
+    public static Boolean capacityValidator(Integer standing) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // May just need to be length.
-    public Boolean facilitiesValidator(String facilities) {
+    public static Boolean facilitiesValidator(String facilities) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Boolean parkingSpaceValidator(Integer parking) {
+    public static Boolean parkingSpaceValidator(Integer parking) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Boolean emailValidator(String email) {
+    public static  Boolean emailValidator(String email) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Boolean phoneNumberValidator(String phoneNumber) {
+    public static Boolean phoneNumberValidator(String phoneNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // Check against other addresses? Cannot have 2 venues at same place?
-    public Boolean addressValidator(String address) {
+    public static Boolean addressValidator(String address) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Boolean postcodeValidator(String postcode) {
+    public static Boolean postcodeValidator(String postcode) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Boolean tagValidator(String tag) {
+    public static Boolean tagValidator(String tag) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Boolean childEventValidator(ChildEvent childEvent) {
+    public static Boolean childEventValidator(ChildEvent childEvent) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
