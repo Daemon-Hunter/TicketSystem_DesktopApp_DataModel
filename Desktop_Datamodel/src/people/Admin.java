@@ -6,8 +6,9 @@
 package people;
 
 import database.DatabaseTable;
+import java.util.LinkedList;
+import utilities.Validator;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
@@ -15,63 +16,170 @@ import utilities.observer.ISubject;
  */
 public class Admin implements IAdmin {
     
-    Integer adminID;
-    String  adminEmail;
+    private Integer ID;
+    private String  firstName, lastName, email;
+    private DatabaseTable table;
+    private LinkedList<IObserver> observers;
+    
+    public Admin(String fName, String lName, String email) {
+        ID = 0;
+        if (fName == null || lName == null) {
+            throw new NullPointerException("First or last name is null.");
+        } else if (Validator.nameValidator(fName) && Validator.nameValidator(lName)) 
+        {
+            firstName = fName;
+            lastName = lName;
+        } else {
+            throw new IllegalArgumentException("Invalid names.");
+        }
+        
+        if (email == null) {
+            throw new NullPointerException("Null email address");
+        } else if (Validator.emailValidator(email)) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Invalid email address");
+        }
+        observers = new LinkedList<>();
+    }
+    
+    public Admin(Integer ID, String fName, String lName, String email) {
+        if (ID == null) {
+            throw new NullPointerException("Null ID. Use other constructor when ID is unknown.");
+        } else {
+            this.ID = ID;
+        }
+        
+        if (fName == null || lName == null) {
+            throw new NullPointerException("First or last name is null.");
+        } else if (Validator.nameValidator(fName) && Validator.nameValidator(lName)) 
+        {
+            firstName = fName;
+            lastName = lName;
+        } else {
+            throw new IllegalArgumentException("Invalid names.");
+        }
+        
+        if (email == null) {
+            throw new NullPointerException("Null email address");
+        } else if (Validator.emailValidator(email)) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Invalid email address");
+        }
+        observers = new LinkedList<>();
+    }
     
     @Override
     public int getAdminID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (ID == null) {
+            throw new NullPointerException("Null ID");
+        } else {
+            return ID;
+        }
     }
-
   
     @Override
     public String getEmail() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (email == null) {
+            throw new NullPointerException("Null email");
+        } else {
+            return email;
+        }
     }
 
     @Override
     public Boolean setEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (email == null) {
+            throw new NullPointerException("Cannot set email to null");
+        } else {
+            Boolean valid = Validator.emailValidator(email);
+            if (valid) {
+                this.email = email;
+                notifyObservers();
+            }
+            return this.email.equals(email);
+        }
     }
 
     @Override
     public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return table;
     }
 
     @Override
     public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        observers.stream().forEach(observer -> { observer.update(this); });
     }
 
     @Override
     public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("Null observer, cannot register.");
+        } else if (observers.contains(o)) {
+            throw new IllegalArgumentException("Observer already exists in list");
+        } else {
+            observers.add(o);
+            return true;
+        }
     }
 
     @Override
     public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("Null observer, cannot remove.");
+        } else if (!observers.contains(o)) {
+            throw new IllegalArgumentException("Observer doesn't exist in list");
+        } else {
+            observers.remove(o);
+            return true;
+        }
     }
 
     @Override
     public String getFirstName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (firstName == null) {
+            throw new NullPointerException("Null first name");
+        } else {
+            return firstName;
+        }
     }
 
     @Override
     public Boolean setFirstName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (name == null) {
+            throw new NullPointerException("Cannot set first name to null");
+        } else {
+            Boolean valid = Validator.nameValidator(name);
+            if (valid) {
+                firstName = name;
+                notifyObservers();
+            }
+            return firstName.equals(name);
+        }
     }
 
     @Override
     public String getLastName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (lastName == null) {
+            throw new NullPointerException("Null last name");
+        } else {
+            return lastName;
+        }
     }
 
     @Override
     public Boolean setLastName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (name == null) {
+            throw new NullPointerException("Cannot set last name to null");
+        } else {
+            Boolean valid = Validator.nameValidator(name);
+            if (valid) {
+                lastName = name;
+                notifyObservers();
+            }
+            return lastName.equals(name);
+        }
     }
     
 }
