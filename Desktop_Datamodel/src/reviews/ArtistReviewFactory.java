@@ -5,8 +5,6 @@
  */
 package reviews;
 
-import database.DatabaseTable;
-
 /**
  *
  * @author 10512691
@@ -14,8 +12,11 @@ import database.DatabaseTable;
 public class ArtistReviewFactory implements IReviewFactory {
 
     @Override
-    public Review createReview(Integer ID, DatabaseTable table, Integer customerID, Integer rating, String body) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public IReview createReview(Integer reviewBaseID, Integer customerID, 
+            Integer rating, String body) 
+    {
+        IReview review = new ArtistReview(reviewBaseID, customerID, rating, body);
+        return review;
     }
     
 }

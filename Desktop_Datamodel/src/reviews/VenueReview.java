@@ -41,8 +41,7 @@ public class VenueReview extends Review {
      * @param rating
      * @param body
      */
-    public VenueReview(Integer baseID, Integer customerID, Integer rating,
-            String body) 
+    public VenueReview(Integer baseID, Integer customerID, Integer rating, String body) 
     {
         super(baseID, customerID, rating, body);
         table = DatabaseTable.VENUEREVIEW;

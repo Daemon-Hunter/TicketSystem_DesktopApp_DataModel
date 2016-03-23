@@ -5,14 +5,12 @@
  */
 package reviews;
 
-import database.DatabaseTable;
-
 /**
  *
  * @author 10512691
  */
 public interface IReviewFactory {
     
-    public IReview createReview(Integer reviewBaseID, DatabaseTable table, Integer customerID,
+    public IReview createReview(Integer reviewBaseID, Integer customerID, 
             Integer rating, String body);
 }

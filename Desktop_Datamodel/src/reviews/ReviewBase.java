@@ -97,7 +97,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body) {
-        return reviewFactory.createReview( ID, table, customerID, rating, body);
+        return reviewFactory.createReview( ID, customerID, rating, body);
     }
     
     @Override

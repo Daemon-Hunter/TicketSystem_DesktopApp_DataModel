@@ -38,11 +38,9 @@ public class ParentEventReview extends Review {
      * @param baseID
      * @param customerID
      * @param rating
-     * @param date
      * @param body
      */
-    public ParentEventReview(Integer baseID, Integer customerID, Integer rating, 
-            Date date, String body) 
+    public ParentEventReview(Integer baseID, Integer customerID, Integer rating, String body) 
     {
         super(baseID, customerID, rating, body);
         table = DatabaseTable.EVENTREVIEW;

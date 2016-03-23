@@ -41,13 +41,51 @@ public abstract class Review implements IReview {
     public Review(Integer baseID, Integer customerID, Integer rating, 
                     Date date, String body, Boolean verified) 
     {
-        reviewBaseID = baseID;
-        this.customerID = customerID;
-        this.rating = rating;
-        dateTime = date;
-        reviewBody = body;
-        this.verified = verified;
-        observers = new LinkedList();
+        // Check to see if any of the arguments were null
+        if (baseID == null || customerID == null) 
+        {
+            throw new NullPointerException("Review base & customer ID's cannot be null");
+        } 
+        else if (rating == null || body == null) 
+        {
+            throw new NullPointerException("Rating or body cannot be null");
+        } 
+        else if (verified == null) {
+            throw new NullPointerException("Verified cannot be null");
+        }
+        else {
+            
+            // Given no arguments were null, see if they're valid
+            if (Validator.idValidator(baseID)) {
+                if (Validator.idValidator(customerID)) {
+                    if (Validator.ratingValidator(rating)) {
+                        if (Validator.reviewBodyValidator(body)) {
+                            if (Validator.dateTimeValidator(date)) {
+                            
+                                // Everything is valid -> initialise variables
+                                reviewBaseID = baseID;
+                                this.customerID = customerID;
+                                this.rating = rating;
+                                dateTime = date;
+                                reviewBody = body;
+                                this.verified = verified;
+                                observers = new LinkedList();
+                            } else {
+                            throw new IllegalArgumentException("Date invalid");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Body invalid");
+                    }
+                } else {
+                    throw new IllegalArgumentException("Rating invalid");
+                }
+            } else {
+                throw new IllegalArgumentException("CustomerID invalid");
+            }
+        } else {
+                throw new IllegalArgumentException("ReviewBaseID invalid");
+            }
+        }
     }
     
     /**
@@ -60,13 +98,44 @@ public abstract class Review implements IReview {
      */
     public Review(Integer baseID, Integer customerID, Integer rating, String body) 
     {
-        reviewBaseID = baseID;
-        this.customerID = customerID;
-        this.rating = rating;
-        dateTime = Calendar.getInstance().getTime();
-        reviewBody = body;
-        this.verified = false;
-        observers = new LinkedList();
+        // Check to see if any of the arguments were null
+        if (baseID == null || customerID == null) 
+        {
+            throw new NullPointerException("Review base & customer ID's cannot be null");
+        } 
+        else if (rating == null || body == null) 
+        {
+            throw new NullPointerException("Rating or body cannot be null");
+        } 
+        else {
+            
+            // Given no arguments were null, see if they're valid
+            if (Validator.idValidator(baseID)) {
+                if (Validator.idValidator(customerID)) {
+                    if (Validator.ratingValidator(rating)) {
+                        if (Validator.reviewBodyValidator(body)) {
+                            
+                            // Everything is valid -> initialise variables
+                            reviewBaseID = baseID;
+                            this.customerID = customerID;
+                            this.rating = rating;
+                            dateTime = Calendar.getInstance().getTime();
+                            reviewBody = body;
+                            this.verified = false;
+                            observers = new LinkedList();
+                        } else {
+                            throw new IllegalArgumentException("Review body invalid");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Rating invalid");
+                    }
+                } else {
+                    throw new IllegalArgumentException("CustomerID invalid");
+                }
+            } else {
+                throw new IllegalArgumentException("ReviewBaseID invalid");
+            }
+        }
     }
     
     @Override
