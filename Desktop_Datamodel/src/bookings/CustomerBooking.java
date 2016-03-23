@@ -8,9 +8,7 @@ package bookings;
 import database.DatabaseTable;
 import java.util.Date;
 import people.Customer;
-import people.User;
 import tickets.Ticket;
-import utilities.observer.IObserver;
 
 /**
  *

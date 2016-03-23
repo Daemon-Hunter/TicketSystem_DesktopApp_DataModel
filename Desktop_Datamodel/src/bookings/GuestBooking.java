@@ -30,10 +30,8 @@ public class GuestBooking extends Booking {
     public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
             String email, String address, String postcode) 
     {
-        super(ID, ticket, ticketQty, dateTime);
+        super(ID, ticket, new Guest(null, null, email, address, postcode), ticketQty, dateTime);
         table = DatabaseTable.GUESTBOOKING;
-        user = new Guest(null, null, email, address, postcode);
-        
     }
     
     /**
@@ -49,8 +47,7 @@ public class GuestBooking extends Booking {
     public GuestBooking (Ticket ticket, Integer ticketQty, Date dateTime,
             String email, String address, String postcode) 
     {
-        super(ticket, ticketQty, dateTime);
+        super(ticket, new Guest(null, null, email, address, postcode), ticketQty, dateTime);
         table = DatabaseTable.GUESTBOOKING;
-        user = new Guest(null, null, email, address, postcode);
     }
 }

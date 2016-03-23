@@ -36,6 +36,7 @@ public abstract class Booking implements IBooking {
      */
     public Booking(Ticket newTicket, User user, Integer ticketQty, Date dateTime) {
         bookingID = 0;
+        this.user = user;
         ticket = newTicket;
         ticketQuantity = ticketQty;
         bookingDateTime = dateTime;
@@ -51,6 +52,7 @@ public abstract class Booking implements IBooking {
      */
     public Booking(Integer ID, Ticket newTicket, User user, Integer ticketQty, Date dateTime) {
         bookingID = ID;
+        this.user = user;
         ticket = newTicket;
         ticketQuantity = ticketQty;
         bookingDateTime = dateTime;
@@ -135,6 +137,12 @@ public abstract class Booking implements IBooking {
     @Override
     public void notifyObservers() {
         observers.stream().forEach(observer -> { observer.update(this); });
+        
+        /*
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        */
     }
 
     @Override
