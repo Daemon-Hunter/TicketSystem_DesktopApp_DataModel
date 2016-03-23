@@ -36,13 +36,14 @@ public class ArtistReview extends Review {
     /**
      * Use this constructor when creating a new review object.
      * Verified is automatically set to false.
+     * @param baseID
+     * @param customerID
      * @param rating
-     * @param date
      * @param body
      */
-    public ArtistReview(Integer baseID, Integer customerID, Integer rating, Date date, String body) 
+    public ArtistReview(Integer baseID, Integer customerID, Integer rating, String body) 
     {
-        super(baseID, customerID, rating, date, body);
+        super(baseID, customerID, rating, body);
         table = DatabaseTable.ARTISTREVIEW;
     }
 }

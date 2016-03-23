@@ -6,6 +6,7 @@
 package reviews;
 
 import database.DatabaseTable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -55,16 +56,14 @@ public abstract class Review implements IReview {
      * @param baseID
      * @param customerID
      * @param rating
-     * @param date
      * @param body
      */
-    public Review(Integer baseID, Integer customerID, Integer rating, 
-                    Date date, String body) 
+    public Review(Integer baseID, Integer customerID, Integer rating, String body) 
     {
         reviewBaseID = baseID;
         this.customerID = customerID;
         this.rating = rating;
-        dateTime = date;
+        dateTime = Calendar.getInstance().getTime();
         reviewBody = body;
         this.verified = false;
         observers = new LinkedList();

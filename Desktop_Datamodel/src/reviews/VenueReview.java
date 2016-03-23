@@ -7,7 +7,6 @@ package reviews;
 
 import database.DatabaseTable;
 import java.util.Date;
-import people.User;
 
 /**
  *
@@ -40,13 +39,12 @@ public class VenueReview extends Review {
      * @param baseID
      * @param customerID
      * @param rating
-     * @param date
      * @param body
      */
     public VenueReview(Integer baseID, Integer customerID, Integer rating,
-            Date date, String body) 
+            String body) 
     {
-        super(baseID, customerID, rating, date, body);
+        super(baseID, customerID, rating, body);
         table = DatabaseTable.VENUEREVIEW;
         this.baseID = baseID;
     }

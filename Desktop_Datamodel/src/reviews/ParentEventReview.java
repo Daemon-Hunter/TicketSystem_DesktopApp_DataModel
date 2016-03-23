@@ -44,7 +44,7 @@ public class ParentEventReview extends Review {
     public ParentEventReview(Integer baseID, Integer customerID, Integer rating, 
             Date date, String body) 
     {
-        super(baseID, customerID, rating, date, body);
+        super(baseID, customerID, rating, body);
         table = DatabaseTable.EVENTREVIEW;
     }  
 }
