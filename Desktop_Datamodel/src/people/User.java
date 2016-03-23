@@ -32,17 +32,17 @@ public abstract class User implements IUser {
      * @param ID
      * @param fName
      * @param lName
-     * @param email_
-     * @param address_
-     * @param pcode 
+     * @param email
+     * @param address
+     * @param postcode 
      */
-    public User(Integer ID, String fName, String lName, String email_, String address_, String pcode) {
+    public User(Integer ID, String fName, String lName, String email, String address, String postcode) {
         this.ID = ID;
-        firstName = fName;
-        lastName = lName;
-        email = email_;
-        address = address_;
-        postcode = pcode;
+        this.firstName = fName;
+        this.lastName = lName;
+        this.email = email;
+        this.address = address;
+        this.postcode = postcode;
     }
     
     /**
@@ -50,16 +50,16 @@ public abstract class User implements IUser {
      * e.g. ID is unknown.
      * @param fName
      * @param lName
-     * @param email_
-     * @param address_
-     * @param pcode 
+     * @param email
+     * @param address
+     * @param postcode 
      */
-    public User(String fName, String lName, String email_, String address_, String pcode) {
-        firstName = fName;
-        lastName = lName;
-        email = email_;
-        address = address_;
-        postcode = pcode;
+    public User(String fName, String lName, String email, String address, String postcode) {
+        this.firstName = fName;
+        this.lastName = lName;
+        this.email = email;
+        this.address = address;
+        this.postcode = postcode;
     }
     
     @Override
