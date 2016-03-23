@@ -19,7 +19,7 @@ import utilities.observer.IObserver;
  */
 public abstract class Review implements IReview {
     protected Integer       reviewBaseID;
-    protected User          user;
+    protected Integer       customerID;
     protected Date          dateTime;
     protected Integer       rating;
     protected String        reviewBody;
@@ -29,18 +29,19 @@ public abstract class Review implements IReview {
     
     /**
      * Use this constructor when creating a review object from the database.
-     * ID is known.
+     * Validity is is known.
      * @param baseID
-     * @param user
+     * @param customerID
      * @param rating
      * @param date
      * @param body
      * @param verified 
      */
-    public Review(Integer baseID, User user, Integer rating, Date date, String body,
-            Boolean verified) {
+    public Review(Integer baseID, Integer customerID, Integer rating, 
+                    Date date, String body, Boolean verified) 
+    {
         reviewBaseID = baseID;
-        this.user = user;
+        this.customerID = customerID;
         this.rating = rating;
         dateTime = date;
         reviewBody = body;
@@ -50,21 +51,22 @@ public abstract class Review implements IReview {
     
     /**
      * Use this constructor when creating a new review object.
-     * ID is unknown.
-     * @param user
+     * Verified is automatically set to false.
+     * @param baseID
+     * @param customerID
      * @param rating
      * @param date
      * @param body
-     * @param verified 
      */
-    public Review(User user, Integer rating, Date date, String body,
-            Boolean verified) {
-        reviewBaseID = 0;
-        this.user = user;
+    public Review(Integer baseID, Integer customerID, Integer rating, 
+                    Date date, String body) 
+    {
+        reviewBaseID = baseID;
+        this.customerID = customerID;
         this.rating = rating;
         dateTime = date;
         reviewBody = body;
-        this.verified = verified;
+        this.verified = false;
         observers = new LinkedList();
     }
     
@@ -111,10 +113,10 @@ public abstract class Review implements IReview {
 
     @Override
     public Integer getCustomerID() {
-        if (user == null) {
-            throw new NullPointerException("Null user");
+        if (customerID == null) {
+            throw new NullPointerException("Null customer ID");
         } else {
-            return user.getCustomerID();
+            return customerID;
         }
     }
 
