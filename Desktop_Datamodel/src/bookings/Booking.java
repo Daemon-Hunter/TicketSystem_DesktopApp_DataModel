@@ -20,7 +20,7 @@ import utilities.observer.IObserver;
 public abstract class Booking implements IBooking {
     
     protected DatabaseTable table;
-    protected User user;
+    protected User    user;
     protected Integer bookingID;
     protected Ticket  ticket;
     protected Integer ticketQuantity;

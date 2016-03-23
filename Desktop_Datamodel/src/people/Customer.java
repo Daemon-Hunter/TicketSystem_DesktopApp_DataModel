@@ -18,7 +18,6 @@ import utilities.Validator;
  */
 public class Customer extends User implements IHaveReviews {
 
-    private final DatabaseTable table = DatabaseTable.CUSTOMER;
     private LinkedList<IReview> reviews;
     
     /**
@@ -31,8 +30,10 @@ public class Customer extends User implements IHaveReviews {
      * @param postcode 
      */
     public Customer(Integer ID, String firstName, String lastName,
-            String email, String address, String postcode) {
+            String email, String address, String postcode) 
+    {
         super(ID, firstName, lastName, email, address, postcode);
+        table = DatabaseTable.CUSTOMER;
     }
     
     /**
@@ -45,12 +46,12 @@ public class Customer extends User implements IHaveReviews {
      * @param postcode 
      */
     public Customer(String firstName, String lastName,
-            String email, String address, String postcode) {
-      super(firstName, lastName, email, address, postcode);
-      this.ID = 0;
+            String email, String address, String postcode) 
+    {
+        super(firstName, lastName, email, address, postcode);
+        table = DatabaseTable.CUSTOMER;
+        this.ID = 0;
     }
-
-    public Customer() {}
 
     @Override
     public DatabaseTable getTable() {
@@ -111,52 +112,6 @@ public class Customer extends User implements IHaveReviews {
             reviews.remove(review);
             notifyObservers();
             return true;
-        }
-    }
-
-    @Override
-    public String getAddress() {
-        if (address == null) {
-            throw new NullPointerException("Null address");
-        } else {
-            return address;
-        }
-    }
-
-    @Override
-    public Boolean setAddress(String address) {
-        if (address == null) {
-            throw new NullPointerException("Cannot set address to null");
-        } else {
-            Boolean valid = Validator.addressValidator(address);
-            if (valid) {
-                this.address = address;
-                notifyObservers();
-            }
-            return valid;
-        }
-    }
-
-    @Override
-    public String getPostcode() {
-        if (postcode == null) {
-            throw new NullPointerException("Null postcode");
-        } else {
-            return postcode;
-        }
-    }
-
-    @Override
-    public Boolean setPostcode(String postcode) {
-        if (postcode == null) {
-            throw new NullPointerException("Cannot set postcode to null");
-        } else {
-            Boolean valid = Validator.postcodeValidator(postcode);
-            if (valid) {
-                this.postcode = postcode;
-                notifyObservers();
-            }
-            return valid;
         }
     }
 

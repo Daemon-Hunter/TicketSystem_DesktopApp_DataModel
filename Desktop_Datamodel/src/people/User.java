@@ -6,6 +6,7 @@
 package people;
 
 import bookings.IBooking;
+import database.DatabaseTable;
 import java.util.LinkedList;
 import java.util.stream.Stream;
 import tickets.Ticket;
@@ -21,6 +22,7 @@ public abstract class User implements IUser {
     protected LinkedList<IBooking> bookings;
     protected LinkedList<IObserver> observers;
     protected String firstName, lastName, email, address, postcode;
+    protected DatabaseTable table;
     protected Integer ID;
     
     
@@ -165,6 +167,57 @@ public abstract class User implements IUser {
             throw new NullPointerException("Null last name");
         } else {
             return lastName;
+        }
+    }
+    
+    @Override
+    public DatabaseTable getTable() {
+        return table;
+    }
+    
+    @Override
+    public String getAddress() {
+        if (address == null) {
+            throw new NullPointerException("Null address");
+        } else {
+            return address;
+        }
+    }
+
+    @Override
+    public Boolean setAddress(String address) {
+        if (address == null) {
+            throw new NullPointerException("Cannot set address to null");
+        } else {
+            Boolean valid = Validator.addressValidator(address);
+            if (valid) {
+                this.address = address;
+                notifyObservers();
+            }
+            return valid;
+        }
+    }
+    
+    @Override
+    public String getPostcode() {
+        if (postcode == null) {
+            throw new NullPointerException("Null postcode");
+        } else {
+            return postcode;
+        }
+    }
+
+    @Override
+    public Boolean setPostcode(String postcode) {
+        if (postcode == null) {
+            throw new NullPointerException("Cannot set postcode to null");
+        } else {
+            Boolean valid = Validator.postcodeValidator(postcode);
+            if (valid) {
+                this.postcode = postcode;
+                notifyObservers();
+            }
+            return valid;
         }
     }
 }
