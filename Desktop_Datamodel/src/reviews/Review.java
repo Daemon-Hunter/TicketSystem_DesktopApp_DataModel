@@ -27,6 +27,47 @@ public abstract class Review implements IReview {
     protected DatabaseTable table;
     protected LinkedList<IObserver> observers;
     
+    /**
+     * Use this constructor when creating a review object from the database.
+     * ID is known.
+     * @param baseID
+     * @param user
+     * @param rating
+     * @param date
+     * @param body
+     * @param verified 
+     */
+    public Review(Integer baseID, User user, Integer rating, Date date, String body,
+            Boolean verified) {
+        reviewBaseID = baseID;
+        this.user = user;
+        this.rating = rating;
+        dateTime = date;
+        reviewBody = body;
+        this.verified = verified;
+        observers = new LinkedList();
+    }
+    
+    /**
+     * Use this constructor when creating a new review object.
+     * ID is unknown.
+     * @param user
+     * @param rating
+     * @param date
+     * @param body
+     * @param verified 
+     */
+    public Review(User user, Integer rating, Date date, String body,
+            Boolean verified) {
+        reviewBaseID = 0;
+        this.user = user;
+        this.rating = rating;
+        dateTime = date;
+        reviewBody = body;
+        this.verified = verified;
+        observers = new LinkedList();
+    }
+    
     @Override
     public DatabaseTable getTable() {
         return table;
