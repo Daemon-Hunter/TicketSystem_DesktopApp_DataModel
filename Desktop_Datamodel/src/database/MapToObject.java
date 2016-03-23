@@ -7,12 +7,10 @@ package database;
 
 import datamodel.Artist;
 import datamodel.SocialMedia;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import people.Customer;
-import reviews.ArtistReview;
 import reviews.ArtistReviewFactory;
 import reviews.IReview;
 import reviews.Review;

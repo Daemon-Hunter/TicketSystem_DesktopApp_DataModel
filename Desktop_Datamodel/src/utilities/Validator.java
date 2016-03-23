@@ -25,6 +25,14 @@ public final class Validator {
     public static Boolean dateTimeValidator(Date time) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public static Boolean ratingValidator(Integer rating) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Boolean reviewBodyValidator(String body) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     private Validator(){}
     
