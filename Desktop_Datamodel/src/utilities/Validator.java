@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @author 10512691
  */
 public final class Validator {
-
+    
     public static Boolean quantityValidator(Integer qty) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

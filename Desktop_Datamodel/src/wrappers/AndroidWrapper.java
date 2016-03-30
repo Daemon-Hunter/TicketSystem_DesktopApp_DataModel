@@ -8,6 +8,7 @@ package wrappers;
 import datamodel.IArtist;
 import datamodel.IParentEvent;
 import datamodel.IVenue;
+import java.util.ArrayList;
 import java.util.List;
 import people.IUser;
 
@@ -16,54 +17,68 @@ import people.IUser;
  * @author 10512691
  */
 public class AndroidWrapper implements IUserWrapper {
-    List<IParentEvent> parentEventArray;
-    List<IVenue>       venueArray;
-    List<IArtist>      artistArray;
-    List<IUser>        currentUser;
+    List<IParentEvent>  parentEventArray;
+    List<IVenue>        venueArray;
+    List<IArtist>       artistArray;
+    IUser               currentUser;
 
     @Override
     public Boolean setUser(IUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (user == null){
+            throw new NullPointerException("Cannot set user to null.");
+        }
+        
+        this.currentUser = user;
+        
+        return (this.currentUser == user);
     }
 
     @Override
     public IUser getUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.currentUser;
     }
 
     @Override
     public Boolean addParentEvent(IParentEvent pEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (pEvent == null){
+            throw new NullPointerException("Cannot set user to null.");
+        }
+        
+        this.parentEventArray.add(pEvent);
+        
+        return (this.parentEventArray.contains(pEvent));
     }
 
     @Override
-    public IParentEvent getParentEvent(Integer parentEventID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public IParentEvent getParentEvent(Integer index) {
+        return parentEventArray.get(index);
     }
 
     @Override
     public List<IParentEvent> getParentEvents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<IParentEvent> array = new ArrayList(parentEventArray);
+        return array;
     }
 
     @Override
     public Boolean removeParentEvent(IParentEvent pEvent) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return parentEventArray.remove(pEvent);
     }
 
     @Override
     public Boolean addVenue(IVenue venue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return venueArray.add(venue);
     }
 
     @Override
-    public IVenue getVenue(Integer venueID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public IVenue getVenue(Integer index) {
+        return venueArray.get(index);
     }
 
     @Override
     public List<IVenue> getVenues() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList(venueArray);
     }
 
     @Override

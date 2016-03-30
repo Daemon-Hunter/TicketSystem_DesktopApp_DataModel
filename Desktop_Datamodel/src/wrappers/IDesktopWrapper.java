@@ -14,12 +14,13 @@ import people.IUser;
  * @author 10467841
  */
 public interface IDesktopWrapper extends IWrapper {
-    public Boolean     addUser(IUser user);
-    public List<IUser> getUsers();
-    public Boolean     removeUser(IUser user);
+    public Boolean      addUser(IUser user);
+    public List<IUser>  getUsers();
+    public IUser        getUser(Integer index);
+    public Boolean      removeUser(IUser user);
     
     public Boolean      addAdmin(IAdmin admin);
-    public IAdmin       getAdmin(Integer adminID);
+    public IAdmin       getAdmin(Integer index);
     public List<IAdmin> getAdmins();
     public Boolean      removeAdmin(IAdmin admin);
 }
