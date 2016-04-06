@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  * @author 10512691
  */
 public final class Validator {
-
+    
     public static Boolean quantityValidator(Integer qty) {
         return 0 < qty;
     }

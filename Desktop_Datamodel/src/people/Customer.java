@@ -20,6 +20,8 @@ public class Customer extends User implements IHaveReviews {
 
     private LinkedList<IReview> reviews;
     
+    
+    
     /**
      * Use this when creating a customer object from the database.
      * @param ID is known.
