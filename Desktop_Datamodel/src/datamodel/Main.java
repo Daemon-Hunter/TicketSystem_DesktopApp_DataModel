@@ -6,6 +6,9 @@
 package datamodel;
 
 import java.util.ArrayList;
+import people.Customer;
+import people.IUser;
+import reviews.IReview;
 import reviews.ReviewBase;
 
 /**
@@ -29,15 +32,22 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        ArrayList<Integer> numbers = new ArrayList() {{
-            add(1);
-            add(2);
-            add(3);
-            add(4);
-            add(5);
-        }};
+        IUser customer = new Customer("Charlie", "Gillions", "cjgillions@aol.com",
+                                "16 Addison Road", "PL48LL");
         
-        printValues(numbers);
-        sumArraySquared(numbers);
+        ReviewBase venue = new Venue(null, "Underground venue near Bristol's Temple Meads",
+                0, 1500, false, "Couple of toilets", 20, null, null, null, null, "In:Motion",
+                null);
+        
+        IReview review = venue.createReview(customer.getCustomerID(), 4, 
+                                "Pretty good venue to be fair... Been there a few times and "
+                                        + "it never fails to be an entertaining night.");
+        
+        System.out.println("Review Details:\n"
+                         + "\tCustomer ID:   " + review.getCustomerID());
+        System.out.println("\tReviewbase ID: " + review.getReviewBaseID());
+        System.out.println("\tReview body:   " + review.getBody());
+        System.out.println("\tUser rating:   " + review.getRating());
+        System.out.println("\tReview time:   " + review.getDateTime());
     }
 }

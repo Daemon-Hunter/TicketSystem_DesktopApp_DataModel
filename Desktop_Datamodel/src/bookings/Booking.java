@@ -39,7 +39,9 @@ public abstract class Booking implements IBooking {
         this.user = user;
         ticket = newTicket;
         ticketQuantity = ticketQty;
-        bookingDateTime = dateTime;
+        // Store a copy of the time, as the variable could be externally changed
+        // after construction -> externally mutable object
+        bookingDateTime = (Date) dateTime.clone();
     }
     
     /**
@@ -55,7 +57,9 @@ public abstract class Booking implements IBooking {
         this.user = user;
         ticket = newTicket;
         ticketQuantity = ticketQty;
-        bookingDateTime = dateTime;
+        // Store a copy of the time, as the variable could be externally changed
+        // after construction -> externally mutable object
+        bookingDateTime = (Date) dateTime.clone();;
     }
     
     @Override
@@ -112,7 +116,7 @@ public abstract class Booking implements IBooking {
         if (bookingDateTime == null) {
             throw new NullPointerException("Null booking date / time");
         } else {
-            return bookingDateTime;
+            return (Date) bookingDateTime.clone();
         }
     }
     @Override
@@ -122,7 +126,9 @@ public abstract class Booking implements IBooking {
         } else {
             Boolean valid = Validator.dateTimeValidator(time);
             if (valid) {
-                bookingDateTime = time;
+        // Store a copy of the time, as the variable could be externally changed
+        // after construction -> externally mutable object
+                bookingDateTime = (Date) time.clone();;
                 notifyObservers();
             }
             return valid;
@@ -136,24 +142,29 @@ public abstract class Booking implements IBooking {
 
     @Override
     public void notifyObservers() {
-        observers.stream().forEach(observer -> { observer.update(this); });
-        
+        if (observers != null) {
+            observers.stream().forEach(observer -> { observer.update(this); });
+        }
+    }
         /*
             for (IObserver o : observers) {
                 o.update(this);
             }
         */
-    }
 
     @Override
     public Boolean registerObserver(IObserver o) {
         if (o == null) {
             throw new NullPointerException("Null observer");
+        } else if (observers == null) {
+            observers = new LinkedList<>();
+            observers.add(o);
+            return observers.contains(o);
         } else if (observers.contains(o)) {
             throw new IllegalArgumentException("Observer already exists in list");
         } else {
             observers.add(o);
-            return true;
+            return observers.contains(o);
         }
     }
 
@@ -165,7 +176,7 @@ public abstract class Booking implements IBooking {
             throw new IllegalArgumentException("Observer doesn't exist in list");
         } else {
             observers.remove(o);
-            return true;
+            return !observers.contains(o);
         }
     }
 
