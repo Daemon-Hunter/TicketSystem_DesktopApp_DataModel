@@ -28,8 +28,8 @@ public class Blacklist {
             List<String> l = new ArrayList();
             
             
-            while (r.hasNext()){
-                l.add(r.next());
+            while (r.hasNextLine()){
+                l.add(r.nextLine());
             }
             
             r.close();
@@ -42,6 +42,9 @@ public class Blacklist {
     }
     
     private static Boolean setFileFromList(List<String> list){
+        if (list == null){
+            return false;
+        }
         try (FileWriter w = new FileWriter("blacklist.txt")){
                        
             for (String word: list){
@@ -56,25 +59,31 @@ public class Blacklist {
         return false;
     }
     
-    public boolean add(String naughtyWord){
-        return (blacklist.add(naughtyWord) && setFileFromList(blacklist));
-    }
     
-    public boolean remove(String notSoNaughtyWord){
-        return blacklist.remove(notSoNaughtyWord) && setFileFromList(blacklist);
-    }
-    
-    //returns false if the string contains a bad word
-    public static Boolean checkList(String string){
-        if (blacklist == null){
-            blacklist = getListFromFile();
-        }
+    /**
+     * Checks an string or paragraph input against a list of bad words.
+     * @param input A word, sentence, or paragraph.
+     * @return True if a bad word is found.
+     */
+    public static Boolean contains(String input){
+        // Split the inputted string into seperate words.
+        String[] words = input.split(" ");
         
-        for(int i = 0; i > blacklist.size(); i++){
-            if(string.contains(blacklist.get(i))){
-                return false;            
+        // Iterate through the words and remove possible extensions of
+        // blacklisted words.
+        for (String word : words) {
+            if (word.endsWith("s")) {
+                word = word.substring(0, word.length() - 2);
+            }
+            if (word.endsWith("ing")) {
+                word = word.substring(0, word.length() - 4);
+            }
+            
+            // If the word is in the list of bad words, return true.
+            if (blacklist.contains(word)) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
