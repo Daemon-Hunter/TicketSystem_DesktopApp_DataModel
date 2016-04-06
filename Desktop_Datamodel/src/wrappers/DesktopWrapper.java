@@ -121,4 +121,9 @@ public class DesktopWrapper implements IDesktopWrapper {
     public Boolean removeArtist(IArtist artist) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public IUser getUser(Integer index) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
