@@ -50,4 +50,9 @@ public class GuestBooking extends Booking {
         super(ticket, new Guest(null, null, email, address, postcode), ticketQty, dateTime);
         table = DatabaseTable.GUESTBOOKING;
     }
+
+    public GuestBooking(Ticket ticket, Integer ticketQty, Date dateTime, Guest guest) {
+        super(ticket, guest, ticketQty, dateTime);
+        table = DatabaseTable.GUESTBOOKING;
+    }
 }

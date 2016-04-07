@@ -27,7 +27,6 @@ public class CustomerBooking extends Booking {
     public CustomerBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
             Customer cust) {
         super(ID, ticket, cust, ticketQty, dateTime);
-        user = cust;
         table = DatabaseTable.BOOKING;
     }
     
@@ -41,7 +40,6 @@ public class CustomerBooking extends Booking {
     public CustomerBooking (Ticket ticket, Integer ticketQty, Date dateTime,
             Customer cust) {
         super(ticket, cust, ticketQty, dateTime);
-        user = cust;
         table = DatabaseTable.BOOKING;
     }
 }

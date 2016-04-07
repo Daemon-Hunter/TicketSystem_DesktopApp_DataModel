@@ -8,6 +8,7 @@ package bookings;
 import database.DatabaseTable;
 import java.util.Date;
 import java.util.LinkedList;
+import people.IUser;
 import people.User;
 import tickets.Ticket;
 import utilities.Validator;
@@ -20,7 +21,7 @@ import utilities.observer.IObserver;
 public abstract class Booking implements IBooking {
     
     protected DatabaseTable table;
-    protected User    user;
+    protected IUser    user;
     protected Integer bookingID;
     protected Ticket  ticket;
     protected Integer ticketQuantity;
@@ -59,7 +60,7 @@ public abstract class Booking implements IBooking {
         ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        bookingDateTime = (Date) dateTime.clone();;
+        bookingDateTime = (Date) dateTime.clone();
     }
     
     @Override
@@ -128,7 +129,7 @@ public abstract class Booking implements IBooking {
             if (valid) {
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-                bookingDateTime = (Date) time.clone();;
+                bookingDateTime = (Date) time.clone();
                 notifyObservers();
             }
             return valid;
@@ -181,12 +182,12 @@ public abstract class Booking implements IBooking {
     }
 
     @Override
-    public User getUser() {
+    public IUser getUser() {
         return user;
     }
 
     @Override
-    public Boolean setUser(User user) {
+    public Boolean setUser(IUser user) {
         if (user == null) {
             throw new NullPointerException("Cannot set user to null");
         } else {

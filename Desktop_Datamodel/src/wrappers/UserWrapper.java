@@ -16,21 +16,26 @@ import people.IUser;
  *
  * @author 10512691
  */
-public class AndroidWrapper implements IUserWrapper {
+public class UserWrapper implements IUserWrapper {
     List<IParentEvent>  parentEventArray;
     List<IVenue>        venueArray;
     List<IArtist>       artistArray;
     IUser               currentUser;
 
+    
+    
+    public UserWrapper(){}
+    
+    public UserWrapper(IUser user){
+        this.currentUser = user;
+    }
+    
     @Override
     public Boolean setUser(IUser user) {
-        
         if (user == null){
-            throw new NullPointerException("Cannot set user to null.");
+            throw new IllegalArgumentException("Cannot set user to null.");
         }
-        
         this.currentUser = user;
-        
         return (this.currentUser == user);
     }
 
@@ -41,13 +46,13 @@ public class AndroidWrapper implements IUserWrapper {
 
     @Override
     public Boolean addParentEvent(IParentEvent pEvent) {
-        if (pEvent == null){
-            throw new NullPointerException("Cannot set user to null.");
+        if (parentEventArray == null){
+            parentEventArray = new ArrayList();
         }
-        
-        this.parentEventArray.add(pEvent);
-        
-        return (this.parentEventArray.contains(pEvent));
+        if (pEvent == null){
+            throw new IllegalArgumentException("Cannot set user to null.");
+        }
+        return this.parentEventArray.add(pEvent);
     }
 
     @Override
@@ -57,17 +62,25 @@ public class AndroidWrapper implements IUserWrapper {
 
     @Override
     public List<IParentEvent> getParentEvents() {
-        List<IParentEvent> array = new ArrayList(parentEventArray);
-        return array;
+        return new ArrayList(parentEventArray);
     }
 
     @Override
     public Boolean removeParentEvent(IParentEvent pEvent) {
+        if (pEvent == null){
+            throw new IllegalArgumentException("Cannot remove null value.");
+        }
         return parentEventArray.remove(pEvent);
     }
 
     @Override
     public Boolean addVenue(IVenue venue) {
+        if (venueArray == null){
+            venueArray = new ArrayList();
+        }
+        if (venue == null){
+            throw new IllegalArgumentException("Cannot add null venue.");
+        }
         return venueArray.add(venue);
     }
 
@@ -83,26 +96,38 @@ public class AndroidWrapper implements IUserWrapper {
 
     @Override
     public Boolean removeVenue(IVenue venue) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(venue == null){
+            throw new IllegalArgumentException("Cannot remove a null venue.");
+        }
+        return venueArray.remove(venue);
     }
 
     @Override
     public Boolean addArtist(IArtist artist) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (artistArray == null){
+            artistArray = new ArrayList();
+        }
+        if(artist == null){
+            throw new IllegalArgumentException("Cannot add a null artist.");
+        }
+        return artistArray.add(artist);
     }
 
     @Override
     public IArtist getArtist(Integer artistID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return artistArray.get(artistID);
     }
 
     @Override
     public List<IArtist> getArtists() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList(artistArray);
     }
 
     @Override
     public Boolean removeArtist(IArtist artist) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (artist == null){
+            throw new IllegalArgumentException("Cannot remove a null artist.");
+        }
+        return artistArray.remove(artist);
     }
 }

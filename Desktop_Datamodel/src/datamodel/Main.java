@@ -10,6 +10,7 @@ import people.Customer;
 import people.IUser;
 import reviews.IReview;
 import reviews.ReviewBase;
+import wrappers.UserWrapper;
 
 /**
  *
@@ -49,5 +50,12 @@ public class Main {
         System.out.println("\tReview body:   " + review.getBody());
         System.out.println("\tUser rating:   " + review.getRating());
         System.out.println("\tReview time:   " + review.getDateTime());
+        
+        
+        UserWrapper wrapper = new UserWrapper();
+        
+        wrapper.getParentEvents().get(0);
+        
+        
     }
 }

@@ -14,6 +14,6 @@ import tickets.Ticket;
  */
 public interface IBookingFactory {
     
-    public Booking createBooking(Ticket ticket, User user, Integer quantity);
+    public IBooking createBooking(Ticket ticket, User user, Integer quantity);
     
 }
