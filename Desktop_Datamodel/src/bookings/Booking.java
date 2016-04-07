@@ -125,14 +125,11 @@ public abstract class Booking implements IBooking {
         if (time == null) {
             throw new NullPointerException("Null date / time");
         } else {
-            Boolean valid = Validator.dateTimeValidator(time);
-            if (valid) {
-        // Store a copy of the time, as the variable could be externally changed
-        // after construction -> externally mutable object
-                bookingDateTime = (Date) time.clone();
-                notifyObservers();
-            }
-            return valid;
+            // Store a copy of the time, as the variable could be externally changed
+            // after construction -> externally mutable object
+            bookingDateTime = (Date) time.clone();
+            notifyObservers();
+            return true;
         }
     }    
 

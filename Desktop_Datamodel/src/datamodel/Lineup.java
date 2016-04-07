@@ -6,9 +6,9 @@
 package datamodel;
 
 import database.DatabaseTable;
+import java.util.LinkedList;
 import java.util.List;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
@@ -16,13 +16,26 @@ import utilities.observer.ISubject;
  */
 public class Lineup implements ILineup {
 
-    private Integer lineupID;
+    private final Integer lineupID;
     private List<IArtist> artistList;
-    private final DatabaseTable table = DatabaseTable.LINEUP;
+    private List<IObserver> observers;
+    private final DatabaseTable table;
+    
+    public Lineup(Integer ID, List<IArtist> artists) {
+        lineupID = ID;
+        artistList = artists;
+        table = DatabaseTable.LINEUP;
+    }
+    
+    public Lineup() {
+        lineupID = 0;
+        artistList = new LinkedList();
+        table = DatabaseTable.LINEUP;
+    }
     
     @Override
     public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return table;
     }
 
     @Override
