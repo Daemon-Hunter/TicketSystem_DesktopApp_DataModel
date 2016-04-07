@@ -22,15 +22,17 @@ public class Lineup implements ILineup {
     private final DatabaseTable table;
     
     public Lineup(Integer ID, List<IArtist> artists) {
-        lineupID = ID;
+        lineupID   = ID;
         artistList = artists;
-        table = DatabaseTable.LINEUP;
+        observers  = new LinkedList();
+        table      = DatabaseTable.LINEUP;
     }
     
     public Lineup() {
-        lineupID = 0;
+        lineupID   = 0;
         artistList = new LinkedList();
-        table = DatabaseTable.LINEUP;
+        observers  = new LinkedList();
+        table      = DatabaseTable.LINEUP;
     }
     
     @Override
@@ -40,42 +42,83 @@ public class Lineup implements ILineup {
 
     @Override
     public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        observers.stream().forEach(observer -> {
+            observer.update(this);
+        });
+//        for (IObserver o : observers) {
+//            o.update(this);
+//        }
     }
 
     @Override
     public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("Cannot register null observer");
+        } else {
+            if (observers.contains(o)) {
+                throw new IllegalArgumentException("Observer already registered");
+            } else {
+                return observers.add(o);
+            }
+        }
     }
 
     @Override
     public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("Cannot remove a null observer");
+        } else {
+            if (!observers.contains(o)) {
+                throw new IllegalArgumentException("Observer isn't already registered");
+            } else {
+                return observers.remove(o);
+            }
+        }
     }
 
     @Override
     public Integer getLineupID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return lineupID;
     }
 
     @Override
     public List<IArtist> getArtistList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return artistList;
     }
 
     @Override
     public Boolean addArtist(IArtist artist) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (artist == null) {
+            throw new NullPointerException("Cannot add a null artist");
+        } else {
+            if (artistList.contains(artist)) {
+                throw new IllegalArgumentException("Artist already appears in list.");
+            } else {
+                return artistList.add(artist);
+            }
+        }
     }
 
     @Override
     public Boolean removeArtist(IArtist artist) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (artist == null) {
+            throw new NullPointerException("Cannot remove a null artist");
+        } else {
+            if (!artistList.contains(artist)) {
+                throw new IllegalArgumentException("Artist doesn't exist in the list.");
+            } else {
+                return artistList.remove(artist);
+            }
+        }
     }
 
     @Override
     public IArtist getArtist(Integer artistID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (IArtist a : artistList) {
+            if (a.getArtistID().equals(artistID)) {
+                return a;
+            }
+        }
+        throw new IllegalArgumentException("Artist not contained in list.");
     }
-    
 }
