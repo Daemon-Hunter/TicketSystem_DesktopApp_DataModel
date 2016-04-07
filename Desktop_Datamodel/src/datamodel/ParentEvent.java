@@ -112,14 +112,8 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
     public Boolean addChildEvent(ChildEvent childEvent) {
         if (childEvent == null) {
             throw new NullPointerException("Null child event");
-        } else {
-            Boolean valid = validator.childEventValidator(childEvent);
-            if (valid) {
-                childEvents.add(childEvent);
-                notifyObservers();
-            }
-            return valid;
         }
+        return childEvents.add(childEvent);
     }
 
     @Override

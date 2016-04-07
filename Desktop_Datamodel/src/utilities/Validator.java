@@ -24,25 +24,25 @@ public final class Validator {
         return 0 < qty;
     }
 
-    /**
-     * Checks whether the date / time is in a valid time period.
-     * @param time
-     * @return 
-     */
-    public static Boolean dateTimeValidator(Date time) {
-        
-        // Initialise date object with values from first launch.
-        Date date = new Date();
-        date.setDate(22);
-        date.setHours(12);
-        date.setMinutes(0);
-        date.setMonth(2);
-        date.setSeconds(0);
-        date.setYear(2016);
-        
-        // Check whether the date object is in a valid time period.
-        return time.after(date) && time.before(new Date()); 
-    }
+//    /**
+//     * Checks whether the date / time is in a valid time period.
+//     * @param time
+//     * @return 
+//     */
+//    public static Boolean dateTimeValidator(Date time) {
+//        
+//        // Initialise date object with values from first launch.
+//        Date date = new Date();
+//        date.setDate(22);
+//        date.setHours(12);
+//        date.setMinutes(0);
+//        date.setMonth(2);
+//        date.setSeconds(0);
+//        date.setYear(2016);
+//        
+//        // Check whether the date object is in a valid time period.
+//        return time.after(date) && time.before(new Date()); 
+//    }
 
     /**
      * Checks the rating is in range '0 to 5'
@@ -59,7 +59,7 @@ public final class Validator {
      * @return 
      */
     public static Boolean reviewBodyValidator(String body) {
-        return (body.length() <= 100 && 15 <= body.length());
+        return (body.length() <= 100 && 15 <= body.length() && !Blacklist.contains(body));
     }
     
     /**
@@ -158,13 +158,12 @@ public final class Validator {
         return true; 
     }
 
-    // May just need to be string length.
     public static Boolean facilitiesValidator(String facilities) {
-        return true; 
+        return Blacklist.contains(facilities) && facilities.length() <= 100; 
     }
 
     public static Boolean parkingSpaceValidator(Integer parking) {
-        return true; 
+        return parking <=  100000 && parking >= 0; 
     }
 
     public static  Boolean emailValidator(String email) {
@@ -185,10 +184,6 @@ public final class Validator {
     }
 
     public static Boolean tagValidator(String tag) {
-        return true; 
-    }
-
-    public static Boolean childEventValidator(ChildEvent childEvent) {
-        return true; 
+        return Blacklist.contains(tag) && tag.contains(","); 
     }
 }

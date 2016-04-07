@@ -7,8 +7,6 @@ package utilities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -41,23 +39,6 @@ public class Blacklist {
         return new ArrayList();
     }
     
-    private static Boolean setFileFromList(List<String> list){
-        if (list == null){
-            return false;
-        }
-        try (FileWriter w = new FileWriter("blacklist.txt")){
-                       
-            for (String word: list){
-                w.write(word);
-            }
-            w.close();
-            
-            return true;
-            
-        } catch (IOException ex){}
-        
-        return false;
-    }
     
     
     /**
@@ -66,24 +47,38 @@ public class Blacklist {
      * @return True if a bad word is found.
      */
     public static Boolean contains(String input){
-        // Split the inputted string into seperate words.
-        String[] words = input.split(" ");
-        
-        // Iterate through the words and remove possible extensions of
-        // blacklisted words.
-        for (String word : words) {
-            if (word.endsWith("s")) {
-                word = word.substring(0, word.length() - 2);
-            }
-            if (word.endsWith("ing")) {
-                word = word.substring(0, word.length() - 4);
-            }
-            
-            // If the word is in the list of bad words, return true.
-            if (blacklist.contains(word)) {
-                return true;
-            }
+        if (blacklist ==  null){
+            blacklist = getListFromFile();
         }
+        
+        if (blacklist.stream().anyMatch((word) -> (input.contains(word)))) {
+            return true;
+        }
+        
+//        for (String word: blacklist){
+//            if(input.contains(word)){
+//                return true;
+//            }
+//        }
+        
+//        // Split the inputted string into seperate words.
+//        String[] words = input.split(" ");
+//        
+//        // Iterate through the words and remove possible extensions of
+//        // blacklisted words.
+//        for (String word : words) {
+//            if (word.endsWith("s")) {
+//                word = word.substring(0, word.length() - 2);
+//            }
+//            if (word.endsWith("ing")) {
+//                word = word.substring(0, word.length() - 4);
+//            }
+//            
+//            // If the word is in the list of bad words, return true.
+//            if (blacklist.contains(word)) {
+//                return true;
+//            }
+//        }
         return false;
     }
 }

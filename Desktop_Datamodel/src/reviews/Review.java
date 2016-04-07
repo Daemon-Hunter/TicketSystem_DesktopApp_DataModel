@@ -60,7 +60,7 @@ public abstract class Review implements IReview {
                 if (Validator.idValidator(customerID)) {
                     if (Validator.ratingValidator(rating)) {
                         if (Validator.reviewBodyValidator(body)) {
-                            if (Validator.dateTimeValidator(date)) {
+                            
                             
                                 // Everything is valid -> initialise variables
                                 reviewBaseID = baseID;
@@ -70,9 +70,6 @@ public abstract class Review implements IReview {
                                 reviewBody = body;
                                 this.verified = verified;
                                 observers = new LinkedList();
-                            } else {
-                            throw new IllegalArgumentException("Date invalid");
-                        }
                     } else {
                         throw new IllegalArgumentException("Body invalid");
                     }
@@ -201,14 +198,10 @@ public abstract class Review implements IReview {
     public Boolean setDateTime(Date datetime) {
         if (datetime == null) {
             throw new NullPointerException("Cannot set date / time to null");
-        } else {
-            Boolean valid = Validator.dateTimeValidator(datetime);
-            if (valid) {
-                dateTime = datetime;
-                notifyObservers();
-            }
-            return dateTime == datetime;
         }
+        dateTime = datetime;
+        return dateTime == datetime;
+        
     }
 
     @Override
