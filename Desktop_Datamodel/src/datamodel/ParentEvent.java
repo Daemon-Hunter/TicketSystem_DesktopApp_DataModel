@@ -6,20 +6,28 @@
 package datamodel;
 
 import database.DatabaseTable;
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.Optional;
-import reviews.Review;
 import reviews.ReviewBase;
-import reviews.IReviewFactory;
 import reviews.ParentEventReviewFactory;
-import utilities.observer.IObserver;
+import utilities.Validator;
 
 /**
  *
  * @author 10512691
  */
 public class ParentEvent extends ReviewBase implements IParentEvent {
+    
+    /*
+        Inherits:
+        IReviewFactory        reviewFactory;
+        LinkedList<Review>    reviews;
+        LinkedList<IObserver> observers;
+        SocialMedia           socialMedia;
+        Integer               ID, socialMediaID;
+        String                name;
+        DatabaseTable         table;
+     */
     
     private LinkedList<ChildEvent> childEvents;
     
@@ -85,7 +93,7 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
         if (name == null) {
             throw new NullPointerException("Null name");
         } else {
-            Boolean valid = validator.nameValidator(name);
+            Boolean valid = Validator.nameValidator(name);
             if (valid) {
                 this.name = name;
                 notifyObservers();
@@ -99,7 +107,7 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
         if (description == null) {
             throw new NullPointerException("Null description");
         } else {
-            Boolean valid = validator.descriptionValidator(description);
+            Boolean valid = Validator.descriptionValidator(description);
             if (valid) {
                 this.description = description;
                 notifyObservers();

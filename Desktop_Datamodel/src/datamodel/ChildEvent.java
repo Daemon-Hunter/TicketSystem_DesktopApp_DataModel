@@ -90,12 +90,12 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Date getChildEventStartDateTime() {
-        return startDateTime;
+        return (Date) startDateTime.clone();
     }
 
     @Override
     public Date getChildEventEndDateTime() {
-        return endDateTime;
+        return (Date) endDateTime.clone();
     }
 
     @Override

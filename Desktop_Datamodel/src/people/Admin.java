@@ -30,7 +30,7 @@ public class Admin implements IAdmin {
             firstName = fName;
             lastName = lName;
         } else {
-            throw new IllegalArgumentException("Invalid names.");
+            throw new IllegalArgumentException("Invalid admin names.");
         }
         
         if (email == null) {
@@ -44,29 +44,10 @@ public class Admin implements IAdmin {
     }
     
     public Admin(Integer ID, String fName, String lName, String email) {
-        if (ID == null) {
-            throw new NullPointerException("Null ID. Use other constructor when ID is unknown.");
-        } else {
-            this.ID = ID;
-        }
+        this.ID = ID;
+        firstName = fName;
+        lastName = lName;
         
-        if (fName == null || lName == null) {
-            throw new NullPointerException("First or last name is null.");
-        } else if (Validator.nameValidator(fName) && Validator.nameValidator(lName)) 
-        {
-            firstName = fName;
-            lastName = lName;
-        } else {
-            throw new IllegalArgumentException("Invalid names.");
-        }
-        
-        if (email == null) {
-            throw new NullPointerException("Null email address");
-        } else if (Validator.emailValidator(email)) {
-            this.email = email;
-        } else {
-            throw new IllegalArgumentException("Invalid email address");
-        }
         observers = new LinkedList<>();
     }
     

@@ -57,16 +57,64 @@ public abstract class User implements IUser {
      * @param postcode 
      */
     public User(String fName, String lName, String email, String address, String postcode) {
-        this.firstName = fName;
-        this.lastName = lName;
-        this.email = email;
-        this.address = address;
-        this.postcode = postcode;
+        
+        // Check if names are null or valid. All users must have a valid name.
+        if (fName == null || lName == null) {
+            throw new NullPointerException("Cannot set first or last name to null");
+        }
+        if (Validator.nameValidator(fName) || Validator.nameValidator(lName)) {
+            firstName = fName;
+            lastName = lName;
+        } else {
+            throw new IllegalArgumentException("Invalid admin name");
+        }
+        
+        // Check email. Email can be null.
+        if (email != null) {
+            if (Validator.emailValidator(email)) {
+            this.email = email;
+            } else {
+                throw new IllegalArgumentException("Invalid email address");
+            }
+        } else {
+            email = null;
+        }
+        
+        // Check address. Users don't have to have an address, so it can be set to null
+        if (address != null) {
+            if (Validator.addressValidator(address)) {
+                this.address = address;
+            } else {
+                throw new IllegalArgumentException("Invalid address.");
+            }
+        } else {
+            address = null;
+        }
+        
+        // Check the users postcode. Users don't have to have a postcode - so can be null
+        if (postcode != null) {
+            if (Validator.postcodeValidator(postcode)) {
+                this.postcode = postcode;
+            } else {
+                throw new IllegalArgumentException("Invalid postcode");
+            }
+        } else {
+            postcode = null;
+        }
     }
     
     @Override
     public void notifyObservers() {
-        observers.stream().forEach(observer -> {observer.update(this);});
+        observers.stream().forEach(observer -> {
+            observer.update(this);
+        });
+        
+            // Java 7
+//        if (observers != null) {
+//            for (IObserver o : observers) {
+//                o.update(this);
+//            }
+//        }
     }
     
     @Override
@@ -76,8 +124,7 @@ public abstract class User implements IUser {
         } else if (observers.contains(o)) {
             throw new IllegalArgumentException("Observer already registered");
         } else {
-            observers.add(o);
-            return true;
+            return observers.add(o);
         }
     }
     
@@ -88,8 +135,7 @@ public abstract class User implements IUser {
         } else if (!observers.contains(o)) {
             throw new IllegalArgumentException("Observer not in list");
         } else {
-            observers.remove(o);
-            return true;
+            return observers.remove(o);
         }
     }
     
@@ -97,7 +143,7 @@ public abstract class User implements IUser {
     public LinkedList<IBooking> getBookings() {
         if (bookings == null) {
             throw new NullPointerException("Null bookings list");
-        } else return bookings;
+        } else return (LinkedList<IBooking>) bookings.clone();
     }
     
     @Override
@@ -115,6 +161,15 @@ public abstract class User implements IUser {
             // Declare LinkedList and populate with relevant bookings
             LinkedList<IBooking> relevantBookings = new LinkedList<>();
             relevantBookingsStream.forEach(booking -> relevantBookings.add(booking));
+            
+            /*
+                LinkedList<IBooking> _bookings = new LinkedList<>();
+                for (IBooking b : bookings) {
+                    if (b.getTicket().equals(ticket)) {
+                        _bookings.add(b);
+                    }
+                }
+            */
             
             return relevantBookings;
         }

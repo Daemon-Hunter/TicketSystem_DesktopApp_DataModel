@@ -18,13 +18,13 @@ public class Guest extends User {
      * ID is unknown.
      * @param fName
      * @param lName
-     * @param email_
-     * @param address_
+     * @param email
+     * @param address
      * @param pcode 
      */
-    public Guest(String fName, String lName, String email_, String address_, String pcode) 
+    public Guest(String fName, String lName, String email, String address, String pcode) 
     {
-        super("GUEST", "ACCOUNT", email_, address_, pcode);
+        super("GUEST", "ACCOUNT", email, address, pcode);
         table = DatabaseTable.GUESTBOOKING;
     }
     
@@ -34,13 +34,13 @@ public class Guest extends User {
      * @param ID
      * @param fName
      * @param lName
-     * @param email_
-     * @param address_
+     * @param email
+     * @param address
      * @param pcode 
      */
-    public Guest(Integer ID, String fName, String lName, String email_, String address_, String pcode) 
+    public Guest(Integer ID, String fName, String lName, String email, String address, String pcode) 
     {
-        super(ID, "GUEST", "ACCOUNT", email_, address_, pcode);
+        super(ID, "GUEST", "ACCOUNT", email, address, pcode);
         table = DatabaseTable.GUESTBOOKING;
     }
 

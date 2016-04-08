@@ -7,26 +7,31 @@ package tickets;
 
 import database.DatabaseTable;
 import datamodel.ChildEvent;
+import java.util.List;
+import utilities.Blacklist;
+import utilities.Validator;
+import utilities.observer.IDbSubject;
 import utilities.observer.IObserver;
-import utilities.observer.ISubject;
 
 /**
  *
  * @author 10512691
  */
-public class Ticket implements ITicket {
+public class Ticket implements ITicket, IDbSubject {
     
-    private Integer    ticketID;
-    private ChildEvent event;
-    private Double     price;
-    private String     description;
-    private Integer    amountRemaining;
-    private String     type;
+    private Integer         ticketID;
+    private ChildEvent      event;
+    private Double          price;
+    private String          description;
+    private Integer         amountRemaining;
+    private String          type;
+    private List<IObserver> observers;
+    private DatabaseTable   table;
     
     /**
      * Use this constructor when creating a new ticket object.
-     * Use the constructor with no ID variable when creating an object from the database.
-     * @param ID Identification number for the ticket. Overridden by the database on creation.
+     * Use the constructor when creating an object from the database.
+     * @param ID Unique number for the ticket given by the database.
      * @param event The event the ticket is for.
      * @param price Price of the ticket.
      * @param desc Description of the ticket.
@@ -43,79 +48,145 @@ public class Ticket implements ITicket {
         this.type = type;
     }
     
+    public Ticket(ChildEvent event, Double price, String desc, Integer remaining,
+                    String type) {
+        if (event == null) {
+            throw new NullPointerException("Cannot make a ticket for a null event");
+        } else {
+            this.event = event;
+        }
+        
+        if (0 <= price) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("Cannot set a price below 0!");
+        }
+    }
+    
     @Override
     public DatabaseTable getTable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return table;
     }
 
     @Override
     public void notifyObservers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (observers != null) {
+            observers.stream().forEach(observer -> {
+                observer.update(this);
+            });
+            
+                // Java 7
+//            for (IObserver o : observers) {
+//                o.update(this);
+//            }
+        }
     }
 
     @Override
     public Boolean registerObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("cannot register null observer");
+        } else {
+            if (!observers.contains(o)) {
+                return observers.add(o);
+            } else {
+                return false;
+            }
+        }
     }
+            
 
     @Override
     public Boolean removeObserver(IObserver o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (o == null) {
+            throw new NullPointerException("cannot remove null observer");
+        } else {
+            if (observers.contains(o)) {
+                return observers.remove(o);
+            } else {
+                return false;
+            }
+        }
     }
 
     @Override
     public Integer getID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ticketID;
     }
 
     @Override
     public ChildEvent getEvent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return event;
     }
 
     @Override
     public Boolean setEvent(ChildEvent event) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (event == null) {
+            throw new NullPointerException("Cannot set event to null");
+        } else {
+            this.event = event;
+            return this.event.equals(event);
+        }
     }
 
     @Override
-    public Integer getPrice() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Double getPrice() {
+        return price;
     }
 
     @Override
-    public Boolean setPrice(Integer price) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean setPrice(Double price) {
+        if (0 <= price) {
+            this.price = price;
+            return this.price.equals(price);
+        } else return false;
     }
 
     @Override
     public String getDescription() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (description != null) {
+            return description;
+        } else {
+            throw new NullPointerException("description is null!");
+        }
     }
 
     @Override
     public Boolean setDescription(String description) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (Validator.descriptionValidator(description)) {
+            this.description = description;
+            return this.description.equals(description);
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Integer getRemaining() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return amountRemaining;
     }
 
     @Override
     public Boolean setRemaining(Integer remaining) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (0 <= remaining) {
+            amountRemaining = remaining;
+            return amountRemaining.equals(remaining);
+        } else return false;
     }
 
     @Override
     public String getType() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return type;
     }
 
     @Override
     public Boolean setType(String type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!Blacklist.contains(type)) {
+            this.type = type;
+            return this.type.equals(type);
+        } else {
+            return false;
+        }
     }
     
 }

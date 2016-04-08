@@ -7,7 +7,6 @@ package reviews;
 
 import database.DatabaseTable;
 import java.util.Date;
-import people.User;
 
 /**
  *

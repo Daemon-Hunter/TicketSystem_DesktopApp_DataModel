@@ -28,7 +28,6 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     protected Integer               ID;
     protected String                name, description;
     protected DatabaseTable         table;
-    protected Validator             validator;
     
     public ReviewBase() {
         reviews = new LinkedList<>();
@@ -36,6 +35,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         socialMedia = new SocialMedia(0, null, null, null, null, null, null, null);
         ID = 0;
         name = "UNKNOWN";
+        description = null;
     }
     
     @Override

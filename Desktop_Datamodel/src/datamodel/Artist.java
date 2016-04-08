@@ -21,6 +21,17 @@ import utilities.Validator;
  */
 public class Artist extends ReviewBase implements IArtist {
     
+    /*
+        Inherits:
+        IReviewFactory        reviewFactory;
+        LinkedList<Review>    reviews;
+        LinkedList<IObserver> observers;
+        SocialMedia           socialMedia;
+        Integer               ID, socialMediaID;
+        String                name;
+        DatabaseTable         table;
+     */
+    
     private LinkedList<String> tags;
     
     public Artist() {
@@ -31,7 +42,7 @@ public class Artist extends ReviewBase implements IArtist {
         reviewFactory = new ArtistReviewFactory();
     }
 
-    public Artist(Integer ID, String name, LinkedList<String> tags, SocialMedia social,
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social,
             LinkedList<IReview> reviews) {
         // Initialize table variable - matches Java object to database table
         table = DatabaseTable.ARTIST;

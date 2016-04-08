@@ -88,7 +88,7 @@ public class Customer extends User implements IHaveReviews {
                         + "written a review for this venue.");
                 }
                 
-//              ***** JAVA 7 VERSION (NON-LAMBDA) *****
+//              ***** JAVA 7 (NON-LAMBDA) *****
 //                for (Review r : reviews) {
 //                    if (r.getCustomerID().equals(customerID)) {
 //                        return r;

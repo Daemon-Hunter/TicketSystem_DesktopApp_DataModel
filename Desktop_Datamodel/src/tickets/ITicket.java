@@ -19,8 +19,8 @@ public interface ITicket extends IDbSubject {
     public ChildEvent getEvent();
     public Boolean    setEvent(ChildEvent event);
     
-    public Integer getPrice();
-    public Boolean setPrice(Integer price);
+    public Double getPrice();
+    public Boolean setPrice(Double price);
     
     public String  getDescription();
     public Boolean setDescription(String description);
