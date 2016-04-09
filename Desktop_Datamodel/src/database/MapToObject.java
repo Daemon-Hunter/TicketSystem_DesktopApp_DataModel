@@ -8,6 +8,7 @@ package database;
 import datamodel.Artist;
 import datamodel.IArtist;
 import datamodel.SocialMedia;
+import datamodel.Venue;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -161,5 +162,55 @@ public class MapToObject {
         return review;
         }
         
+        public static Venue ConvertVenue(Map<String,String> venueMap)
+        {
+            Integer venueID,capSeating, capStanding, parking ;
+            SocialMedia social;
+            String description,facilities, phoneNumber, email, address, postcode, name;
+            Boolean disabledAccess = false;
+            LinkedList<IReview> reviews = new LinkedList<>();
+            venueID = Integer.parseInt(venueMap.get("VENUE_ID"));
+             social = new SocialMedia();
+            APIConnection socialConn = new APIConnection(social.getTable());
+            try {
+           social = ConvertSocialMedia(socialConn.readSingle(Integer
+                                                 .parseInt(venueMap
+                                                 .get("SOCIAL_MEDIA_ID")))); 
+            }catch(Exception x)
+            {
+                social = new SocialMedia();
+            }
+            description = venueMap.get("VENUE_DESCRIPTION");
+            capSeating = Integer.parseInt(venueMap.get("VENUE_CAPACITY_SEATING"));
+            capStanding = Integer.parseInt(venueMap.get("VENUE_CAPACITY_STANDING"));
+            parking = Integer.parseInt(venueMap.get("VENUE_PARKING"));
+            facilities = venueMap.get("VENUE_FACILITES");
+            phoneNumber = venueMap.get("VENUE_PHONE_NUMBER");
+            email = venueMap.get("VENUE_EMAIL");
+            address = venueMap.get("VENUE_ADDRESS");
+            postcode = venueMap.get("VENUE_ADDRESS");
+            name = venueMap.get("VENUE_NAME");
+            if(Integer.parseInt(venueMap.get("VENUE_DISABLED_ACCESS")) == 1);
+            {
+                disabledAccess = true;
+            }
+           List<Map<String,String>> allReviews;
+          
+           allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUE);
+           
+           for(Map<String,String> currReview : allReviews)
+           {
+              if(venueID == Integer.parseInt(currReview.get("VENUE_ID")))
+              {
+                  reviews.add(ConvertArtistReview(currReview));
+              }
+           }
+
+            
+            Venue ven = new Venue(venueID,social,description,capSeating,capStanding,disabledAccess,facilities,
+            parking, phoneNumber,email,address,postcode,name,reviews);
+            
+            return ven;
+        }
     
 }
