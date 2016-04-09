@@ -8,20 +8,29 @@ package database;
 import datamodel.Artist;
 import datamodel.IArtist;
 import datamodel.SocialMedia;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
 import people.Customer;
 import reviews.ArtistReviewFactory;
 import reviews.IReview;
+import reviews.ParentEventReviewFactory;
+import reviews.VenueReviewFactory;
 
 /**
  *
  * @author Dominic
  */
 public class MapToObject {
-
+//TODO ON REVIEWS DATETIME , VERIFIED WITH THE FACTORY
 
     
     public MapToObject()
@@ -54,10 +63,12 @@ public class MapToObject {
            social = ConvertSocialMedia(socialConn.readSingle(Integer
                                                  .parseInt(artistMap
                                                  .get("SOCIAL_MEDIA_ID")))); 
+           
            Integer ID  = Integer.parseInt(artistMap.get("ARTIST_ID"));
            String name = artistMap.get("ARTIST_NAME");
            String tags = artistMap.get("ARTIST_TAGS");
            String[] tempArr = tags.split("#");
+           String description = null; //DOMINIC DO SOMTHING HERE ONCE API UPDATED
            
            LinkedList<String>  listOfTags    = new LinkedList<>();
            LinkedList<IReview> listOfReviews = new LinkedList<>();
@@ -73,7 +84,7 @@ public class MapToObject {
                   listOfReviews.add(ConvertArtistReview(currReview));
               }
            }
-           artist = new Artist(ID,name,listOfTags,social,listOfReviews);
+            artist = new Artist(ID,name, description, listOfTags,social,listOfReviews);
            return artist;
         } 
         catch(Exception ex) {
@@ -83,13 +94,24 @@ public class MapToObject {
         return null;
     }
     
-    public static SocialMedia ConvertSocialMedia(Map<String,String> socialMap)
+    public static SocialMedia ConvertSocialMedia(Map<String,String> socialMap) throws IOException
     {
-        SocialMedia social = new SocialMedia();
+        // CHECK IF IMAGE OUTPUT WORKS.
+        SocialMedia social;
+        Integer socialMediaID;
+        String  facebook, twitter, instagram, soundcloud, website, spotify;
         
+        socialMediaID = Integer.parseInt(socialMap.get("SOCIAL_MEDIA_ID"));
+        facebook = socialMap.get("FACEBOOK");
+        twitter = socialMap.get("TWITTER");
+        instagram = socialMap.get("INSTAGRAM");
+        soundcloud = socialMap.get("SOUNDCLOUD");
+        website = socialMap.get("WEBSITE");
+        spotify = socialMap.get("SPOTIFY");
+        byte[] strm = socialMap.get("IMAGE").getBytes();
+        final BufferedImage img = ImageIO.read(new ByteArrayInputStream(strm));
         
-        
-        
+        social = new SocialMedia(socialMediaID, img, facebook, twitter, instagram,soundcloud, website, spotify);
         return social;
     }
     
@@ -99,7 +121,6 @@ public class MapToObject {
         
         APIConnection   conn = new APIConnection(table);
         listOfReviews = conn.readAll();
-        
         
         return listOfReviews;
     }
@@ -113,7 +134,32 @@ public class MapToObject {
             
             IReview review     = factory.createReview(artistID, customerID, rating, body);
             return  review;
-            
     }
+        
+        private static IReview ConvertVenueReview(Map<String,String> reviewMap){
+            VenueReviewFactory factory = new VenueReviewFactory();
+            Integer venueID = Integer.parseInt(reviewMap.get("VENUE_ID"));
+            Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
+            Integer rating = Integer.parseInt(reviewMap.get("VENUE_REVIEW_RATING"));
+            String body = reviewMap.get("VENUE_REVIEW_BODY");
+            
+            
+            IReview review = factory.createReview(venueID,customerID,rating,body);
+            return  review;
+
+        }
+        
+        private static IReview ConvertEventReview(Map<String,String> reviewMap){
+        ParentEventReviewFactory factory = new ParentEventReviewFactory();
+        Integer eventID = Integer.parseInt(reviewMap.get("PARENT_EVENT_ID	"));
+        Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
+        Integer rating = Integer.parseInt(reviewMap.get("EVENT_REVIEW_RATING"));
+        String body = reviewMap.get("EVENT_REVIEW_BODY");
+        
+        
+        IReview review = factory.createReview(eventID,customerID,rating,body);
+        return review;
+        }
+        
     
 }
