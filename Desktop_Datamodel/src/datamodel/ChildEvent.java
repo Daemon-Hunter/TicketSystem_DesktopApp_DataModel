@@ -72,6 +72,12 @@ public class ChildEvent implements IChildEvent {
             throw new IllegalArgumentException("Invalid name");
         }
     }
+
+    public ChildEvent() {
+    
+        table = DatabaseTable.CHILDEVENT;
+
+    }
     
     @Override
     public Integer getChildEventID() {

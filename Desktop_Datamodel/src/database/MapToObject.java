@@ -6,7 +6,9 @@
 package database;
 
 import datamodel.Artist;
+import datamodel.ChildEvent;
 import datamodel.IArtist;
+import datamodel.ParentEvent;
 import datamodel.SocialMedia;
 import datamodel.Venue;
 import java.awt.image.BufferedImage;
@@ -25,12 +27,14 @@ import reviews.ArtistReviewFactory;
 import reviews.IReview;
 import reviews.ParentEventReviewFactory;
 import reviews.VenueReviewFactory;
+import tickets.Ticket;
 
 /**
  *
  * @author Dominic
  */
 public class MapToObject {
+
 //TODO ON REVIEWS DATETIME , VERIFIED WITH THE FACTORY
 
     
@@ -212,5 +216,45 @@ public class MapToObject {
             
             return ven;
         }
+        
+        public static Ticket ConvertTicket(Map<String,String> ticketMap)
+        {
+            Map<String,String> eventMap;
+            Integer ticketID, remaining, childEventID; // done
+            ChildEvent event = new ChildEvent();
+            Double price; // done 
+            String desc, type; // done 
+            
+            ticketID = Integer.parseInt(ticketMap.get("TICKET_ID"));
+            price = Double.parseDouble(ticketMap.get("TICKET_PRICE"));
+            remaining = Integer.parseInt(ticketMap.get("TICKET_AMOUNT_REMAINING"));
+            type = ticketMap.get("TICKET_TYPE");
+            desc = ticketMap.get("TICKET_DESCRIPTION");
+            childEventID = Integer.parseInt(ticketMap.get("CHILD_EVENT_ID"));
+            
+            try
+            {
+                APIConnection eventConn = new APIConnection(DatabaseTable.CHILDEVENT);
+                eventMap = eventConn.readSingle(childEventID);
+                event = ConvertEvent(eventMap);
+
+            }
+            catch(Exception ex)
+            {
+                
+            }
+            
+            Ticket retTicker = new Ticket(ticketID, event,price, desc,remaining,type );
+            
+                    
+            
+            return retTicker;
+        }
+        
+        
+            private static ChildEvent ConvertEvent(Map<String, String> eventMap) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }
