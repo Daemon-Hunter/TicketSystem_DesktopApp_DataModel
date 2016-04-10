@@ -10,6 +10,7 @@ import datamodel.ChildEvent;
 import datamodel.IArtist;
 import datamodel.ILineup;
 import datamodel.IVenue;
+import datamodel.Lineup;
 import datamodel.ParentEvent;
 import datamodel.SocialMedia;
 import datamodel.Venue;
@@ -18,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -232,10 +234,10 @@ public class MapToObject {
 public static Ticket ConvertTicket(Map<String,String> ticketMap)
     {
         Map<String,String> eventMap;
-        Integer ticketID, remaining, childEventID; // done
+        Integer ticketID, remaining, childEventID; 
         ChildEvent event = new ChildEvent();
-        Double price; // done 
-        String desc, type; // done 
+        Double price;  
+        String desc, type; 
             
         ticketID = Integer.parseInt(ticketMap.get("TICKET_ID"));
         price = Double.parseDouble(ticketMap.get("TICKET_PRICE"));
@@ -300,10 +302,25 @@ public static ChildEvent ConvertEvent(Map<String, String> eventMap) {
 
 public static ILineup ConvertLineup(Map<String,String> lineupMap)
 {
+    List<IArtist> artists = new ArrayList<>();
+    Integer lineupID; 
     
-        
+    lineupID = Integer.parseInt(lineupMap.get("LINEUP_ID"));
+    String artistID = "ARTIST";
+    String _ID = "_ID";
+    APIConnection artistConn = new APIConnection(DatabaseTable.ARTIST);
     
-    return null;
+    for(int i = 1; i < 11; i++)
+    {
+     if(!lineupMap.get(artistID + String.valueOf(i)+ _ID).equals("null")) // Might not need inversion
+     {
+         artists.add(ConvertArtist(artistConn.readSingle(i)));
+     }
+    }
+    
+    Lineup lineup = new Lineup(lineupID,artists);
+    
+    return lineup;
 }   
 
 

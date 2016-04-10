@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 public class APIConnectionTest {
     Map<String,String> customer = new HashMap<>();
     Map<String,String> editedCustomer = new HashMap<>();
-    APIConnection custConn = new APIConnection(DatabaseTable.CHILDEVENT);
+    APIConnection custConn = new APIConnection(DatabaseTable.LINEUP);
     public APIConnectionTest() {
     }
     
@@ -67,7 +67,7 @@ public class APIConnectionTest {
     @Test
     public void testAdd()
     {
-        System.out.print(custConn.readSingle(0).get("START_DATE_TIME"));
+        System.out.print(custConn.readSingle(0).get("ARTIST3_ID"));
 
         
     }
