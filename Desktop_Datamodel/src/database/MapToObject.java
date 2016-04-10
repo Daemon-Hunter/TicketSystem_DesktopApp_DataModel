@@ -8,6 +8,8 @@ package database;
 import datamodel.Artist;
 import datamodel.ChildEvent;
 import datamodel.IArtist;
+import datamodel.ILineup;
+import datamodel.IVenue;
 import datamodel.ParentEvent;
 import datamodel.SocialMedia;
 import datamodel.Venue;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,7 @@ import tickets.Ticket;
  * @author Dominic
  */
 public class MapToObject {
+
 
 //TODO ON REVIEWS DATETIME , VERIFIED WITH THE FACTORY
 
@@ -129,32 +133,36 @@ public class MapToObject {
         
         return listOfReviews;
     }
-        private static IReview ConvertArtistReview(Map<String, String> reviewMap) {
+    private static IReview ConvertArtistReview(Map<String, String> reviewMap) {
             
-            ArtistReviewFactory factory = new ArtistReviewFactory();
-            Integer artistID   = Integer.parseInt(reviewMap.get("ARTIST_ID"));
-            Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
-            Integer rating     = Integer.parseInt(reviewMap.get("ARTIST_REVIEW_RATING"));
-            String  body       = reviewMap.get("ARTIST_REVIEW_BODY");
+        ArtistReviewFactory factory = new ArtistReviewFactory();
+        Integer artistID   = Integer.parseInt(reviewMap.get("ARTIST_ID"));
+        Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
+        Integer rating     = Integer.parseInt(reviewMap.get("ARTIST_REVIEW_RATING"));
+        String  body       = reviewMap.get("ARTIST_REVIEW_BODY");
             
-            IReview review     = factory.createReview(artistID, customerID, rating, body);
-            return  review;
+        IReview review     = factory.createReview(artistID, customerID, rating, body);
+        
+        return  review;
     }
         
-        private static IReview ConvertVenueReview(Map<String,String> reviewMap){
-            VenueReviewFactory factory = new VenueReviewFactory();
-            Integer venueID = Integer.parseInt(reviewMap.get("VENUE_ID"));
-            Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
-            Integer rating = Integer.parseInt(reviewMap.get("VENUE_REVIEW_RATING"));
-            String body = reviewMap.get("VENUE_REVIEW_BODY");
+    private static IReview ConvertVenueReview(Map<String,String> reviewMap){
+           
+        VenueReviewFactory factory = new VenueReviewFactory();
+        Integer venueID = Integer.parseInt(reviewMap.get("VENUE_ID"));
+        Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
+        Integer rating = Integer.parseInt(reviewMap.get("VENUE_REVIEW_RATING"));
+        String body = reviewMap.get("VENUE_REVIEW_BODY");
             
             
-            IReview review = factory.createReview(venueID,customerID,rating,body);
-            return  review;
-
-        }
+        IReview review = factory.createReview(venueID,customerID,rating,body);
         
-        private static IReview ConvertEventReview(Map<String,String> reviewMap){
+        return  review;
+
+    }
+        
+    private static IReview ConvertEventReview(Map<String,String> reviewMap){
+        
         ParentEventReviewFactory factory = new ParentEventReviewFactory();
         Integer eventID = Integer.parseInt(reviewMap.get("PARENT_EVENT_ID	"));
         Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
@@ -163,46 +171,50 @@ public class MapToObject {
         
         
         IReview review = factory.createReview(eventID,customerID,rating,body);
-        return review;
-        }
         
-        public static Venue ConvertVenue(Map<String,String> venueMap)
-        {
-            Integer venueID,capSeating, capStanding, parking ;
-            SocialMedia social;
-            String description,facilities, phoneNumber, email, address, postcode, name;
-            Boolean disabledAccess = false;
-            LinkedList<IReview> reviews = new LinkedList<>();
-            venueID = Integer.parseInt(venueMap.get("VENUE_ID"));
-             social = new SocialMedia();
-            APIConnection socialConn = new APIConnection(social.getTable());
-            try {
+        return review;
+    }
+        
+    public static IVenue ConvertVenue(Map<String,String> venueMap){
+            
+        Integer venueID,capSeating, capStanding, parking ;
+        SocialMedia social;
+        String description,facilities, phoneNumber, email, address, postcode, name;
+        Boolean disabledAccess = false;
+        LinkedList<IReview> reviews = new LinkedList<>();
+        venueID = Integer.parseInt(venueMap.get("VENUE_ID"));
+        social = new SocialMedia();
+        APIConnection socialConn = new APIConnection(social.getTable());
+            
+        try {
            social = ConvertSocialMedia(socialConn.readSingle(Integer
                                                  .parseInt(venueMap
                                                  .get("SOCIAL_MEDIA_ID")))); 
-            }catch(Exception x)
+        }catch(Exception x)
             {
                 social = new SocialMedia();
             }
-            description = venueMap.get("VENUE_DESCRIPTION");
-            capSeating = Integer.parseInt(venueMap.get("VENUE_CAPACITY_SEATING"));
-            capStanding = Integer.parseInt(venueMap.get("VENUE_CAPACITY_STANDING"));
-            parking = Integer.parseInt(venueMap.get("VENUE_PARKING"));
-            facilities = venueMap.get("VENUE_FACILITES");
-            phoneNumber = venueMap.get("VENUE_PHONE_NUMBER");
-            email = venueMap.get("VENUE_EMAIL");
-            address = venueMap.get("VENUE_ADDRESS");
-            postcode = venueMap.get("VENUE_ADDRESS");
-            name = venueMap.get("VENUE_NAME");
-            if(Integer.parseInt(venueMap.get("VENUE_DISABLED_ACCESS")) == 1);
+            
+        description = venueMap.get("VENUE_DESCRIPTION");
+        capSeating = Integer.parseInt(venueMap.get("VENUE_CAPACITY_SEATING"));
+        capStanding = Integer.parseInt(venueMap.get("VENUE_CAPACITY_STANDING"));
+        parking = Integer.parseInt(venueMap.get("VENUE_PARKING"));
+        facilities = venueMap.get("VENUE_FACILITES");
+        phoneNumber = venueMap.get("VENUE_PHONE_NUMBER");
+        email = venueMap.get("VENUE_EMAIL");
+        address = venueMap.get("VENUE_ADDRESS");
+        postcode = venueMap.get("VENUE_ADDRESS");
+        name = venueMap.get("VENUE_NAME");
+            
+        if(venueMap.get("VENUE_DISABLED_ACCESS").equals("true"));
             {
                 disabledAccess = true;
-            }
-           List<Map<String,String>> allReviews;
-          
-           allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUE);
+            
+            }   
+        List<Map<String,String>> allReviews;  
+        allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUE);
            
-           for(Map<String,String> currReview : allReviews)
+        for(Map<String,String> currReview : allReviews)
            {
               if(venueID == Integer.parseInt(currReview.get("VENUE_ID")))
               {
@@ -211,50 +223,105 @@ public class MapToObject {
            }
 
             
-            Venue ven = new Venue(venueID,social,description,capSeating,capStanding,disabledAccess,facilities,
-            parking, phoneNumber,email,address,postcode,name,reviews);
+        Venue ven = new Venue(venueID,social,description,capSeating,capStanding,disabledAccess,facilities,
+        parking, phoneNumber,email,address,postcode,name,reviews);
             
-            return ven;
-        }
+        return ven;
+    }
         
-        public static Ticket ConvertTicket(Map<String,String> ticketMap)
+public static Ticket ConvertTicket(Map<String,String> ticketMap)
+    {
+        Map<String,String> eventMap;
+        Integer ticketID, remaining, childEventID; // done
+        ChildEvent event = new ChildEvent();
+        Double price; // done 
+        String desc, type; // done 
+            
+        ticketID = Integer.parseInt(ticketMap.get("TICKET_ID"));
+        price = Double.parseDouble(ticketMap.get("TICKET_PRICE"));
+        remaining = Integer.parseInt(ticketMap.get("TICKET_AMOUNT_REMAINING"));
+        type = ticketMap.get("TICKET_TYPE");
+        desc = ticketMap.get("TICKET_DESCRIPTION");
+        childEventID = Integer.parseInt(ticketMap.get("CHILD_EVENT_ID"));
+            
+        try
         {
-            Map<String,String> eventMap;
-            Integer ticketID, remaining, childEventID; // done
-            ChildEvent event = new ChildEvent();
-            Double price; // done 
-            String desc, type; // done 
-            
-            ticketID = Integer.parseInt(ticketMap.get("TICKET_ID"));
-            price = Double.parseDouble(ticketMap.get("TICKET_PRICE"));
-            remaining = Integer.parseInt(ticketMap.get("TICKET_AMOUNT_REMAINING"));
-            type = ticketMap.get("TICKET_TYPE");
-            desc = ticketMap.get("TICKET_DESCRIPTION");
-            childEventID = Integer.parseInt(ticketMap.get("CHILD_EVENT_ID"));
-            
-            try
-            {
-                APIConnection eventConn = new APIConnection(DatabaseTable.CHILDEVENT);
-                eventMap = eventConn.readSingle(childEventID);
-                event = ConvertEvent(eventMap);
+           APIConnection eventConn = new APIConnection(DatabaseTable.CHILDEVENT);
+           eventMap = eventConn.readSingle(childEventID);
+            event = ConvertEvent(eventMap);
 
-            }
-            catch(Exception ex)
-            {
+        }
+        catch(Exception ex)
+        {
                 
-            }
+        }
             
-            Ticket retTicker = new Ticket(ticketID, event,price, desc,remaining,type );
+        Ticket retTicker = new Ticket(ticketID, event,price, desc,remaining,type );
             
                     
             
-            return retTicker;
+        return retTicker;
+    }
+        
+        
+public static ChildEvent ConvertEvent(Map<String, String> eventMap) {
+        Integer eventID, venueID, lineupID;
+        String description,name;
+        Date startTime, endTime;
+        IVenue venue;
+        ILineup lineup;
+        Boolean cancelled = false;
+        
+        eventID = Integer.parseInt(eventMap.get("CHILD_EVENT_ID"));
+        name = eventMap.get("CHILD_EVENT_NAME");
+        description = eventMap.get("CHILD_EVENT_DESCRIPTION");
+        venueID = Integer.parseInt(eventMap.get("VENUE_ID"));
+        lineupID = Integer.parseInt(eventMap.get("LINEUP_ID"));
+        APIConnection venueConn = new APIConnection(DatabaseTable.VENUE);
+        APIConnection lineupConn = new APIConnection(DatabaseTable.LINEUP);
+        venue = ConvertVenue(venueConn.readSingle(venueID));
+        lineup = ConvertLineup(lineupConn.readSingle(lineupID));
+        if(eventMap.get("CHILD_EVENT_CANCELED").equals("true"))
+        {
+            cancelled = true;
         }
+        startTime = ConvertDate(eventMap.get("START_DATE_TIME"));
+        endTime = ConvertDate(eventMap.get("END_DATE_TIME"));
         
         
-            private static ChildEvent ConvertEvent(Map<String, String> eventMap) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+                       
+                
+        ChildEvent event = new ChildEvent(eventID,name,description,startTime,endTime,venue,lineup,cancelled);
+        
+      return event;
+                
     }
 
+public static ILineup ConvertLineup(Map<String,String> lineupMap)
+{
     
+        
+    
+    return null;
+}   
+
+
+private static Date ConvertDate(String dateTime) {
+    Date thisDate = new Date();
+    String[] dateTimeArray = dateTime.split("T");
+    String[]   dateArray = dateTimeArray[0].split("-");
+    String[]  timeArray = dateTimeArray[1].split(":");
+    
+    thisDate.setYear(Integer.parseInt(dateArray[0]));
+    thisDate.setMonth(Integer.parseInt(dateArray[1]));
+    thisDate.setDate(Integer.parseInt(dateArray[2]));
+   
+    thisDate.setHours(Integer.parseInt(timeArray[0]));
+    thisDate.setMinutes(Integer.parseInt(timeArray[1]));
+    thisDate.setSeconds(Integer.parseInt(timeArray[2]));
+    
+    return thisDate;
+    }
+
 }
