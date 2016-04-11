@@ -5,6 +5,7 @@
  */
 package database;
 
+import bookings.CustomerBooking;
 import datamodel.Artist;
 import datamodel.ChildEvent;
 import datamodel.IArtist;
@@ -58,7 +59,7 @@ public class MapToObject {
      int ID    = Integer.parseInt(custMap.get("CUSTOMER_ID"));
      address   = custMap.get("CUSTOMER_ADDRESS");
      email     = custMap.get("CUSTOMER_EMAIL");
-     postcode  = custMap.get("CUSTOMER_POSTCODE");
+     postcode  = custMap. get("CUSTOMER_POSTCODE");
      
      Customer cust = new Customer(ID,firstName, lastName, email, address, postcode);
      
@@ -225,6 +226,7 @@ public class MapToObject {
            }
 
             
+        
         Venue ven = new Venue(venueID,social,description,capSeating,capStanding,disabledAccess,facilities,
         parking, phoneNumber,email,address,postcode,name,reviews);
             
@@ -314,7 +316,8 @@ public static ILineup ConvertLineup(Map<String,String> lineupMap)
     {
      if(!lineupMap.get(artistID + String.valueOf(i)+ _ID).equals("null")) // Might not need inversion
      {
-         artists.add(ConvertArtist(artistConn.readSingle(i)));
+         artists.add(ConvertArtist(artistConn.readSingle(
+                 Integer.parseInt(lineupMap.get(artistID+String.valueOf(i) + _ID)))));
      }
     }
     
@@ -341,4 +344,32 @@ private static Date ConvertDate(String dateTime) {
     return thisDate;
     }
 
+public static CustomerBooking ConvertCustomerBooking(Map<String,String> bookingMap)
+{
+    Integer bookingID, ticketID, orderID,quantity,customerID;
+    Ticket ticket;
+    Date date;
+    
+    bookingID = Integer.parseInt(bookingMap.get("BOOKING_ID"));
+    ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
+    orderID = Integer.parseInt(bookingMap.get("ORDER_ID"));
+    quantity = Integer.parseInt(bookingMap.get("BOOKING_QUANTITY"));
+    
+    
+    APIConnection ticketConn = new APIConnection(DatabaseTable.TICKET);
+    APIConnection orderConn = new APIConnection(DatabaseTable.ORDER);
+    APIConnection customerConn = new APIConnection(DatabaseTable.CUSTOMER);
+    
+    date = ConvertDate(bookingMap.get("BOOKING_DATE_TIME"));
+    
+    ticket = ConvertTicket(ticketConn.readSingle(ticketID));
+    customerID = Integer.parseInt(orderConn.readSingle(orderID).get("CUSTOMER_ID"));
+    Customer customer = ConvertCustomer(customerConn.readSingle(customerID));
+    
+    
+    CustomerBooking booking = new CustomerBooking(bookingID, ticket, quantity, date, customer);
+    
+    
+    return booking;
+}
 }

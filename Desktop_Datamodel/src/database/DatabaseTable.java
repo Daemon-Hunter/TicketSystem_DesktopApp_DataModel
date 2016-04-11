@@ -22,5 +22,5 @@ public enum DatabaseTable {
     SOCIALMEDIA, 
     TICKET, 
     VENUE, 
-    VENUEREVIEW;
+    VENUEREVIEW, ORDER;
 }
