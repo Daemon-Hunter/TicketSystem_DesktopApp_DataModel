@@ -294,8 +294,6 @@ public static ChildEvent ConvertEvent(Map<String, String> eventMap) {
         {
             cancelled = true;
         }
-        System.out.println(eventMap.get("START_DATE_TIME"));
-        System.out.println(eventMap.get("END_DATE_TIME"));
 
         startTime = ConvertDate(eventMap.get("START_DATE_TIME"));
         endTime = ConvertDate(eventMap.get("END_DATE_TIME"));
