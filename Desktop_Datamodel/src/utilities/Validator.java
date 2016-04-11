@@ -59,7 +59,7 @@ public final class Validator {
      * @return 
      */
     public static Boolean reviewBodyValidator(String body) {
-        return (body.length() <= 100 && 15 <= body.length() && !Blacklist.contains(body));
+        return (body.length() <= 140 && 5 <= body.length() && !Blacklist.contains(body));
     }
     
     /**

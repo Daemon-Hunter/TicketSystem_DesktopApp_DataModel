@@ -69,9 +69,9 @@ public class MapToObject {
        return cust;
     }
     
-    public static IArtist ConvertArtist(Map<String,String> artistMap)
+    public static Artist ConvertArtist(Map<String,String> artistMap)
     {
-        IArtist artist;
+        Artist artist;
         SocialMedia social = new SocialMedia();
         APIConnection socialConn = new APIConnection(social.getTable());
         try {
@@ -88,13 +88,13 @@ public class MapToObject {
            LinkedList<String>  listOfTags    = new LinkedList<>();
            LinkedList<IReview> listOfReviews = new LinkedList<>();
            List<Map<String,String>> allReviews;
-           
+           listOfTags.addAll(Arrays.asList(tempArr));
+
            allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTISTREVIEW);
            
-           listOfTags.addAll(Arrays.asList(tempArr));
            for(Map<String,String> currReview : allReviews)
            {
-              if(ID == Integer.parseInt(currReview.get("ARTIST_ID")))
+              if(ID.equals(Integer.parseInt(currReview.get("ARTIST_ID"))))
               {
                   listOfReviews.add(ConvertArtistReview(currReview));
               }
@@ -136,10 +136,12 @@ public class MapToObject {
         
         APIConnection   conn = new APIConnection(table);
         listOfReviews = conn.readAll();
+            
+        
         
         return listOfReviews;
     }
-    private static IReview ConvertArtistReview(Map<String, String> reviewMap) {
+    public static IReview ConvertArtistReview(Map<String, String> reviewMap) {
             
         ArtistReviewFactory factory = new ArtistReviewFactory();
         Integer artistID   = Integer.parseInt(reviewMap.get("ARTIST_ID"));
@@ -222,7 +224,7 @@ public class MapToObject {
            
         for(Map<String,String> currReview : allReviews)
            {
-              if(venueID == Integer.parseInt(currReview.get("VENUE_ID")))
+              if(venueID.equals(Integer.parseInt(currReview.get("VENUE_ID"))))
               {
                   reviews.add(ConvertArtistReview(currReview));
               }
@@ -292,6 +294,9 @@ public static ChildEvent ConvertEvent(Map<String, String> eventMap) {
         {
             cancelled = true;
         }
+        System.out.println(eventMap.get("START_DATE_TIME"));
+        System.out.println(eventMap.get("END_DATE_TIME"));
+
         startTime = ConvertDate(eventMap.get("START_DATE_TIME"));
         endTime = ConvertDate(eventMap.get("END_DATE_TIME"));
         
@@ -405,7 +410,7 @@ public static GuestBooking ConvertGuestBooking(Map<String,String> bookingMap)
     return booking;
 }
 
-private static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
+public static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
 {
     Integer eventID, socialMediaID;
     String name, description;
@@ -428,10 +433,10 @@ private static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
         } catch (IOException ex) {
             social = new SocialMedia();
         }
-    
-    allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENTREVIEW);
-           
-        for(Map<String,String> currReview : allReviews)
+    try{
+     
+       allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENTREVIEW);
+          for(Map<String,String> currReview : allReviews)
            {
               if(eventID == Integer.parseInt(currReview.get("PARENT_EVENT_ID")))
               {
@@ -439,15 +444,29 @@ private static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
               }
            }
         
+    }
+    catch(Exception ex)
+    {
+        System.out.println("No Reviews for event");
+    }
+    
+    try{
+        
     allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILDEVENT);
     for(Map<String,String> currEvent: allEvents)
     {
-      if(eventID == Integer.parseInt(currEvent.get("PARENT_EVENT_ID")))
+      if(eventID.equals(Integer.parseInt(currEvent.get("PARENT_EVENT_ID"))))
       {
           childEvents.add(ConvertEvent(currEvent));
       }
              
     }
+    }
+    catch(Exception ex)
+    {
+        System.out.println("No child events for this parent event");
+    }
+    
    
 
 

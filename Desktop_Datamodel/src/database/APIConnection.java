@@ -148,7 +148,7 @@ public class APIConnection {
             }
             catch(Exception e)
             {
-                throw new RuntimeException(e);
+
             }
          
            
@@ -187,13 +187,13 @@ public class APIConnection {
     {
        Map<String,String> map = new HashMap<>();        
        // initilatisation of map which stores keys and values
-             String[] splitArray = input.split(","); // split up the string into the different columns
+                String[] splitArray = input.split(","); // split up the string into the different columns
                 splitArray[0] = splitArray[0].replaceAll("\\{", "");    // remove the beginning brace
                 splitArray[splitArray.length -1] = splitArray[splitArray.length -1 ].replaceAll("\\}", "");// remove the end brace
                         
                 for (int i = 0; i < splitArray.length; i++) {
                     String temp = splitArray[i].replaceAll("\"", ""); // removes quote marks from json string
-                    String[] splitString = temp.split(":");     // splits each strig into key and value
+                    String[] splitString = temp.split(":",2);     // splits each strig into key and value
                     map.put(splitString[0],splitString[1]); // place values into the Map
                 }  
        
