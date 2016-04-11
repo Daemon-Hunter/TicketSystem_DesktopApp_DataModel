@@ -6,6 +6,7 @@
 package database;
 
 import bookings.CustomerBooking;
+import bookings.GuestBooking;
 import datamodel.Artist;
 import datamodel.ChildEvent;
 import datamodel.IArtist;
@@ -372,4 +373,34 @@ public static CustomerBooking ConvertCustomerBooking(Map<String,String> bookingM
     
     return booking;
 }
+
+public static GuestBooking ConvertGuestBooking(Map<String,String> bookingMap)
+{
+    Integer bookingID, ticketID, quantity;
+    String email, address, postcode;
+    Date dateTime;
+    Ticket ticket;
+    
+    bookingID = Integer.parseInt(bookingMap.get("GUEST_BOOKING_ID"));
+    ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
+    quantity = Integer.parseInt(bookingMap.get("GUEST_BOOKING_QUANTITY"));
+    email = bookingMap.get("GUEST_EMAIL");
+    address = bookingMap.get("GUEST_ADDRESS");
+    postcode = bookingMap.get("GUEST_POSTCODE");
+    dateTime = ConvertDate(bookingMap.get("GUEST_BOOKING_DATE_TIME"));
+
+    APIConnection ticketConn = new APIConnection(DatabaseTable.TICKET);
+    ticket = ConvertTicket(ticketConn.readSingle(ticketID));
+    
+
+    
+    
+    
+    GuestBooking booking = new GuestBooking( bookingID, ticket, quantity, dateTime, email, address, postcode);
+    
+    
+    
+    return booking;
+}
+
 }
