@@ -27,6 +27,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
 import people.Customer;
@@ -87,7 +89,7 @@ public class MapToObject {
            LinkedList<IReview> listOfReviews = new LinkedList<>();
            List<Map<String,String>> allReviews;
            
-           allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTIST);
+           allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTISTREVIEW);
            
            listOfTags.addAll(Arrays.asList(tempArr));
            for(Map<String,String> currReview : allReviews)
@@ -216,7 +218,7 @@ public class MapToObject {
             
             }   
         List<Map<String,String>> allReviews;  
-        allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUE);
+        allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUEREVIEW);
            
         for(Map<String,String> currReview : allReviews)
            {
@@ -402,5 +404,57 @@ public static GuestBooking ConvertGuestBooking(Map<String,String> bookingMap)
     
     return booking;
 }
+
+private static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
+{
+    Integer eventID, socialMediaID;
+    String name, description;
+    SocialMedia social;
+    LinkedList<IReview> reviewsList = new LinkedList<>();
+    LinkedList<ChildEvent> childEvents= new LinkedList<>();
+    List<Map<String,String>> allReviews; 
+    List<Map<String,String>> allEvents;  
+
+
+    
+    eventID = Integer.parseInt(eventMap.get("PARENT_EVENT_ID"));
+    name  = eventMap.get("PARENT_EVENT_NAME");
+    description = eventMap.get("PARENT_EVENT_DESCRIPTION");
+    socialMediaID = Integer.parseInt(eventMap.get("SOCIAL_MEDIA_ID"));
+    APIConnection socialConn = new APIConnection(DatabaseTable.SOCIALMEDIA);
+    socialConn.readSingle(socialMediaID);
+        try {
+           social = ConvertSocialMedia(socialConn.readSingle(socialMediaID));
+        } catch (IOException ex) {
+            social = new SocialMedia();
+        }
+    
+    allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENTREVIEW);
+           
+        for(Map<String,String> currReview : allReviews)
+           {
+              if(eventID == Integer.parseInt(currReview.get("PARENT_EVENT_ID")))
+              {
+                  reviewsList.add(ConvertEventReview(currReview));
+              }
+           }
+        
+    allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILDEVENT);
+    for(Map<String,String> currEvent: allEvents)
+    {
+      if(eventID == Integer.parseInt(currEvent.get("PARENT_EVENT_ID")))
+      {
+          childEvents.add(ConvertEvent(currEvent));
+      }
+             
+    }
+   
+
+
+    ParentEvent parentEvent = new ParentEvent(eventID, social, name, description, reviewsList, childEvents);
+
+    return parentEvent;    
+}
+        
 
 }

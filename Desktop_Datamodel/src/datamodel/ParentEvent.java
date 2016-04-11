@@ -8,6 +8,7 @@ package datamodel;
 import database.DatabaseTable;
 import java.util.LinkedList;
 import java.util.Optional;
+import reviews.IReview;
 import reviews.ReviewBase;
 import reviews.ParentEventReviewFactory;
 import utilities.Validator;
@@ -40,6 +41,20 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
         table = DatabaseTable.PARENTEVENT;
         childEvents = new LinkedList<>();
         reviewFactory = new ParentEventReviewFactory();
+    }
+    
+    public ParentEvent(Integer ID, SocialMedia social, String name, String description,
+                        LinkedList<IReview> reviewsList,LinkedList<ChildEvent> events)
+    {
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        table = DatabaseTable.PARENTEVENT;
+        childEvents = events;
+        this.reviews = reviewsList;  
+        socialMedia = social;
+        reviewFactory = new ParentEventReviewFactory();
+
     }
 
     @Override
