@@ -21,7 +21,7 @@ import utilities.observer.IObserver;
 public abstract class Booking implements IBooking {
     
     protected DatabaseTable table;
-    protected IUser    user;
+    protected IOrder order;
     protected Integer bookingID;
     protected Ticket  ticket;
     protected Integer ticketQuantity;
@@ -35,14 +35,14 @@ public abstract class Booking implements IBooking {
      * @param ticketQty
      * @param dateTime 
      */
-    public Booking(Ticket newTicket, User user, Integer ticketQty, Date dateTime) {
-        bookingID = 0;
-        this.user = user;
-        ticket = newTicket;
-        ticketQuantity = ticketQty;
+    public Booking(Ticket newTicket, IOrder order, Integer ticketQty, Date dateTime) {
+        this.bookingID = 0;
+        this.order = order;
+        this.ticket = newTicket;
+        this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        bookingDateTime = (Date) dateTime.clone();
+        this.bookingDateTime = (Date) dateTime.clone();
     }
     
     /**
@@ -53,14 +53,14 @@ public abstract class Booking implements IBooking {
      * @param ticketQty
      * @param dateTime 
      */
-    public Booking(Integer ID, Ticket newTicket, User user, Integer ticketQty, Date dateTime) {
-        bookingID = ID;
-        this.user = user;
-        ticket = newTicket;
-        ticketQuantity = ticketQty;
+    public Booking(Integer ID, Ticket newTicket, IOrder order, Integer ticketQty, Date dateTime) {
+        this.bookingID = ID;
+        this.ticket = newTicket;
+        this.order = order;
+        this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        bookingDateTime = (Date) dateTime.clone();
+        this.bookingDateTime = (Date) dateTime.clone();
     }
     
     @Override
@@ -131,8 +131,8 @@ public abstract class Booking implements IBooking {
             notifyObservers();
             return true;
         }
-    }    
-
+    }
+    
     @Override
     public DatabaseTable getTable() {
         return table;
@@ -179,17 +179,17 @@ public abstract class Booking implements IBooking {
     }
 
     @Override
-    public IUser getUser() {
-        return user;
+    public IOrder getOrder() {
+        return order;
     }
 
     @Override
-    public Boolean setUser(IUser user) {
-        if (user == null) {
+    public Boolean setOrder(IOrder order) {
+        if (order == null) {
             throw new NullPointerException("Cannot set user to null");
         } else {
-            this.user = user;
-            return this.user == user;
+            this.order = order;
+            return this.order == order;
         }
     }
 }

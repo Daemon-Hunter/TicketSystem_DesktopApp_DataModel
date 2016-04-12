@@ -16,7 +16,7 @@ import tickets.Ticket;
 public class CustomerBookingFactory implements IBookingFactory {
 
     @Override
-    public IBooking createBooking(Ticket ticket, User user, Integer quantity) {
-        return new CustomerBooking(0, ticket, quantity, null, (Customer)user);
+    public IBooking createBooking(Ticket ticket, IOrder order, Integer quantity) {
+        return new CustomerBooking(0, ticket, quantity, null, order);
     }
 }

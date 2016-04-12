@@ -28,9 +28,9 @@ public class GuestBooking extends Booking {
      * @param postcode 
      */
     public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
-            String email, String address, String postcode) 
+            IOrder order) 
     {
-        super(ID, ticket, new Guest(null, null, email, address, postcode), ticketQty, dateTime);
+        super(ID, ticket, order, ticketQty, dateTime);
         table = DatabaseTable.GUESTBOOKING;
     }
     
@@ -45,14 +45,9 @@ public class GuestBooking extends Booking {
      * @param postcode 
      */
     public GuestBooking (Ticket ticket, Integer ticketQty, Date dateTime,
-            String email, String address, String postcode) 
+            IOrder order) 
     {
-        super(ticket, new Guest(null, null, email, address, postcode), ticketQty, dateTime);
+        super(ticket, order, ticketQty, dateTime);
         table = DatabaseTable.GUESTBOOKING;
-    }
-
-    public GuestBooking(Ticket ticket, Integer ticketQty, Date dateTime, Guest guest) {
-        super(ticket, guest, ticketQty, dateTime);
-        table = DatabaseTable.GUESTBOOKING;
-    }
+    } 
 }
