@@ -130,7 +130,7 @@ public class MapToObject {
         return social;
     }
     
-    private  static List<Map<String,String>> getListOfReviews(DatabaseTable table)
+    private static List<Map<String,String>> getListOfReviews(DatabaseTable table)
     {
         List<Map<String,String>> listOfReviews;
         
