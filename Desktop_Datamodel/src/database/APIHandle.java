@@ -10,6 +10,7 @@ import datamodel.ParentEvent;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import people.Customer;
 
 /**
  *
@@ -48,6 +49,23 @@ public class APIHandle {
       
       return listOfEvents;
     }
+    
+    public static LinkedList<Customer> getAllCustomers()
+    {
+        LinkedList<Customer> listOfCustomers = new LinkedList<>();
+        APIConnection custConn = new APIConnection(DatabaseTable.CUSTOMER);
+        List<Map<String,String>> listOfMaps = custConn.readAll();
+        
+        for(Map<String,String> currCustomer : listOfMaps)
+        {
+            listOfCustomers.add(MapToObject.ConvertCustomer(currCustomer));
+        }
+        
+        return listOfCustomers;
+    }
+    
+    public static LinkedList<
+    
     
 }
     
