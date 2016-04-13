@@ -5,16 +5,16 @@
  */
 package bookings;
 
+import people.IUser;
 import tickets.Ticket;
 
 /**
  *
  * @author 10512691
  */
-public class GuestBookingFactory implements IBookingFactory {
+public class GuestBookingFactory {
 
-    @Override
-    public IBooking createBooking(Ticket ticket, IOrder order, Integer quantity) {
-        return new GuestBooking(ticket, quantity, null, order);
+    public IBooking createBooking(Ticket ticket, IUser guest, Integer quantity) {
+        return new GuestBooking(ticket, quantity, null, guest);
     }
 }

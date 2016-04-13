@@ -8,6 +8,7 @@ package bookings;
 import database.DatabaseTable;
 import java.util.Date;
 import people.Guest;
+import people.IUser;
 import tickets.Ticket;
 
 /**
@@ -16,6 +17,8 @@ import tickets.Ticket;
  */
 public class GuestBooking extends Booking {
     
+    private IUser guest;
+    
     /**
      * Use this constructor when creating object from the database.
      * ID is known.
@@ -23,14 +26,13 @@ public class GuestBooking extends Booking {
      * @param ticket
      * @param ticketQty
      * @param dateTime
-     * @param email
-     * @param address
-     * @param postcode 
+     * @param guest 
      */
     public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
-            IOrder order) 
+            IUser guest) 
     {
-        super(ID, ticket, order, ticketQty, dateTime);
+        super(ID, ticket, ticketQty, dateTime);
+        this.guest = guest;
         table = DatabaseTable.GUESTBOOKING;
     }
     
@@ -39,15 +41,27 @@ public class GuestBooking extends Booking {
      * ID is unknown.
      * @param ticket
      * @param ticketQty
-     * @param dateTime
-     * @param email
-     * @param address
-     * @param postcode 
+     * @param dateTime 
+     * @param guest 
      */
     public GuestBooking (Ticket ticket, Integer ticketQty, Date dateTime,
-            IOrder order) 
+            IUser guest) 
     {
-        super(ticket, order, ticketQty, dateTime);
+        super(ticket, ticketQty, dateTime);
+        this.guest = guest;
         table = DatabaseTable.GUESTBOOKING;
     } 
+
+    public IUser getGuest() {
+        return guest;
+    }
+
+    public Boolean setGuest(Guest guest) {
+        if (guest == null) {
+            throw new NullPointerException("Cannot set user to null");
+        } else {
+            this.guest = guest;
+            return this.guest == guest;
+        }
+    }
 }

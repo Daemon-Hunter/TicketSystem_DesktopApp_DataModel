@@ -24,7 +24,4 @@ public interface IBooking extends IDbSubject {
     
     public Date    getBookingTime();
     public Boolean setBookingTime(Date time);
-    
-    public IOrder  getOrder();
-    public Boolean setOrder(IOrder order);
 }

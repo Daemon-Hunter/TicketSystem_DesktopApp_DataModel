@@ -8,8 +8,6 @@ package bookings;
 import database.DatabaseTable;
 import java.util.Date;
 import java.util.LinkedList;
-import people.IUser;
-import people.User;
 import tickets.Ticket;
 import utilities.Validator;
 import utilities.observer.IObserver;
@@ -21,7 +19,6 @@ import utilities.observer.IObserver;
 public abstract class Booking implements IBooking {
     
     protected DatabaseTable table;
-    protected IOrder order;
     protected Integer bookingID;
     protected Ticket  ticket;
     protected Integer ticketQuantity;
@@ -31,13 +28,11 @@ public abstract class Booking implements IBooking {
     /**
      * Use this constructor when creating a new object.
      * @param newTicket
-     * @param user
      * @param ticketQty
      * @param dateTime 
      */
-    public Booking(Ticket newTicket, IOrder order, Integer ticketQty, Date dateTime) {
+    public Booking(Ticket newTicket,  Integer ticketQty, Date dateTime) {
         this.bookingID = 0;
-        this.order = order;
         this.ticket = newTicket;
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
@@ -49,14 +44,12 @@ public abstract class Booking implements IBooking {
      * Use this constructor when creating an object from the database.
      * @param ID
      * @param newTicket
-     * @param user
      * @param ticketQty
      * @param dateTime 
      */
-    public Booking(Integer ID, Ticket newTicket, IOrder order, Integer ticketQty, Date dateTime) {
+    public Booking(Integer ID, Ticket newTicket, Integer ticketQty, Date dateTime) {
         this.bookingID = ID;
         this.ticket = newTicket;
-        this.order = order;
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
@@ -140,16 +133,10 @@ public abstract class Booking implements IBooking {
 
     @Override
     public void notifyObservers() {
-        if (observers != null) {
-            observers.stream().forEach(observer -> { observer.update(this); });
-        }
-    }
-        /*
-            for (IObserver o : observers) {
+        for (IObserver o : observers) {
                 o.update(this);
             }
-        */
-
+    }
     @Override
     public Boolean registerObserver(IObserver o) {
         if (o == null) {
@@ -175,21 +162,6 @@ public abstract class Booking implements IBooking {
         } else {
             observers.remove(o);
             return !observers.contains(o);
-        }
-    }
-
-    @Override
-    public IOrder getOrder() {
-        return order;
-    }
-
-    @Override
-    public Boolean setOrder(IOrder order) {
-        if (order == null) {
-            throw new NullPointerException("Cannot set user to null");
-        } else {
-            this.order = order;
-            return this.order == order;
         }
     }
 }

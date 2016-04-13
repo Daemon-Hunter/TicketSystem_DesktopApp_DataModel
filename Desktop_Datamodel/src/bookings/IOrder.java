@@ -7,12 +7,13 @@ package bookings;
 
 import java.util.List;
 import people.IUser;
+import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10467841
  */
-public interface IOrder {
+public interface IOrder extends IDbSubject {
     
     
     public Integer getOrderID();

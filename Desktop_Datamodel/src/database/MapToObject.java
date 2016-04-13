@@ -5,8 +5,12 @@
  */
 package database;
 
+import bookings.Booking;
 import bookings.CustomerBooking;
 import bookings.GuestBooking;
+import bookings.Order;
+import static database.DatabaseTable.BOOKING;
+import static database.DatabaseTable.CUSTOMER;
 import datamodel.Artist;
 import datamodel.ChildEvent;
 import datamodel.IArtist;
@@ -19,19 +23,18 @@ import datamodel.Venue;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
+import static java.lang.Integer.parseInt;
+import static java.lang.System.err;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialBlob;
 import people.Customer;
+import people.Guest;
+import people.IUser;
 import reviews.ArtistReviewFactory;
 import reviews.IReview;
 import reviews.ParentEventReviewFactory;
@@ -355,6 +358,7 @@ public static CustomerBooking ConvertCustomerBooking(Map<String,String> bookingM
     Integer bookingID, ticketID, orderID,quantity,customerID;
     Ticket ticket;
     Date date;
+    Order order;
     
     bookingID = Integer.parseInt(bookingMap.get("BOOKING_ID"));
     ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
@@ -364,19 +368,54 @@ public static CustomerBooking ConvertCustomerBooking(Map<String,String> bookingM
     
     APIConnection ticketConn = new APIConnection(DatabaseTable.TICKET);
     APIConnection orderConn = new APIConnection(DatabaseTable.ORDER);
-    APIConnection customerConn = new APIConnection(DatabaseTable.CUSTOMER);
     
     date = ConvertDate(bookingMap.get("BOOKING_DATE_TIME"));
     
     ticket = ConvertTicket(ticketConn.readSingle(ticketID));
-    customerID = Integer.parseInt(orderConn.readSingle(orderID).get("CUSTOMER_ID"));
-    Customer customer = ConvertCustomer(customerConn.readSingle(customerID));
     
+    order = ConvertOrder(orderConn.readSingle(orderID));
     
-    CustomerBooking booking = new CustomerBooking(bookingID, ticket, quantity, date, customer);
+    CustomerBooking booking = new CustomerBooking(bookingID, ticket, quantity, date, order);
     
     
     return booking;
+}
+
+public static Order ConvertOrder(Map<String,String> orderMap){
+    
+    Integer orderID, userID;
+    List<Integer> bIDlist = new LinkedList();
+    IUser user;
+    List<Booking> bList = new LinkedList();
+    List<Map<String,String>> allBookings;  
+    
+    orderID = parseInt(orderMap.get("ORDER_ID"));
+    userID = parseInt(orderMap.get("CUSTOMER_ID"));
+    
+    APIConnection customerConn = new APIConnection(CUSTOMER);
+    
+    user = ConvertCustomer(customerConn.readSingle(userID));
+    
+    try{
+        
+    allBookings = getListOfReviews(BOOKING);
+    for(Map<String,String> currBooking: allBookings)
+    {
+      if(orderID.equals(parseInt(currBooking.get("ORDER_ID"))))
+      {
+          bList.add(ConvertCustomerBooking(currBooking));
+      }
+             
+    }
+    }
+    catch(Exception ex)
+    {
+            err.println("No child events for this parent event");
+    }
+    
+    Order order = new Order(orderID, user, bList);
+    
+    return order;
 }
 
 public static GuestBooking ConvertGuestBooking(Map<String,String> bookingMap)
@@ -401,7 +440,8 @@ public static GuestBooking ConvertGuestBooking(Map<String,String> bookingMap)
     
     
     
-    GuestBooking booking = new GuestBooking( bookingID, ticket, quantity, dateTime, email, address, postcode);
+    GuestBooking booking = new GuestBooking( bookingID, ticket, quantity,dateTime, new Guest("GUEST","ACCOUNT",  email, address, postcode));
+    
     
     
     

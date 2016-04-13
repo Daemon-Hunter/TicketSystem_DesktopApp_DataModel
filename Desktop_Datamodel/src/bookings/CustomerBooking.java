@@ -15,6 +15,8 @@ import tickets.Ticket;
  */
 public class CustomerBooking extends Booking {
     
+    private IOrder order;
+    
     /**
      * Use this constructor when creating a booking object from the database.
      * @param ID
@@ -25,7 +27,8 @@ public class CustomerBooking extends Booking {
      */
     public CustomerBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
             IOrder order) {
-        super(ID, ticket, order, ticketQty, dateTime);
+        super(ID, ticket, ticketQty, dateTime);
+        this.order = order;
         table = DatabaseTable.BOOKING;
     }
     
@@ -38,7 +41,21 @@ public class CustomerBooking extends Booking {
      */
     public CustomerBooking (Ticket ticket, Integer ticketQty, Date dateTime,
             IOrder order) {
-        super(ticket, order, ticketQty, dateTime);
+        super(ticket, ticketQty, dateTime);
+        this.order = order;
         table = DatabaseTable.BOOKING;
+    }
+
+    public IOrder getOrder() {
+        return order;
+    }
+
+    public Boolean setOrder(IOrder order) {
+        if (order == null) {
+            throw new NullPointerException("Cannot set user to null");
+        } else {
+            this.order = order;
+            return this.order == order;
+        }
     }
 }
