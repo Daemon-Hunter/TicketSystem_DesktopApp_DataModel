@@ -73,12 +73,12 @@ public class Artist extends ReviewBase implements IArtist {
     }
 
     @Override
-    public String getArtistName() {
+    public String getName() {
         return name;
     }
 
     @Override
-    public List<String> getArtistTags() {
+    public List<String> getTags() {
         return tags;
     }
 
