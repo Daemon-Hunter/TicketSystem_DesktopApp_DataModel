@@ -115,7 +115,7 @@ public class Lineup implements ILineup {
     @Override
     public IArtist getArtist(Integer artistID) {
         for (IArtist a : artistList) {
-            if (a.getArtistID().equals(artistID)) {
+            if (a.getID().equals(artistID)) {
                 return a;
             }
         }

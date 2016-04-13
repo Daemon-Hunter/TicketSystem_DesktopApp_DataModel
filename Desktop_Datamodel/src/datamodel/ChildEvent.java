@@ -228,7 +228,7 @@ public class ChildEvent implements IChildEvent {
                 throw new IllegalArgumentException("Artist list is empty");
             } else {
                 for(IArtist a : lineup.getArtistList()) {
-                    if (a.getArtistID().equals(artistID)) {
+                    if (a.getID().equals(artistID)) {
                         return a;
                     }
                 }

@@ -68,7 +68,7 @@ public class Artist extends ReviewBase implements IArtist {
     }
 
     @Override
-    public Integer getArtistID() {
+    public Integer getID() {
         return ID;
     }
 

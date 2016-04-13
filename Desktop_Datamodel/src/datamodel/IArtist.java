@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IArtist {
     
-    public Integer getArtistID();
+    public Integer getID();
     public String getName();
     public List<String> getTags();
     public Boolean addArtistTag(String tag);

@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author 10512691
  */
-interface IChildEvent extends ILineup {
+public interface IChildEvent extends ILineup {
     
     public Integer getChildEventID();
     public String  getChildEventName();
