@@ -5,6 +5,7 @@
  */
 package wrappers;
 
+import datamodel.Artist;
 import datamodel.IArtist;
 import datamodel.IParentEvent;
 import datamodel.IVenue;
@@ -25,8 +26,8 @@ public interface IWrapper {
     public List<IVenue> getVenues();
     public Boolean      removeVenue(IVenue venue);
     
-    public Boolean       addArtist(IArtist artist);
-    public IArtist       getArtist(Integer index);
-    public List<IArtist> getArtists();
-    public Boolean       removeArtist(IArtist artist);
+    public Boolean       addArtist(Artist artist);
+    public Artist        getArtist(Integer index);
+    public List<Artist>  getArtists();
+    public Boolean       removeArtist(Artist artist);
 }

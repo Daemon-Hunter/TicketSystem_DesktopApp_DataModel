@@ -5,6 +5,7 @@
  */
 package wrappers;
 
+import datamodel.Artist;
 import datamodel.IArtist;
 import datamodel.IParentEvent;
 import datamodel.IVenue;
@@ -19,7 +20,7 @@ import people.IUser;
 public class UserWrapper implements IUserWrapper {
     List<IParentEvent>  parentEventArray;
     List<IVenue>        venueArray;
-    List<IArtist>       artistArray;
+    List<Artist>        artistArray;
     IUser               currentUser;
 
     
@@ -103,7 +104,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public Boolean addArtist(IArtist artist) {
+    public Boolean addArtist(Artist artist) {
         if (artistArray == null){
             artistArray = new ArrayList();
         }
@@ -114,17 +115,17 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IArtist getArtist(Integer artistID) {
+    public Artist getArtist(Integer artistID) {
         return artistArray.get(artistID);
     }
 
     @Override
-    public List<IArtist> getArtists() {
+    public List<Artist> getArtists() {
         return new ArrayList(artistArray);
     }
 
     @Override
-    public Boolean removeArtist(IArtist artist) {
+    public Boolean removeArtist(Artist artist) {
         if (artist == null){
             throw new IllegalArgumentException("Cannot remove a null artist.");
         }

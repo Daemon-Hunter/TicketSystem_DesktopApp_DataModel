@@ -5,10 +5,13 @@
  */
 package wrappers;
 
+import database.APIHandle;
+import datamodel.Artist;
 import datamodel.IArtist;
 import datamodel.IParentEvent;
 import datamodel.IVenue;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import people.IAdmin;
 import people.IUser;
@@ -19,7 +22,7 @@ import people.IUser;
 public class DesktopWrapper implements IDesktopWrapper {
     List<IParentEvent> parentEventArray;
     List<IVenue>       venueArray;
-    List<IArtist>      artistArray;
+    List<Artist>      artistArray;
     List<IUser>        userArray;
     List<IAdmin>       adminArray;
 
@@ -142,7 +145,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public Boolean addArtist(IArtist artist) {
+    public Boolean addArtist(Artist artist) {
         if (artistArray == null){
             artistArray = new ArrayList();
         }
@@ -153,17 +156,20 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public IArtist getArtist(Integer artistID) {
+    public Artist getArtist(Integer artistID) {
         return artistArray.get(artistID);
     }
 
     @Override
-    public List<IArtist> getArtists() {
+    public List<Artist> getArtists() {
+        if (artistArray == null) {
+            artistArray = APIHandle.getAllArtists();
+        }
         return new ArrayList(artistArray);
     }
 
     @Override
-    public Boolean removeArtist(IArtist artist) {
+    public Boolean removeArtist(Artist artist) {
         if (artist == null){
             throw new IllegalArgumentException("Cannot remove a null artist.");
         }
