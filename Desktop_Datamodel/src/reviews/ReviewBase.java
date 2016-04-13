@@ -9,7 +9,6 @@ import database.DatabaseTable;
 import datamodel.ISocial;
 import datamodel.SocialMedia;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.Optional;
 import utilities.Validator;
@@ -70,8 +69,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         } else if (observers.contains(o)) {
             throw new IllegalArgumentException("Observer already exists");
         } else {
-            observers.add(o);
-            return true;
+            return observers.add(o);
         }
     }
 
@@ -82,8 +80,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         } else if (!observers.contains(o)) {
             throw new IllegalArgumentException("Observer doesn't exist in observers list");
         } else {
-            observers.remove(o);
-            return true;
+            return observers.remove(o);
         }
     }
     
@@ -95,6 +92,15 @@ public abstract class ReviewBase implements ISocial, IReviewable {
                  });
     }
     
+    /**
+     * Creates a review with the review bases ID, as well as the other parameters initially passed.
+     * Doesn't need to know what it's creating a review for ->
+     * handled by the concrete classes review factory.
+     * @param customerID
+     * @param rating
+     * @param body
+     * @return 
+     */
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body) {
         return reviewFactory.createReview( ID, customerID, rating, body);
