@@ -9,6 +9,7 @@ import datamodel.ChildEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -185,5 +186,13 @@ public final class Validator {
 
     public static Boolean tagValidator(String tag) {
         return Blacklist.contains(tag) && tag.contains(","); 
+    }
+    
+    public static String formatPrice(Double price) {
+        
+        DecimalFormat df = new DecimalFormat("£0.00");
+        String formattedPrice = df.format(price);
+        
+        return formattedPrice;
     }
 }
