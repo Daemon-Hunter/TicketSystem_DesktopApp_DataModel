@@ -66,15 +66,15 @@ public class APIConnection {
            connection.connect();
             
             //WRITE
-              OutputStream os = connection.getOutputStream();
-              BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-              writer.write(createJsonString(mapToEdit));
-              writer.close();
-              os.close();
+            OutputStream os = connection.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            writer.write(createJsonString(mapToEdit));
+            writer.close();
+            os.close();
               
-           BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8")); // needs this to work
-                br.close();  
-               connection.disconnect();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8")); // needs this to work
+            br.close();
+            connection.disconnect();
 
        }catch(Exception x)
        {

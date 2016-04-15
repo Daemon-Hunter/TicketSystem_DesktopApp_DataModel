@@ -86,7 +86,7 @@ public class MapToObject {
            String name = artistMap.get("ARTIST_NAME");
            String tags = artistMap.get("ARTIST_TAGS");
            String[] tempArr = tags.split("#");
-           String description = null; //DOMINIC DO SOMTHING HERE ONCE API UPDATED
+           String description = artistMap.get("ARTIST_DESCRIPTION"); //DOMINIC DO SOMTHING HERE ONCE API UPDATED
            
            LinkedList<String>  listOfTags    = new LinkedList<>();
            LinkedList<IReview> listOfReviews = new LinkedList<>();
