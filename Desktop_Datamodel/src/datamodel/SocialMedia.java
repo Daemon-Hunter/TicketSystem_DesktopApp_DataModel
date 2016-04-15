@@ -20,7 +20,7 @@ public class SocialMedia implements ISocial {
     private Integer id;
     private String  facebook, twitter, instagram, soundcloud, website, spotify;
     private BufferedImage image;
-    private final DatabaseTable table = DatabaseTable.SOCIALMEDIA;
+    private final DatabaseTable table = DatabaseTable.SOCIAL_MEDIA;
     private LinkedList<IObserver> observers;
     
     public SocialMedia(Integer id, BufferedImage img, String fb, String tw, 

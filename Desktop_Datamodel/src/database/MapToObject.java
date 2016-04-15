@@ -40,6 +40,133 @@ import reviews.IReview;
 import reviews.ParentEventReviewFactory;
 import reviews.VenueReviewFactory;
 import tickets.Ticket;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
 
 /**
  *
@@ -93,7 +220,7 @@ public class MapToObject {
            List<Map<String,String>> allReviews;
            listOfTags.addAll(Arrays.asList(tempArr));
 
-           allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTISTREVIEW);
+           allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTIST_REVIEW);
            
            for(Map<String,String> currReview : allReviews)
            {
@@ -223,7 +350,7 @@ public class MapToObject {
             
             }   
         List<Map<String,String>> allReviews;  
-        allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUEREVIEW);
+        allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUE_REVIEW);
            
         for(Map<String,String> currReview : allReviews)
            {
@@ -258,7 +385,7 @@ public static Ticket ConvertTicket(Map<String,String> ticketMap)
             
         try
         {
-           APIConnection eventConn = new APIConnection(DatabaseTable.CHILDEVENT);
+           APIConnection eventConn = new APIConnection(DatabaseTable.CHILD_EVENT);
            eventMap = eventConn.readSingle(childEventID);
             event = ConvertEvent(eventMap);
 
@@ -464,7 +591,7 @@ public static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
     name  = eventMap.get("PARENT_EVENT_NAME");
     description = eventMap.get("PARENT_EVENT_DESCRIPTION");
     socialMediaID = Integer.parseInt(eventMap.get("SOCIAL_MEDIA_ID"));
-    APIConnection socialConn = new APIConnection(DatabaseTable.SOCIALMEDIA);
+    APIConnection socialConn = new APIConnection(DatabaseTable.SOCIAL_MEDIA);
     socialConn.readSingle(socialMediaID);
         try {
            social = ConvertSocialMedia(socialConn.readSingle(socialMediaID));
@@ -473,7 +600,7 @@ public static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
         }
     try{
      
-       allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENTREVIEW);
+       allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENT_REVIEW);
           for(Map<String,String> currReview : allReviews)
            {
               if(eventID == Integer.parseInt(currReview.get("PARENT_EVENT_ID")))
@@ -490,7 +617,7 @@ public static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
     
     try{
         
-    allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILDEVENT);
+    allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILD_EVENT);
     for(Map<String,String> currEvent: allEvents)
     {
       if(eventID.equals(Integer.parseInt(currEvent.get("PARENT_EVENT_ID"))))

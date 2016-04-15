@@ -33,7 +33,7 @@ public class GuestBooking extends Booking {
     {
         super(ID, ticket, ticketQty, dateTime);
         this.guest = guest;
-        table = DatabaseTable.GUESTBOOKING;
+        table = DatabaseTable.GUEST_BOOKING;
     }
     
     /**
@@ -49,7 +49,7 @@ public class GuestBooking extends Booking {
     {
         super(ticket, ticketQty, dateTime);
         this.guest = guest;
-        table = DatabaseTable.GUESTBOOKING;
+        table = DatabaseTable.GUEST_BOOKING;
     } 
 
     public IUser getGuest() {

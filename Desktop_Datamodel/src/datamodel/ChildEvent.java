@@ -50,7 +50,7 @@ public class ChildEvent implements IChildEvent {
         this.venue = venue;
         this.lineup = lineup;
         this.cancelled = cancelled;
-        table = DatabaseTable.CHILDEVENT;
+        table = DatabaseTable.CHILD_EVENT;
     }
     
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, ILineup lineup) {
@@ -64,7 +64,7 @@ public class ChildEvent implements IChildEvent {
                 this.venue = venue;
                 this.lineup = lineup;
                 cancelled = false;
-                table = DatabaseTable.CHILDEVENT;
+                table = DatabaseTable.CHILD_EVENT;
             } else {
                 throw new IllegalArgumentException("Invalid description");
             }
@@ -75,7 +75,7 @@ public class ChildEvent implements IChildEvent {
 
     public ChildEvent() {
     
-        table = DatabaseTable.CHILDEVENT;
+        table = DatabaseTable.CHILD_EVENT;
 
     }
     

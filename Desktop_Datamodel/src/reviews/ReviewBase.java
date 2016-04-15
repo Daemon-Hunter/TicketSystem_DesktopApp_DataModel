@@ -37,6 +37,14 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         description = null;
     }
     
+    public String getDescription() {
+        if (description == null) {
+            throw new NullPointerException("Artist description is null");
+        } else {
+            return description;
+        }
+    }
+    
     @Override
     public Integer getSocialId() {
         return socialMedia.getSocialId();

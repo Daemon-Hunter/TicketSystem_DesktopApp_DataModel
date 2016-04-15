@@ -25,7 +25,7 @@ public class Guest extends User {
     public Guest(String fName, String lName, String email, String address, String pcode) 
     {
         super("GUEST", "ACCOUNT", email, address, pcode);
-        table = DatabaseTable.GUESTBOOKING;
+        table = DatabaseTable.GUEST_BOOKING;
     }
     
     /**
@@ -41,7 +41,7 @@ public class Guest extends User {
     public Guest(Integer ID, String fName, String lName, String email, String address, String pcode) 
     {
         super(ID, "GUEST", "ACCOUNT", email, address, pcode);
-        table = DatabaseTable.GUESTBOOKING;
+        table = DatabaseTable.GUEST_BOOKING;
     }
 
     @Override

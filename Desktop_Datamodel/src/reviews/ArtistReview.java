@@ -28,7 +28,7 @@ public class ArtistReview extends Review {
             Boolean verified) 
     {
         super(baseID, customerID, rating, date, body, verified);
-        table = DatabaseTable.ARTISTREVIEW;
+        table = DatabaseTable.ARTIST_REVIEW;
     }
     
     /**
@@ -42,6 +42,6 @@ public class ArtistReview extends Review {
     public ArtistReview(Integer baseID, Integer customerID, Integer rating, String body) 
     {
         super(baseID, customerID, rating, body);
-        table = DatabaseTable.ARTISTREVIEW;
+        table = DatabaseTable.ARTIST_REVIEW;
     }
 }

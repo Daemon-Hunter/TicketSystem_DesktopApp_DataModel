@@ -11,16 +11,17 @@ package database;
  */
 public enum DatabaseTable {
     ARTIST, 
-    ARTISTREVIEW, 
+    ARTIST_REVIEW, 
     BOOKING, 
-    CHILDEVENT,
+    CHILD_EVENT,
     CUSTOMER, 
-    EVENTREVIEW, 
-    GUESTBOOKING, 
+    EVENT_REVIEW, 
+    GUEST_BOOKING, 
     LINEUP, 
-    PARENTEVENT, 
-    SOCIALMEDIA, 
+    PARENT_EVENT, 
+    SOCIAL_MEDIA, 
     TICKET, 
     VENUE, 
-    VENUEREVIEW, ORDER;
+    VENUE_REVIEW,
+    ORDER;
 }

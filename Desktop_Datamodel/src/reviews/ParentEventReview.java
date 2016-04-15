@@ -28,7 +28,7 @@ public class ParentEventReview extends Review {
             Date date, String body, Boolean verified) 
     {
         super(baseID, customerID, rating, date, body, verified);
-        table = DatabaseTable.EVENTREVIEW;
+        table = DatabaseTable.EVENT_REVIEW;
     }    
     
     /**
@@ -42,6 +42,6 @@ public class ParentEventReview extends Review {
     public ParentEventReview(Integer baseID, Integer customerID, Integer rating, String body) 
     {
         super(baseID, customerID, rating, body);
-        table = DatabaseTable.EVENTREVIEW;
+        table = DatabaseTable.EVENT_REVIEW;
     }  
 }

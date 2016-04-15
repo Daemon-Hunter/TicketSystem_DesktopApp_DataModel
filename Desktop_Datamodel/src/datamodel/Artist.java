@@ -53,6 +53,7 @@ public class Artist extends ReviewBase implements IArtist {
         socialMedia = social;
         this.reviews = reviews;
         this.name = name;
+        this.description = description;
         reviewFactory = new ArtistReviewFactory();
         observers = new LinkedList<>();
     }

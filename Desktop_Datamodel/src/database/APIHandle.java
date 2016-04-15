@@ -38,7 +38,7 @@ public class APIHandle {
     public static LinkedList<ParentEvent> getAllParentEvents()
     {
       LinkedList<ParentEvent> listOfEvents = new LinkedList<>();
-      APIConnection parentEventConn = new APIConnection(DatabaseTable.PARENTEVENT);
+      APIConnection parentEventConn = new APIConnection(DatabaseTable.PARENT_EVENT);
       List<Map<String,String>> listOfMaps = parentEventConn.readAll();
       
       for(Map<String,String> currEvent : listOfMaps)
