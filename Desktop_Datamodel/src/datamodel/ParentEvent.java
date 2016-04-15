@@ -38,7 +38,7 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
     public ParentEvent() {
         super();
         // Initialize table variable, which matches Java object to database table
-        table = DatabaseTable.PARENT_EVENT;
+        setTable(DatabaseTable.PARENT_EVENT);
         childEvents = new LinkedList<>();
         reviewFactory = new ParentEventReviewFactory();
     }
@@ -46,25 +46,21 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
     public ParentEvent(Integer ID, SocialMedia social, String name, String description,
                         LinkedList<IReview> reviewsList,LinkedList<ChildEvent> events)
     {
-        this.ID = ID;
-        this.name = name;
-        this.description = description;
-        table = DatabaseTable.PARENT_EVENT;
-        childEvents = events;
-        this.reviews = reviewsList;  
-        socialMedia = social;
+        super(ID, name, description, social, reviewsList);
+        setTable(DatabaseTable.PARENT_EVENT);
+        childEvents = events; 
         reviewFactory = new ParentEventReviewFactory();
 
     }
 
     @Override
     public Integer getSocialId() {
-        return socialMedia.getSocialId();
+        return getSocialMedia().getSocialId();
     }
 
     @Override
     public Boolean setSocialId(Integer socialId) {
-        return socialMedia.setSocialId(socialId);
+        return getSocialMedia().setSocialId(socialId);
     }
 
     @Override
@@ -73,61 +69,6 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
             throw new NullPointerException("Null child event list");
         } else {
             return childEvents;
-        }
-    }
-
-    @Override
-    public Integer getParentEventID() {
-        if (ID == null) {
-            throw new NullPointerException("Null ID");
-        } else {
-            return ID;
-        }
-    }
-
-    @Override
-    public String getParentEventName() {
-        if (name == null) {
-            throw new NullPointerException("Null name");
-        } else {
-            return name;
-        }
-    }
-
-    @Override
-    public String getParentEventDescription() {
-        if (description == null) {
-            throw new NullPointerException("Null description");
-        } else {
-            return description;
-        }
-    }
-
-    @Override
-    public Boolean setParentEventName(String name) {
-        if (name == null) {
-            throw new NullPointerException("Null name");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                this.name = name;
-                notifyObservers();
-            }
-            return valid;
-        }
-    }
-
-    @Override
-    public Boolean setParentEventDescription(String description) {
-        if (description == null) {
-            throw new NullPointerException("Null description");
-        } else {
-            Boolean valid = Validator.descriptionValidator(description);
-            if (valid) {
-                this.description = description;
-                notifyObservers();
-            }
-            return valid;
         }
     }
 

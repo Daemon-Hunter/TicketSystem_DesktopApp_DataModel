@@ -42,10 +42,7 @@ public class Venue extends ReviewBase implements IVenue {
     public Venue() {
         super();
         // Initialize table variable -> matches Java object to database table
-        table            = DatabaseTable.VENUE;
-        
-        // Initialize all other variables to default values
-        this.description = "Default Venue";
+        setTable(DatabaseTable.VENUE);
         capacitySeating  = null;
         capacityStanding = null;
         disabledAccess   = null;
@@ -80,13 +77,11 @@ public class Venue extends ReviewBase implements IVenue {
             String facilities, Integer parking, String phoneNo, String email, String address, String postcode,
             String name, LinkedList<IReview> reviews) 
     {
+        super(0, name, description, social, reviews);
         // Initialize table variable -> matches Java object to database table
-        table            = DatabaseTable.VENUE;
+        setTable(DatabaseTable.VENUE);
         
         // Initialize all other variables with method arguments
-        ID               = 0;
-        socialMedia      = social;
-        this.description = description;
         capacitySeating  = capSeating;
         capacityStanding = capStanding;
         disabledAccess   = access;
@@ -96,8 +91,6 @@ public class Venue extends ReviewBase implements IVenue {
         this.email       = email;
         this.address     = address;
         this.postcode    = postcode;
-        this.name        = name;
-        this.reviews     = reviews;
         reviewFactory    = new VenueReviewFactory();
     }
     
@@ -123,17 +116,11 @@ public class Venue extends ReviewBase implements IVenue {
             Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, 
             String postcode, String name, LinkedList<IReview> reviews) 
     {
-        if (id == null) {
-            throw new NullPointerException("Wrong constructor use. Do not pass a null ID - instead, do not put one at all"
-                    + "and one will be automatically assigned from the database.");
-        }
+        super(id, name, description, social, reviews);
         // Initialize table variable -> matches Java object to database table
-        table            = DatabaseTable.VENUE;
+        setTable(DatabaseTable.VENUE);
         
         // Initialize all other variables with method arguments
-        ID               = id;
-        socialMedia      = social;
-        this.description = description;
         capacitySeating  = capSeating;
         capacityStanding = capStanding;
         disabledAccess   = access;
@@ -143,36 +130,7 @@ public class Venue extends ReviewBase implements IVenue {
         this.email       = email;
         this.address     = address;
         this.postcode    = postcode;
-        this.name        = name;
-        this.reviews     = reviews;
         reviewFactory    = new VenueReviewFactory();
-    }
-
-    /**
-     * ID = 0 if not a fully constructed database object.
-     * @return 
-     */
-    @Override
-    public Integer getID() {
-        return ID;
-    }
-
-    @Override
-    public String getName() {
-        if (name == null) {
-            throw new NullPointerException("Null venue name");
-        } else {
-            return name;
-        }
-    }
-
-    @Override
-    public String getDescription() {
-        if (description == null) {
-            throw new NullPointerException("Null venue description");
-        } else {
-            return description;
-        }
     }
 
     @Override
@@ -253,34 +211,6 @@ public class Venue extends ReviewBase implements IVenue {
             throw new NullPointerException("Null postcode");
         } else {
             return postcode;
-        }
-    }
-
-    @Override
-    public Boolean setName(String name) {
-        if (name == null) {
-            throw new NullPointerException("Cannot set name null");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                this.name = name;
-                notifyObservers();
-            }
-            return valid;
-        }
-    }
-
-    @Override
-    public Boolean setDescription(String description) {
-        if (description == null) {
-            throw new NullPointerException("Cannot set description null");
-        } else {
-            Boolean valid = Validator.descriptionValidator(description);
-            if (valid) {
-                this.description = description;
-                notifyObservers();
-            }
-            return valid;
         }
     }
 

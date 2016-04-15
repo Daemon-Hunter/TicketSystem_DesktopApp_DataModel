@@ -20,21 +20,46 @@ import utilities.observer.IObserver;
  */
 public abstract class ReviewBase implements ISocial, IReviewable {
     
-    protected IReviewFactory        reviewFactory;
-    protected LinkedList<IReview>   reviews;
-    protected LinkedList<IObserver> observers;
-    protected SocialMedia           socialMedia;
-    protected Integer               ID;
-    protected String                name, description;
-    protected DatabaseTable         table;
+    // A person using the datamodel will be accessing the wrapper objects
+    protected IReviewFactory      reviewFactory;
+    private LinkedList<IReview>   reviews;
+    private LinkedList<IObserver> observers;
+    private SocialMedia           socialMedia;
+    private Integer               ID;
+    private String                name, description;
+    private DatabaseTable         table;
     
     public ReviewBase() {
-        reviews = new LinkedList<>();
-        observers = new LinkedList<>();
-        socialMedia = new SocialMedia(0, null, null, null, null, null, null, null);
-        ID = 0;
-        name = "UNKNOWN";
-        description = null;
+    }
+    
+    public ReviewBase(Integer ID, String name, String description, SocialMedia social, LinkedList<IReview> reviews){
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        this.reviews = reviews;
+        this.socialMedia = social;
+    }
+    
+    public void setTable(DatabaseTable table) {
+        this.table = table;
+    }
+    
+    public void setID(Integer ID) {
+        if (Validator.idValidator(ID)) {
+            this.ID = ID;
+        }
+    }
+    
+    public Integer getID() {
+        return ID;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public SocialMedia getSocialMedia() {
+        return socialMedia;
     }
     
     public String getDescription() {

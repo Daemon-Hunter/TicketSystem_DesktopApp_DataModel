@@ -37,45 +37,20 @@ public class Artist extends ReviewBase implements IArtist {
     public Artist() {
         super();
         // Initialize table variable - matches Java object to database table
-        table = DatabaseTable.ARTIST;
+        setTable(DatabaseTable.ARTIST);
         tags = new LinkedList<>();
         reviewFactory = new ArtistReviewFactory();
     }
 
     public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social,
             LinkedList<IReview> reviews) {
+        super(ID, name, description, social, reviews);
         // Initialize table variable - matches Java object to database table
-        table = DatabaseTable.ARTIST;
+        setTable(DatabaseTable.ARTIST);
         
         // Initialise default values for rest of attributes
         this.tags = tags;
-        this.ID = ID;
-        socialMedia = social;
-        this.reviews = reviews;
-        this.name = name;
-        this.description = description;
         reviewFactory = new ArtistReviewFactory();
-        observers = new LinkedList<>();
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public IReviewFactory getReviewFactory() {
-        return reviewFactory;
-    }
-
-    @Override
-    public Integer getID() {
-        return ID;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     @Override

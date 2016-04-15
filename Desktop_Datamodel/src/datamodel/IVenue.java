@@ -11,9 +11,6 @@ package datamodel;
  */
 public interface IVenue {
     
-    public Integer getID();
-    public String getName();
-    public String getDescription();
     public Integer getStandingCapacity();
     public Integer getSeatingCapacity();
     public Boolean getDisabledAccess();
@@ -24,8 +21,6 @@ public interface IVenue {
     public String getAddress();
     public String getPostcode();
     
-    public Boolean setName(String name);
-    public Boolean setDescription(String description);
     public Boolean setStandingCapacity(Integer standing);
     public Boolean setSeatingCapacity(Integer seating);
     public Boolean setDisabledAccess(Boolean access);
