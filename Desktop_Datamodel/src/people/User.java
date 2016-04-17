@@ -5,11 +5,8 @@
  */
 package people;
 
-import bookings.IBooking;
 import database.DatabaseTable;
 import java.util.LinkedList;
-import java.util.stream.Stream;
-import tickets.Ticket;
 import utilities.Validator;
 import utilities.observer.IObserver;
 
@@ -19,7 +16,6 @@ import utilities.observer.IObserver;
  */
 public abstract class User implements IUser {
     
-    protected LinkedList<IBooking> bookings;
     protected LinkedList<IObserver> observers;
     protected String firstName, lastName, email, address, postcode;
     protected DatabaseTable table;
@@ -105,16 +101,12 @@ public abstract class User implements IUser {
     
     @Override
     public void notifyObservers() {
-        observers.stream().forEach(observer -> {
-            observer.update(this);
-        });
         
-            // Java 7
-//        if (observers != null) {
-//            for (IObserver o : observers) {
-//                o.update(this);
-//            }
-//        }
+        if (observers != null) {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        }
     }
     
     @Override
@@ -136,42 +128,6 @@ public abstract class User implements IUser {
             throw new IllegalArgumentException("Observer not in list");
         } else {
             return observers.remove(o);
-        }
-    }
-    
-    @Override
-    public LinkedList<IBooking> getBookings() {
-        if (bookings == null) {
-            throw new NullPointerException("Null bookings list");
-        } else return (LinkedList<IBooking>) bookings.clone();
-    }
-    
-    @Override
-    public LinkedList<IBooking> getBookingByTicket(Ticket ticket) {
-        if (ticket == null) {
-            throw new NullPointerException("Null ticket");
-        } else {
-            // Gets a Stream of IBooking objects from Customers list of bookings.
-            // Filters by ticket.
-            Stream<IBooking> relevantBookingsStream = bookings.stream()
-                                                              .filter     
-                                                              (booking -> booking.getTicket().equals(ticket));
-                                                //filters bookings array where current booking's ticket = parameter
-                                                
-            // Declare LinkedList and populate with relevant bookings
-            LinkedList<IBooking> relevantBookings = new LinkedList<>();
-            relevantBookingsStream.forEach(booking -> relevantBookings.add(booking));
-            
-            /*
-                LinkedList<IBooking> _bookings = new LinkedList<>();
-                for (IBooking b : bookings) {
-                    if (b.getTicket().equals(ticket)) {
-                        _bookings.add(b);
-                    }
-                }
-            */
-            
-            return relevantBookings;
         }
     }
     

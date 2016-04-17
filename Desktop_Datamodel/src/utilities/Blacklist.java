@@ -50,16 +50,12 @@ public class Blacklist {
         if (blacklist ==  null){
             blacklist = getListFromFile();
         }
-        
-        if (blacklist.stream().anyMatch((word) -> (input.contains(word)))) {
-            return true;
+                       
+        for (String word: blacklist){
+            if(input.contains(word)){
+                return true;
+            }
         }
-        
-//        for (String word: blacklist){
-//            if(input.contains(word)){
-//                return true;
-//            }
-//        }
         
 //        // Split the inputted string into seperate words.
 //        String[] words = input.split(" ");

@@ -15,7 +15,7 @@ public class ParentEventReviewFactory implements IReviewFactory {
     public IReview createReview(Integer reviewBaseID, Integer customerID, 
             Integer rating, String body) 
     {
-        IReview review = new ParentEventReview(reviewBaseID, customerID, rating, body);
-        return review;
+        return new ParentEventReview(reviewBaseID, customerID, rating, body);
     }
+
 }

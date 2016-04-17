@@ -10,8 +10,7 @@ import datamodel.ISocial;
 import datamodel.SocialMedia;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
-import java.util.Optional;
-import utilities.Validator;
+import static utilities.Validator.idValidator;
 import utilities.observer.IObserver;
 
 /**
@@ -25,15 +24,16 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     private LinkedList<IReview>   reviews;
     private LinkedList<IObserver> observers;
     private SocialMedia           socialMedia;
-    private Integer               ID;
-    private String                name, description;
+    protected String                description;
     private DatabaseTable         table;
+    protected int ID;
+    protected String name;
     
     public ReviewBase() {
     }
     
-    public ReviewBase(Integer ID, String name, String description, SocialMedia social, LinkedList<IReview> reviews){
-        this.ID = ID;
+    public ReviewBase(int ID, String name, String description, SocialMedia social, LinkedList<IReview> reviews){
+        this.ID =ID;
         this.name = name;
         this.description = description;
         this.reviews = reviews;
@@ -44,56 +44,41 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         this.table = table;
     }
     
-    public void setID(Integer ID) {
-        if (Validator.idValidator(ID)) {
-            this.ID = ID;
-        }
-    }
-    
-    public Integer getID() {
-        return ID;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public SocialMedia getSocialMedia() {
-        return socialMedia;
-    }
-    
-    public String getDescription() {
-        if (description == null) {
-            throw new NullPointerException("Artist description is null");
-        } else {
-            return description;
-        }
-    }
-    
     @Override
     public Integer getSocialId() {
         return socialMedia.getSocialId();
     }
-    
+
     /**
      * Checks the validity of the ID before assigning.
      * @param id
      * @return Boolean true if ID set.
      */
+
     @Override
     public Boolean setSocialId(Integer id) {
         return socialMedia.setSocialId(id);
     }
-    
+
+    @Override
+    public BufferedImage getImage() {
+        return socialMedia.getImage();
+    }
+
+    @Override
+    public Boolean setImage(BufferedImage img) {
+        return socialMedia.setImage(img);
+    }
+
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
-    
+
     /**
      * Adds IObserver object to list of objects to notify when a change is made.
      * Checks if the object is null or already exists in the list.
      * @param o
-     * @return 
+     * @return
      */
     @Override
     public Boolean registerObserver(IObserver o) {
@@ -102,7 +87,8 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         } else if (observers.contains(o)) {
             throw new IllegalArgumentException("Observer already exists");
         } else {
-            return observers.add(o);
+            observers.add(o);
+            return true;
         }
     }
 
@@ -113,67 +99,50 @@ public abstract class ReviewBase implements ISocial, IReviewable {
         } else if (!observers.contains(o)) {
             throw new IllegalArgumentException("Observer doesn't exist in observers list");
         } else {
-            return observers.remove(o);
+            observers.remove(o);
+            return true;
         }
     }
-    
+
     @Override
     public void notifyObservers() {
-        observers.stream()
-                 .forEach((o) -> {
-                           o.update(this);
-                 });
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        }
     }
-    
-    /**
-     * Creates a review with the review bases ID, as well as the other parameters initially passed.
-     * Doesn't need to know what it's creating a review for ->
-     * handled by the concrete classes review factory.
-     * @param customerID
-     * @param rating
-     * @param body
-     * @return 
-     */
+
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body) {
         return reviewFactory.createReview( ID, customerID, rating, body);
     }
-    
+
     @Override
     public IReview getReview(Integer customerID) {
         if (customerID == null) {
             throw new NullPointerException();
         } else {
-            Boolean valid = Validator.idValidator(customerID);
-            
+            Boolean valid = idValidator(customerID);
+
             if (valid) {
-                Optional<IReview> value = reviews.stream()
-                                                .findAny()
-                                                .filter(r -> r.getCustomerID()
-                                                .equals(customerID));
-                if (value.isPresent()) {
-                    return value.get();
-                } else {
-                    throw new IllegalArgumentException("No customers with that ID have "
-                        + "written a review for this venue.");
+                for (IReview r : reviews) {
+                    if (r.getCustomerID().equals(customerID)) {
+                        return r;
+                    }
                 }
-                
-//              ***** JAVA 7 VERSION (NON-LAMBDA) *****
-//                for (Review r : reviews) {
-//                    if (r.getCustomerID().equals(customerID)) {
-//                        return r;
-//                    }
-//                }
-//                throw new IllegalArgumentException("No customers with that ID have "
-//                     + "written a review for this venue.");
+                throw new IllegalArgumentException("No customers with that ID have "
+                        + "written a review for this venue.");
 
             } else {
                 throw new IllegalArgumentException("Invalid ID");
             }
         }
-        
+
     }
-    
+
     @Override
     public LinkedList<IReview> getReviews() {
         if (reviews == null) {
@@ -182,7 +151,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
             return reviews;
         }
     }
-    
+
     @Override
     public Boolean deleteReview(IReview review) {
         if (review == null) {
@@ -195,7 +164,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
             return true;
         }
     }
-    
+
     @Override
     public DatabaseTable getTable() {
         if (table == null) {
@@ -204,16 +173,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
             return table;
         }
     }
-    
-    @Override
-    public BufferedImage getImage() {
-        return socialMedia.getImage();
-    }
 
-    @Override
-    public Boolean setImage(BufferedImage img) {
-        return socialMedia.setImage(img);
-    }
 
     @Override
     public String getFacebook() {
@@ -274,4 +234,7 @@ public abstract class ReviewBase implements ISocial, IReviewable {
     public Boolean setSpotify(String sp) {
         return socialMedia.setSpotify(sp);
     }
+
 }
+
+

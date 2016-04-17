@@ -15,7 +15,6 @@ public class VenueReviewFactory implements IReviewFactory {
     public IReview createReview(Integer reviewBaseID, Integer customerID, 
             Integer rating, String body) 
     {
-        IReview review = new VenueReview(reviewBaseID, customerID, rating, body);
-        return review;
+        return new VenueReview(reviewBaseID, customerID, rating, body);
     }
 }

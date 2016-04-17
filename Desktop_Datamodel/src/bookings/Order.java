@@ -104,9 +104,13 @@ public class Order implements IOrder{
 
     @Override
     public void notifyObservers() {
-        for (IObserver o : observers) {
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
                 o.update(this);
             }
+        }
     }
 
     @Override
@@ -135,5 +139,10 @@ public class Order implements IOrder{
             observers.remove(o);
             return !observers.contains(o);
         }
+    }
+
+    @Override
+    public void addBookingList(List<Booking> bookingList) {
+        this.bookingList.addAll(bookingList);
     }
 }

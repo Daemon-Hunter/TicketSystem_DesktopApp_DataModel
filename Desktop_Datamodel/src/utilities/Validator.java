@@ -5,13 +5,11 @@
  */
 package utilities;
 
-import datamodel.ChildEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -132,11 +130,6 @@ public final class Validator {
     public static Boolean descriptionValidator(String description) {
         
         ArrayList<String> badWords = new ArrayList<>();
-        badWords.add("flange");
-        badWords.add("beiber");
-        badWords.add("rolf harris");
-        badWords.add("Mouldy cabbage");
-//      ...etc...
 
         Boolean naughty = false;
         
@@ -144,7 +137,7 @@ public final class Validator {
         {
             if (description.contains(badWord)) 
             {
-                System.out.println("Oi! None of that...");
+                System.err.println("Oi! None of that...");
                 naughty = true;
                 break;
             }

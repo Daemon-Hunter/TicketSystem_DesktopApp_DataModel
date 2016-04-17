@@ -25,8 +25,7 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
         LinkedList<Review>    reviews;
         LinkedList<IObserver> observers;
         SocialMedia           socialMedia;
-        Integer               ID, socialMediaID;
-        String                name;
+        Integer               socialMediaID;
         DatabaseTable         table;
      */
     
@@ -51,16 +50,6 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
         childEvents = events; 
         reviewFactory = new ParentEventReviewFactory();
 
-    }
-
-    @Override
-    public Integer getSocialId() {
-        return getSocialMedia().getSocialId();
-    }
-
-    @Override
-    public Boolean setSocialId(Integer socialId) {
-        return getSocialMedia().setSocialId(socialId);
     }
 
     @Override
@@ -104,5 +93,34 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
             childEvents.remove(childEvent);
             return true;
         }
+    }
+
+    @Override
+    public Integer getParentEventID() {
+        return ID;
+    }
+
+    @Override
+    public String getParentEventName() {
+        return name;
+    }
+
+    @Override
+    public String getParentEventDescription() {
+        if (description == null) {
+            throw new NullPointerException("Parent Event description is null");
+        } else {
+            return description;
+        }
+    }
+
+    @Override
+    public Boolean setParentEventName(String name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean setParentEventDescription(String description) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -22,4 +22,5 @@ public interface IOrder extends IDbSubject {
     public Booking getBooking(Integer bookingID);
     public Boolean removeBooking(Booking booking);
     public Boolean addBooking(Booking booking);
+    public void addBookingList(List<Booking> bookingList);
 }

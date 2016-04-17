@@ -228,7 +228,7 @@ public class ChildEvent implements IChildEvent {
                 throw new IllegalArgumentException("Artist list is empty");
             } else {
                 for(IArtist a : lineup.getArtistList()) {
-                    if (a.getID().equals(artistID)) {
+                    if (a.getArtistID().equals(artistID)) {
                         return a;
                     }
                 }
@@ -247,13 +247,9 @@ public class ChildEvent implements IChildEvent {
         if (observers == null) {
             observers = new LinkedList();
         } else {
-            observers.stream().forEach(observer -> {
-                observer.update(this);
-            });
-            
-//            for (IObserver o : observers) {
-//                o.update(this);
-//            }
+            for (IObserver o : observers) {
+                o.update(this);
+            }
         }
     }
 

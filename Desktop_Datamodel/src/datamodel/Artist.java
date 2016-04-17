@@ -8,11 +8,9 @@ package datamodel;
 import database.DatabaseTable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import reviews.ArtistReviewFactory;
 import reviews.IReview;
 import reviews.ReviewBase;
-import reviews.IReviewFactory;
 import utilities.Validator;
 
 /**
@@ -27,8 +25,7 @@ public class Artist extends ReviewBase implements IArtist {
         LinkedList<Review>    reviews;
         LinkedList<IObserver> observers;
         SocialMedia           socialMedia;
-        Integer               ID, socialMediaID;
-        String                name;
+        Integer               socialMediaID
         DatabaseTable         table;
      */
     
@@ -54,7 +51,7 @@ public class Artist extends ReviewBase implements IArtist {
     }
 
     @Override
-    public List<String> getTags() {
+    public List<String> getArtistTags() {
         return tags;
     }
 
@@ -75,14 +72,36 @@ public class Artist extends ReviewBase implements IArtist {
     @Override
     public Boolean removeArtistTag(String tag) {
         
-        Optional<String> value = tags.stream()
-                                     .findAny()
-                                     .filter(t -> t.equals(tag));
-        if (value.isPresent()) {
-            tags.remove(value.get());
-            return true;
+        return tags.remove(tag);
+            
+    }
+
+    @Override
+    public Integer getArtistID() {
+        return ID;
+    }
+
+    @Override
+    public String getArtistName() {
+        return name;
+    }
+
+    @Override
+    public void setArtist(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getDescription() {
+        if (description == null) {
+            throw new NullPointerException("Artist description is null");
         } else {
-            return false;
+            return description;
         }
+    }
+
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

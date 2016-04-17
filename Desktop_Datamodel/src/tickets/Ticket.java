@@ -1,15 +1,18 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package tickets;
 
 import database.DatabaseTable;
 import datamodel.ChildEvent;
+import java.util.LinkedList;
 import java.util.List;
-import utilities.Blacklist;
-import utilities.Validator;
+import static utilities.Blacklist.contains;
+import static utilities.Validator.descriptionValidator;
 import utilities.observer.IDbSubject;
 import utilities.observer.IObserver;
 
@@ -18,7 +21,7 @@ import utilities.observer.IObserver;
  * @author 10512691
  */
 public class Ticket implements ITicket, IDbSubject {
-    
+
     private Integer         ticketID;
     private ChildEvent      event;
     private Double          price;
@@ -27,7 +30,7 @@ public class Ticket implements ITicket, IDbSubject {
     private String          type;
     private List<IObserver> observers;
     private DatabaseTable   table;
-    
+
     /**
      * Use this constructor when creating a new ticket object.
      * Use the constructor when creating an object from the database.
@@ -39,7 +42,7 @@ public class Ticket implements ITicket, IDbSubject {
      * @param type The ticket type (standing / seating / weekend etc.)
      */
     public Ticket(Integer ID, ChildEvent event, Double price, String desc,
-                    Integer remaining, String type) {
+                  Integer remaining, String type) {
         ticketID = ID;
         this.event = event;
         this.price = price;
@@ -47,22 +50,22 @@ public class Ticket implements ITicket, IDbSubject {
         amountRemaining = remaining;
         this.type = type;
     }
-    
+
     public Ticket(ChildEvent event, Double price, String desc, Integer remaining,
-                    String type) {
+                  String type) {
         if (event == null) {
             throw new NullPointerException("Cannot make a ticket for a null event");
         } else {
             this.event = event;
         }
-        
+
         if (0 <= price) {
             this.price = price;
         } else {
             throw new IllegalArgumentException("Cannot set a price below 0!");
         }
     }
-    
+
     @Override
     public DatabaseTable getTable() {
         return table;
@@ -70,15 +73,12 @@ public class Ticket implements ITicket, IDbSubject {
 
     @Override
     public void notifyObservers() {
-        if (observers != null) {
-            observers.stream().forEach(observer -> {
-                observer.update(this);
-            });
-            
-                // Java 7
-//            for (IObserver o : observers) {
-//                o.update(this);
-//            }
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
         }
     }
 
@@ -94,7 +94,7 @@ public class Ticket implements ITicket, IDbSubject {
             }
         }
     }
-            
+
 
     @Override
     public Boolean removeObserver(IObserver o) {
@@ -153,7 +153,7 @@ public class Ticket implements ITicket, IDbSubject {
 
     @Override
     public Boolean setDescription(String description) {
-        if (Validator.descriptionValidator(description)) {
+        if (descriptionValidator(description)) {
             this.description = description;
             return this.description.equals(description);
         } else {
@@ -181,12 +181,13 @@ public class Ticket implements ITicket, IDbSubject {
 
     @Override
     public Boolean setType(String type) {
-        if (!Blacklist.contains(type)) {
+        if (!contains(type)) {
             this.type = type;
             return this.type.equals(type);
         } else {
             return false;
         }
     }
-    
+
 }
+

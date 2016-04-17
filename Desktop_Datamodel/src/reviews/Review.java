@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Objects;
-import people.User;
 import utilities.Validator;
 import utilities.observer.IObserver;
 
@@ -142,7 +141,13 @@ public abstract class Review implements IReview {
     
     @Override
     public void notifyObservers() {
-        observers.stream().forEach(observer -> { observer.update(this); });
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        }
     }
     
     @Override

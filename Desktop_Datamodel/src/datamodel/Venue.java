@@ -11,6 +11,7 @@ import reviews.IReview;
 import reviews.ReviewBase;
 import reviews.VenueReviewFactory;
 import utilities.Validator;
+import static utilities.Validator.*;
 
 /**
  *
@@ -133,8 +134,31 @@ public class Venue extends ReviewBase implements IVenue {
         reviewFactory    = new VenueReviewFactory();
     }
 
+@Override
+    public Integer getVenueID() {
+        return ID;
+    }
+
     @Override
-    public Integer getStandingCapacity() {
+    public String getVenueName() {
+        if (name == null) {
+            throw new NullPointerException("Null venue name");
+        } else {
+            return name;
+        }
+    }
+
+    @Override
+    public String getVenueDescription() {
+        if (description == null) {
+            throw new NullPointerException("Null venue description");
+        } else {
+            return description;
+        }
+    }
+
+    @Override
+    public Integer getVenueStandingCapacity() {
         if (capacityStanding == null) {
             throw new NullPointerException("Null standing capacity");
         } else {
@@ -143,7 +167,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Integer getSeatingCapacity() {
+    public Integer getVenueSeatingCapacity() {
         if (capacitySeating == null) {
             throw new NullPointerException("Null seating capacity");
         } else {
@@ -152,7 +176,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean getDisabledAccess() {
+    public Boolean getVenueDisabledAccess() {
         if (disabledAccess == null) {
             throw new NullPointerException("Null disabled access variable");
         } else {
@@ -161,7 +185,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public String getFacilites() {
+    public String getVenueFacilites() {
         if (facilities == null) {
             throw new NullPointerException("Null facililites variable");
         } else {
@@ -170,7 +194,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Integer getParking() {
+    public Integer getVenueParking() {
         if (parkingSpaces == null) {
             throw new NullPointerException("Null parking spaces variable");
         } else {
@@ -179,7 +203,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public String getEmail() {
+    public String getVenueEmail() {
         if (email == null) {
             throw new NullPointerException("Null email");
         } else {
@@ -188,7 +212,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public String getPhoneNumber() {
+    public String getVenuePhoneNumber() {
         if (phoneNumber == null) {
             throw new NullPointerException("Null phone number");
         } else {
@@ -197,7 +221,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public String getAddress() {
+    public String getVenueAddress() {
         if (address == null) {
             throw new NullPointerException("Null address");
         } else {
@@ -206,7 +230,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public String getPostcode() {
+    public String getVenuePostcode() {
         if (postcode == null) {
             throw new NullPointerException("Null postcode");
         } else {
@@ -215,11 +239,39 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setStandingCapacity(Integer standing) {
+    public Boolean setVenueName(String name) {
+        if (name == null) {
+            throw new NullPointerException("Cannot set name null");
+        } else {
+            Boolean valid = nameValidator(name);
+            if (valid) {
+                this.name = name;
+                notifyObservers();
+            }
+            return valid;
+        }
+    }
+
+    @Override
+    public Boolean setVenueDescription(String description) {
+        if (description == null) {
+            throw new NullPointerException("Cannot set description null");
+        } else {
+            Boolean valid = descriptionValidator(description);
+            if (valid) {
+                this.description = description;
+                notifyObservers();
+            }
+            return valid;
+        }
+    }
+
+    @Override
+    public Boolean setVenueStandingCapacity(Integer standing) {
         if (standing == null) {
             throw new NullPointerException("Cannot set capacity to null");
         } else {
-            Boolean valid = Validator.capacityValidator(standing);
+            Boolean valid = capacityValidator(standing);
             if (valid) {
                 capacityStanding = standing;
                 notifyObservers();
@@ -229,11 +281,11 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setSeatingCapacity(Integer seating) {
+    public Boolean setVenueSeatingCapacity(Integer seating) {
         if (seating == null) {
             throw new NullPointerException("Cannot set capacity to null");
         } else {
-            Boolean valid = Validator.capacityValidator(seating);
+            Boolean valid = capacityValidator(seating);
             if (valid) {
                 capacitySeating = seating;
                 notifyObservers();
@@ -243,7 +295,7 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setDisabledAccess(Boolean access) {
+    public Boolean setVenueDisabledAccess(Boolean access) {
         if (access == null) {
             throw new NullPointerException("Cannot set access to null");
         } else {
@@ -254,11 +306,11 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setFacilites(String facilities) {
+    public Boolean setVenueFacilites(String facilities) {
         if (facilities == null) {
             throw new NullPointerException("Cannot set facilities to null");
         } else {
-            Boolean valid = Validator.facilitiesValidator(facilities);
+            Boolean valid = facilitiesValidator(facilities);
             if (valid) {
                 this.facilities = facilities;
                 notifyObservers();
@@ -268,11 +320,11 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setParking(Integer parking) {
+    public Boolean setVenueParking(Integer parking) {
         if (parking == null) {
             throw new NullPointerException("Cannot set parking spaces to null");
         } else {
-            Boolean valid = Validator.parkingSpaceValidator(parking);
+            Boolean valid = parkingSpaceValidator(parking);
             if (valid) {
                 parkingSpaces = parking;
                 notifyObservers();
@@ -282,11 +334,11 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setEmail(String email) {
+    public Boolean setVenueEmail(String email) {
         if (email == null) {
             throw new NullPointerException("Cannot set email to null");
         } else {
-            Boolean valid = Validator.emailValidator(email);
+            Boolean valid = emailValidator(email);
             if (valid) {
                 this.email = email;
                 notifyObservers();
@@ -296,11 +348,11 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setPhoneNumber(String phoneNumber) {
+    public Boolean setVenuePhoneNumber(String phoneNumber) {
         if (phoneNumber == null) {
             throw new NullPointerException("Cannot set phone number to null");
         } else {
-            Boolean valid = Validator.phoneNumberValidator(phoneNumber);
+            Boolean valid = phoneNumberValidator(phoneNumber);
             if (valid) {
                 this.phoneNumber = phoneNumber;
                 notifyObservers();
@@ -310,11 +362,11 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setAddress(String address) {
+    public Boolean setVenueAddress(String address) {
         if (address == null) {
             throw new NullPointerException("Cannot set address to null");
         } else {
-            Boolean valid = Validator.addressValidator(address);
+            Boolean valid = addressValidator(address);
             if (valid) {
                 this.address = address;
                 notifyObservers();
@@ -324,11 +376,11 @@ public class Venue extends ReviewBase implements IVenue {
     }
 
     @Override
-    public Boolean setPostcode(String postcode) {
+    public Boolean setVenuePostcode(String postcode) {
         if (postcode == null) {
             throw new NullPointerException("Cannot set postcode to null");
         } else {
-            Boolean valid = Validator.postcodeValidator(postcode);
+            Boolean valid = postcodeValidator(postcode);
             if (valid) {
                 this.postcode = postcode;
                 notifyObservers();
