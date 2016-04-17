@@ -15,7 +15,7 @@ public class TicketFactory implements ITicketFactory {
 
     @Override
     public Ticket createTicket(ChildEvent event, Double price, String description, Integer remaining, String type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Ticket(event, price, description, remaining, type);
     }
     
 }

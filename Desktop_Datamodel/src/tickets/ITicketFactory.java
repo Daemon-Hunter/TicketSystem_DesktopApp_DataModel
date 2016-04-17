@@ -6,7 +6,6 @@
 package tickets;
 
 import datamodel.ChildEvent;
-import tickets.Ticket;
 
 /**
  *

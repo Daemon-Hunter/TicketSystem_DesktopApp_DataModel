@@ -13,9 +13,12 @@ import java.util.List;
  */
 public interface IArtist {
     
-    public Integer getID();
-    public String getName();
-    public List<String> getTags();
+    public Integer getArtistID();
+    public String getArtistName();
+    public void setArtist(String name);
+    public List<String> getArtistTags();
     public Boolean addArtistTag(String tag);
     public Boolean removeArtistTag(String tag);
+    public String getDescription();
+    public void setDescription(String decription);
 }

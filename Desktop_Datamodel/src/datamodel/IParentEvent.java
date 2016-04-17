@@ -13,7 +13,12 @@ import java.util.List;
  * @author 10467841
  */
 public interface IParentEvent {
-    
+    public Integer getParentEventID();
+    public String getParentEventName();
+    public String getParentEventDescription();
+    public Boolean setParentEventName(String name);
+    public Boolean setParentEventDescription(String description);
+
     
     public Boolean addChildEvent(ChildEvent childEvent);
     public ChildEvent getChildEvent(Integer childEventID);

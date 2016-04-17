@@ -15,8 +15,7 @@ public class ArtistReviewFactory implements IReviewFactory {
     public IReview createReview(Integer reviewBaseID, Integer customerID, 
             Integer rating, String body) 
     {
-        IReview review = new ArtistReview(reviewBaseID, customerID, rating, body);
-        return review;
+        return new ArtistReview(reviewBaseID, customerID, rating, body);
     }
     
 }

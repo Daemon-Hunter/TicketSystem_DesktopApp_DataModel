@@ -5,18 +5,11 @@
  */
 package people;
 
-import bookings.IBooking;
-import java.util.LinkedList;
-import tickets.Ticket;
-
 /**
  *
  * @author 10512691
  */
 public interface IUser extends IPerson {
-    
-    LinkedList<IBooking> getBookings();
-    LinkedList<IBooking> getBookingByTicket(Ticket ticket);
     
     String getAddress();
     Boolean setAddress(String address);

@@ -5,13 +5,14 @@
  */
 package people;
 
+import bookings.IBooking;
 import database.DatabaseTable;
 
 /**
  *
  * @author 10512691
  */
-public class Guest extends User {
+public class Guest extends User implements IGuest {
     
     /**
      * Use this constructor when creating a new Guest object.
@@ -22,6 +23,9 @@ public class Guest extends User {
      * @param address
      * @param pcode 
      */
+    
+    private IBooking booking;
+    
     public Guest(String fName, String lName, String email, String address, String pcode) 
     {
         super("GUEST", "ACCOUNT", email, address, pcode);
@@ -52,5 +56,20 @@ public class Guest extends User {
     @Override
     public Boolean setLastName(String name) {
         return false;
+    }
+
+    @Override
+    public IBooking getBooking() {
+        return this.booking;
+    }
+
+    @Override
+    public boolean setBooking(IBooking booking) {
+        if (booking == null){
+            throw new IllegalArgumentException("Booking cannot be null");
+        } else {
+            this.booking = booking;
+            return this.booking == booking;
+        }
     }
 }

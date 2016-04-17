@@ -5,20 +5,23 @@
  */
 package people;
 
+import bookings.IOrder;
 import database.DatabaseTable;
 import java.util.LinkedList;
-import java.util.Optional;
+import java.util.List;
 import reviews.IHaveReviews;
 import reviews.IReview;
 import utilities.Validator;
+import static utilities.Validator.idValidator;
 
 /**
  *
  * @author 10512691
  */
-public class Customer extends User implements IHaveReviews {
+public class Customer extends User implements IHaveReviews, ICustomer {
 
     private LinkedList<IReview> reviews;
+    private List<IOrder> orders;
     
     
     
@@ -74,34 +77,22 @@ public class Customer extends User implements IHaveReviews {
         if (customerID == null) {
             throw new NullPointerException();
         } else {
-            Boolean valid = Validator.idValidator(customerID);
-            
+            Boolean valid = idValidator(customerID);
+
             if (valid) {
-                Optional<IReview> value = reviews.stream()
-                                                .findAny()
-                                                .filter(r -> r.getCustomerID()
-                                                .equals(customerID));
-                if (value.isPresent()) {
-                    return value.get();
-                } else {
-                    throw new IllegalArgumentException("No customers with that ID have "
-                        + "written a review for this venue.");
+                for (IReview r : reviews) {
+                    if (r.getCustomerID().equals(customerID)) {
+                        return r;
+                    }
                 }
-                
-//              ***** JAVA 7 (NON-LAMBDA) *****
-//                for (Review r : reviews) {
-//                    if (r.getCustomerID().equals(customerID)) {
-//                        return r;
-//                    }
-//                }
-//                throw new IllegalArgumentException("No customers with that ID have "
-//                     + "written a review for this venue.");
+                throw new IllegalArgumentException("No customers with that ID have "
+                        + "written a review for this venue.");
 
             } else {
                 throw new IllegalArgumentException("Invalid ID");
             }
         }
-        
+
     }
 
     @Override
@@ -142,6 +133,47 @@ public class Customer extends User implements IHaveReviews {
                 notifyObservers();
             }
             return valid;
+        }
+    }
+
+    @Override
+    public List<IOrder> getOrderList() {
+        if (orders == null){
+            throw new NullPointerException("No orders in list");
+        } else {
+            return new LinkedList(orders);
+        }
+    }
+
+    @Override
+    public IOrder getOrder(int orderID) {
+        return orders.get(orderID);
+    }
+
+    @Override
+    public Boolean addOrder(IOrder order) {
+        if (order == null){
+            throw new IllegalArgumentException("Order cannot be Null.");
+        } else {
+        return orders.add(order);
+        }
+    }
+
+    @Override
+    public Boolean addOrderList(List<IOrder> orderList) {
+        if (orderList == null){
+            throw new IllegalArgumentException("Cannot add null order list.");
+        } else {
+        return this.orders.addAll(orderList);
+        }
+    }
+
+    @Override
+    public Boolean removeOrder(IOrder order) {
+        if (order == null){
+            throw new IllegalArgumentException("Cannot remove null order");
+        } else {
+        return orders.remove(order);
         }
     }
 }

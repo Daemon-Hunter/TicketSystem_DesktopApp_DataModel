@@ -42,12 +42,13 @@ public class Lineup implements ILineup {
 
     @Override
     public void notifyObservers() {
-        observers.stream().forEach(observer -> {
-            observer.update(this);
-        });
-//        for (IObserver o : observers) {
-//            o.update(this);
-//        }
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        }
     }
 
     @Override
@@ -115,7 +116,7 @@ public class Lineup implements ILineup {
     @Override
     public IArtist getArtist(Integer artistID) {
         for (IArtist a : artistList) {
-            if (a.getID().equals(artistID)) {
+            if (a.getArtistID().equals(artistID)) {
                 return a;
             }
         }

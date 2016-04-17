@@ -6,7 +6,6 @@
 package datamodel;
 
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import utilities.observer.IDbSubject;
 
 /**
