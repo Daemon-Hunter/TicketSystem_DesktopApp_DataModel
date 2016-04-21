@@ -6,6 +6,8 @@
 package reviews;
 
 import java.util.LinkedList;
+import java.util.List;
+
 import utilities.observer.IDbSubject;
 
 /**
@@ -14,7 +16,7 @@ import utilities.observer.IDbSubject;
  */
 public interface IHaveReviews extends IDbSubject {
     
-    public LinkedList<IReview> getReviews();
+    public List<IReview> getReviews();
     public IReview getReview(Integer uniqueID);
     public Boolean deleteReview(IReview review);
 }

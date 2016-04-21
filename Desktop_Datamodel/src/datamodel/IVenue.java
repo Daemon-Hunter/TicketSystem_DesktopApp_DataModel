@@ -5,11 +5,13 @@
  */
 package datamodel;
 
+import reviews.IReviewable;
+
 /**
  *
  * @author 10467841
  */
-public interface IVenue {
+public interface IVenue extends ISocial, IReviewable {
     
     public Integer getVenueID();
     public String getVenueName();
@@ -23,6 +25,8 @@ public interface IVenue {
     public String getVenuePhoneNumber();
     public String getVenueAddress();
     public String getVenuePostcode();
+
+    public void setSocialMedia(SocialMedia socialMedia);
 
     public Boolean setVenueName(String name);
     public Boolean setVenueDescription(String description);

@@ -9,6 +9,7 @@ import database.DatabaseTable;
 import java.util.Date;
 import people.Guest;
 import people.IUser;
+import tickets.ITicket;
 import tickets.Ticket;
 
 /**
@@ -28,8 +29,8 @@ public class GuestBooking extends Booking {
      * @param dateTime
      * @param guest 
      */
-    public GuestBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
-            IUser guest) 
+    public GuestBooking (Integer ID, ITicket ticket, Integer ticketQty, Date dateTime,
+                         IUser guest)
     {
         super(ID, ticket, ticketQty, dateTime);
         this.guest = guest;
@@ -44,7 +45,7 @@ public class GuestBooking extends Booking {
      * @param dateTime 
      * @param guest 
      */
-    public GuestBooking (Ticket ticket, Integer ticketQty, Date dateTime,
+    public GuestBooking (ITicket ticket, Integer ticketQty, Date dateTime,
             IUser guest) 
     {
         super(ticket, ticketQty, dateTime);

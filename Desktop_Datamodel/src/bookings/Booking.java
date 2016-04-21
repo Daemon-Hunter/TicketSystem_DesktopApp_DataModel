@@ -8,6 +8,8 @@ package bookings;
 import database.DatabaseTable;
 import java.util.Date;
 import java.util.LinkedList;
+
+import tickets.ITicket;
 import tickets.Ticket;
 import utilities.Validator;
 import utilities.observer.IObserver;
@@ -17,10 +19,12 @@ import utilities.observer.IObserver;
  * @author 10512691
  */
 public abstract class Booking implements IBooking {
-    
+
+    protected ITicket  ticket;
+    protected IOrder order;
+
     protected DatabaseTable table;
     protected Integer bookingID;
-    protected Ticket  ticket;
     protected Integer ticketQuantity;
     protected Date    bookingDateTime;
     protected LinkedList<IObserver> observers;
@@ -31,7 +35,7 @@ public abstract class Booking implements IBooking {
      * @param ticketQty
      * @param dateTime 
      */
-    public Booking(Ticket newTicket,  Integer ticketQty, Date dateTime) {
+    public Booking(ITicket newTicket,  Integer ticketQty, Date dateTime) {
         this.bookingID = 0;
         this.ticket = newTicket;
         this.ticketQuantity = ticketQty;
@@ -47,7 +51,7 @@ public abstract class Booking implements IBooking {
      * @param ticketQty
      * @param dateTime 
      */
-    public Booking(Integer ID, Ticket newTicket, Integer ticketQty, Date dateTime) {
+    public Booking(Integer ID, ITicket newTicket, Integer ticketQty, Date dateTime) {
         this.bookingID = ID;
         this.ticket = newTicket;
         this.ticketQuantity = ticketQty;
@@ -66,7 +70,7 @@ public abstract class Booking implements IBooking {
     }
     
     @Override
-    public Ticket getTicket() {
+    public ITicket getTicket() {
         if (ticket == null) {
             throw new NullPointerException("Null ticket");
         } else {
@@ -74,7 +78,7 @@ public abstract class Booking implements IBooking {
         }
     }
     @Override
-    public Boolean setTicket(Ticket ticket) {
+    public Boolean setTicket(ITicket ticket) {
         if (ticket == null) {
             throw new NullPointerException("Null ticket");
         } else {

@@ -5,19 +5,22 @@
  */
 package database;
 
+import datamodel.Artist;
+
 /**
  *
  * @author 10512691
  */
 public enum DatabaseTable {
-    ARTIST, 
+    ADMIN,
+    ARTIST ,
     ARTIST_REVIEW, 
     BOOKING, 
     CHILD_EVENT,
-    CUSTOMER, 
-    EVENT_REVIEW, 
-    GUEST_BOOKING, 
-    LINEUP, 
+    CUSTOMER,
+    CONTRACTS,
+    PARENT_EVENT_REVIEW,
+    GUEST_BOOKING,
     PARENT_EVENT, 
     SOCIAL_MEDIA, 
     TICKET, 
@@ -25,3 +28,4 @@ public enum DatabaseTable {
     VENUE_REVIEW,
     ORDER;
 }
+

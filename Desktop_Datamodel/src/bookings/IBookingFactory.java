@@ -6,6 +6,7 @@
 package bookings;
 
 import people.User;
+import tickets.ITicket;
 import tickets.Ticket;
 
 /**
@@ -13,5 +14,5 @@ import tickets.Ticket;
  * @author 10467841
  */
 public interface IBookingFactory {
-     public IBooking createBooking(Ticket ticket, IOrder order, Integer quantity);
+     public IBooking createBooking(ITicket ticket, IOrder order, Integer quantity);
 }

@@ -5,13 +5,16 @@
  */
 package datamodel;
 
+import utilities.observer.IDbSubject;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author 10512691
  */
-public interface IChildEvent extends ILineup {
+public interface IChildEvent extends IDbSubject, ISocial {
     
     public Integer getChildEventID();
     public String  getChildEventName();
@@ -29,6 +32,17 @@ public interface IChildEvent extends ILineup {
     public Boolean setVenue(IVenue venue);
     public IVenue  getVenue();
     
-    public ILineup getLineup();
-    public Boolean setLineup(ILineup lineup);
+    public List<IArtist> getArtistList();
+    public Boolean removeArtist(IArtist artist);
+    public Boolean addArtist(IArtist artist);
+
+    public List<Integer> getArtistIDs();
+    public Boolean removeArtistIDs(Integer artistID);
+    public Boolean addArtistID(Integer artistID);
+
+    public void setParentEvent(IParentEvent parentEvent);
+
+    public void setVenueID(Integer venue);
+
+    public void setSocialMedia(SocialMedia socialMedia);
 }

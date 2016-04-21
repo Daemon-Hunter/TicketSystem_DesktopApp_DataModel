@@ -20,7 +20,7 @@ public class Order implements IOrder{
    
     private Integer orderID;
     private IUser user;
-    private List<Booking> bookingList;
+    private List<IBooking> bookingList;
     protected LinkedList<IObserver> observers;
     
     /**
@@ -29,7 +29,7 @@ public class Order implements IOrder{
      * @param user
      * @param bList 
      */
-    public Order(Integer ID, IUser user, List<Booking> bList){
+    public Order(Integer ID, IUser user, List<IBooking> bList){
         this.orderID = ID;
         this.user = user;
         if (bList != null){
@@ -63,7 +63,7 @@ public class Order implements IOrder{
      * @return 
      */
     @Override
-    public List<Booking> getBookingList() {
+    public List<IBooking> getBookingList() {
         return new ArrayList(bookingList);
     }
 
@@ -73,7 +73,7 @@ public class Order implements IOrder{
      * @return 
      */
     @Override
-    public Booking getBooking(Integer bookingID) {
+    public IBooking getBooking(Integer bookingID) {
         return bookingList.get(bookingID);
     }
 
@@ -83,7 +83,7 @@ public class Order implements IOrder{
      * @return 
      */
     @Override
-    public Boolean removeBooking(Booking booking) {
+    public Boolean removeBooking(IBooking booking) {
         return bookingList.remove(booking);
     }
 
@@ -93,7 +93,7 @@ public class Order implements IOrder{
      * @return 
      */
     @Override
-    public Boolean addBooking(Booking booking) {
+    public Boolean addBooking(IBooking booking) {
         return bookingList.add(booking);
     }
 
@@ -142,7 +142,7 @@ public class Order implements IOrder{
     }
 
     @Override
-    public void addBookingList(List<Booking> bookingList) {
+    public void addBookingList(List<IBooking> bookingList) {
         this.bookingList.addAll(bookingList);
     }
 }

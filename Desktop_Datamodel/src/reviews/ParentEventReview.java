@@ -28,20 +28,6 @@ public class ParentEventReview extends Review {
             Date date, String body, Boolean verified) 
     {
         super(baseID, customerID, rating, date, body, verified);
-        table = DatabaseTable.EVENT_REVIEW;
-    }    
-    
-    /**
-     * Use this constructor when creating a new review object.
-     * ID unknown.
-     * @param baseID
-     * @param customerID
-     * @param rating
-     * @param body
-     */
-    public ParentEventReview(Integer baseID, Integer customerID, Integer rating, String body) 
-    {
-        super(baseID, customerID, rating, body);
-        table = DatabaseTable.EVENT_REVIEW;
-    }  
+        table = DatabaseTable.PARENT_EVENT_REVIEW;
+    }
 }

@@ -18,9 +18,9 @@ public interface IOrder extends IDbSubject {
     
     public Integer getOrderID();
     public IUser getUser();
-    public List<Booking> getBookingList();
-    public Booking getBooking(Integer bookingID);
-    public Boolean removeBooking(Booking booking);
-    public Boolean addBooking(Booking booking);
-    public void addBookingList(List<Booking> bookingList);
+    public List<IBooking> getBookingList();
+    public IBooking getBooking(Integer bookingID);
+    public Boolean removeBooking(IBooking booking);
+    public Boolean addBooking(IBooking booking);
+    public void addBookingList(List<IBooking> bookingList);
 }

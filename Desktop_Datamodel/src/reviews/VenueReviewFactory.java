@@ -5,6 +5,8 @@
  */
 package reviews;
 
+import java.util.Date;
+
 /**
  *
  * @author 10512691
@@ -12,9 +14,9 @@ package reviews;
 public class VenueReviewFactory implements IReviewFactory {
 
     @Override
-    public IReview createReview(Integer reviewBaseID, Integer customerID, 
-            Integer rating, String body) 
+    public IReview createReview(Integer reviewBaseID, Integer customerID,
+                                Integer rating, Date date, String body, Boolean verified)
     {
-        return new VenueReview(reviewBaseID, customerID, rating, body);
+        return new VenueReview(reviewBaseID, customerID, rating, date, body, verified);
     }
 }

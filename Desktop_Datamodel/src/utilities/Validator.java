@@ -62,7 +62,7 @@ public final class Validator {
     }
     
     /**
-     * Returns true if the ID has been initialized.
+     * Returns true if the ID has been initialised.
      * @param id
      * @return 
      */

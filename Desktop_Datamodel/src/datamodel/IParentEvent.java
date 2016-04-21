@@ -5,6 +5,8 @@
  */
 package datamodel;
 
+import reviews.IReviewable;
+
 import java.util.List;
 
 
@@ -12,16 +14,18 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface IParentEvent {
+public interface IParentEvent extends ISocial, IReviewable {
     public Integer getParentEventID();
     public String getParentEventName();
     public String getParentEventDescription();
     public Boolean setParentEventName(String name);
     public Boolean setParentEventDescription(String description);
 
+    public void setSocialMedia(SocialMedia socialMedia);
     
-    public Boolean addChildEvent(ChildEvent childEvent);
-    public ChildEvent getChildEvent(Integer childEventID);
-    public Boolean removeChildEvent(ChildEvent childEvent);
-    public List<ChildEvent> getChildEvents();
+    public Boolean addChildEvent(IChildEvent childEvent);
+    public Boolean addChildEventList(List<IChildEvent> childEvents);
+    public IChildEvent getChildEvent(Integer childEventID);
+    public Boolean removeChildEvent(IChildEvent childEvent);
+    public List<IChildEvent> getChildEvents();
 }

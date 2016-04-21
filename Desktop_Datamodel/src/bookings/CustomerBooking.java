@@ -7,6 +7,8 @@ package bookings;
 
 import database.DatabaseTable;
 import java.util.Date;
+
+import tickets.ITicket;
 import tickets.Ticket;
 
 /**
@@ -25,8 +27,8 @@ public class CustomerBooking extends Booking {
      * @param dateTime
      * @param order 
      */
-    public CustomerBooking (Integer ID, Ticket ticket, Integer ticketQty, Date dateTime,
-            IOrder order) {
+    public CustomerBooking (Integer ID, ITicket ticket, Integer ticketQty, Date dateTime,
+                            IOrder order) {
         super(ID, ticket, ticketQty, dateTime);
         this.order = order;
         table = DatabaseTable.BOOKING;
@@ -39,7 +41,7 @@ public class CustomerBooking extends Booking {
      * @param dateTime
      * @param order 
      */
-    public CustomerBooking (Ticket ticket, Integer ticketQty, Date dateTime,
+    public CustomerBooking (ITicket ticket, Integer ticketQty, Date dateTime,
             IOrder order) {
         super(ticket, ticketQty, dateTime);
         this.order = order;

@@ -5,7 +5,9 @@
  */
 package datamodel;
 
+
 import database.DatabaseTable;
+import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,13 +20,17 @@ import utilities.observer.IObserver;
  * @author 10512691
  */
 public class ChildEvent implements IChildEvent {
+
+    private List<Integer> artistIDs;
+    private List<IArtist> artists;
+    private IParentEvent parentEvent;
+    private IVenue venue;
+    private Integer venueID;
     
     private Integer childEventID;
     private String childEventName, childEventDescription;
     private Date startDateTime, endDateTime;
     private Boolean cancelled;
-    private IVenue venue;
-    private ILineup lineup;
     private List<IObserver> observers;
     private final DatabaseTable table;
 
@@ -37,34 +43,34 @@ public class ChildEvent implements IChildEvent {
      * @param description
      * @param startTime
      * @param endTime
-     * @param venue
-     * @param lineup 
-     * @param cancelled 
+     * @param cancelled
      */
-    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, IVenue venue, ILineup lineup, Boolean cancelled) {
+    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled) {
         childEventID = ID;
         childEventName = name;
         childEventDescription = description;
         startDateTime = startTime;
         endDateTime = endTime;
-        this.venue = venue;
-        this.lineup = lineup;
         this.cancelled = cancelled;
         table = DatabaseTable.CHILD_EVENT;
+        this.artists = new LinkedList<>();
     }
     
-    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, ILineup lineup) {
+    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
         childEventID = 0;
         if (Validator.nameValidator(name)) {
             if (Validator.descriptionValidator(description)) {
-                childEventName = name;
-                childEventDescription = description;
-                startDateTime = startTime;
-                endDateTime = endTime;
+                this.childEventName = name;
+                this.childEventDescription = description;
+                this.startDateTime = startTime;
+                this.endDateTime = endTime;
                 this.venue = venue;
-                this.lineup = lineup;
-                cancelled = false;
-                table = DatabaseTable.CHILD_EVENT;
+                this.artists = artists;
+                this.cancelled = false;
+                this.table = DatabaseTable.CHILD_EVENT;
+                this.artistIDs = new LinkedList<>();
+                this.artists = new LinkedList<>();
+                this.parentEvent = parentEvent;
             } else {
                 throw new IllegalArgumentException("Invalid description");
             }
@@ -163,76 +169,79 @@ public class ChildEvent implements IChildEvent {
         return this.cancelled.equals(cancelled);
     }
 
-    @Override
-    public Integer getLineupID() {
-        if (lineup == null) {
-            throw new NullPointerException("Null lineup. cannot get ID");
-        } else {
-            return lineup.getLineupID();
-        }
-    }
 
     @Override
     public List<IArtist> getArtistList() {
-        if (lineup == null) {
+        if (artists == null) {
             throw new NullPointerException("Null lineup. cannot get artist list");
         } else {
-            return lineup.getArtistList();
+            return new LinkedList<>(artists);
         }
     }
 
     @Override
     public Boolean addArtist(IArtist artist) {
         
-        if (lineup == null) {
-            lineup = new Lineup();
+        if (artists == null) {
+            artists = new LinkedList<>();
         }
         if (artist == null) {
             throw new NullPointerException("Cannot add null to the artist list");
         } else {
-            if (lineup.getArtistList().contains(artist)) {
-                throw new IllegalArgumentException("Artist already in lineup!");
+            if (artists.contains(artist)) {
+                throw new IllegalArgumentException("Artist already in contract!");
             } else {
-                lineup.addArtist(artist);
+                artists.add(artist);
             }
         }
-        return lineup.getArtistList().contains(artist);
+        return artists.contains(artist);
+    }
+
+    @Override
+    public List<Integer> getArtistIDs() {
+        return new LinkedList<>(artistIDs);
+    }
+
+    @Override
+    public Boolean removeArtistIDs(Integer artistID) {
+        return artistIDs.remove(artistID);
+    }
+
+    @Override
+    public Boolean addArtistID(Integer artistID) {
+        return artistIDs.add(artistID);
+    }
+
+    @Override
+    public void setParentEvent(IParentEvent parentEvent) {
+        this.parentEvent = parentEvent;
+    }
+
+    @Override
+    public void setVenueID(Integer venue) {
+        this.venueID = venue;
+    }
+
+    @Override
+    public void setSocialMedia(SocialMedia socialMedia) {
+        this.setSocialMedia(socialMedia);
     }
 
     @Override
     public Boolean removeArtist(IArtist artist) {
-        if (lineup == null) {
-            lineup = new Lineup();
+        if (artists == null) {
+            artists = new LinkedList<>();
             throw new NullPointerException("No Artists in the lineup");
         } else {
             if (artist == null) {
                 throw new NullPointerException("cannot remove a null artist");
             } else {
-                if (!lineup.getArtistList().contains(artist)) {
+                if (!artists.contains(artist)) {
                     throw new IllegalArgumentException("Artist list doesn't contain artist");
                 } else {
-                    lineup.removeArtist(artist);
-                    return !lineup.getArtistList().contains(artist);
+                    artists.remove(artist);
+                    return !artists.contains(artist);
                 }
-            }
-        }
-    }
-
-    @Override
-    public IArtist getArtist(Integer artistID) {
-        if (artistID == null) {
-            throw new NullPointerException("Null artist ID. Can't get from artist list.");
-        } else {
-            if (lineup == null) {
-                lineup = new Lineup();
-                throw new IllegalArgumentException("Artist list is empty");
-            } else {
-                for(IArtist a : lineup.getArtistList()) {
-                    if (a.getArtistID().equals(artistID)) {
-                        return a;
-                    }
-                }
-                throw new IllegalArgumentException("Artist not in list.");
             }
         }
     }
@@ -297,7 +306,7 @@ public class ChildEvent implements IChildEvent {
             throw new NullPointerException("Cannot set venue to null");
         } else {
             this.venue = venue;
-        } return this.venue == venue;
+        } return true;
     }
 
     @Override
@@ -310,20 +319,97 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public ILineup getLineup() {
-        if (lineup == null) {
-            lineup = new Lineup();
-        }
-        return lineup;
+    public Integer getSocialId() {
+        return parentEvent.getSocialId();
     }
 
     @Override
-    public Boolean setLineup(ILineup lineup) {
-        if (lineup == null) {
-            throw new NullPointerException("Cannot set lineup to null");
-        } else {
-            this.lineup = lineup;
-        }
-        return this.lineup == lineup;
+    public Boolean setSocialId(Integer id) {
+        return parentEvent.setSocialId(id);
+    }
+
+    @Override
+    public List<BufferedImage> getImages() {
+        return parentEvent.getImages();
+    }
+
+    @Override
+    public BufferedImage getImage(int index) {
+        return parentEvent.getImage(index);
+    }
+
+    @Override
+    public Boolean addImage(BufferedImage img) {
+        return parentEvent.addImage(img);
+    }
+
+    @Override
+    public Boolean removeImage(int index) {
+        return parentEvent.removeImage(index);
+    }
+
+    @Override
+    public Boolean setImages(List<BufferedImage> images) {
+        return parentEvent.setImages(images);
+    }
+
+    @Override
+    public String getFacebook() {
+        return parentEvent.getFacebook();
+    }
+
+    @Override
+    public Boolean setFacebook(String fb) {
+        return parentEvent.setFacebook(fb);
+    }
+
+    @Override
+    public String getTwitter() {
+        return parentEvent.getTwitter();
+    }
+
+    @Override
+    public Boolean setTwitter(String tw) {
+        return parentEvent.setTwitter(tw);
+    }
+
+    @Override
+    public String getInstagram() {
+        return parentEvent.getInstagram();
+    }
+
+    @Override
+    public Boolean setInstagram(String insta) {
+        return parentEvent.setInstagram(insta);
+    }
+
+    @Override
+    public String getSoundcloud() {
+        return parentEvent.getSoundcloud();
+    }
+
+    @Override
+    public Boolean setSoundcloud(String sc) {
+        return parentEvent.setSoundcloud(sc);
+    }
+
+    @Override
+    public String getWebsite() {
+        return parentEvent.getWebsite();
+    }
+
+    @Override
+    public Boolean setWebsite(String web) {
+        return parentEvent.setWebsite(web);
+    }
+
+    @Override
+    public String getSpotify() {
+        return parentEvent.getSpotify();
+    }
+
+    @Override
+    public Boolean setSpotify(String sp) {
+        return parentEvent.setSpotify(sp);
     }
 }

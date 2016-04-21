@@ -31,20 +31,5 @@ public class VenueReview extends Review {
     {
         super(baseID, customerID, rating, date, body, verified);
         table = DatabaseTable.VENUE_REVIEW;
-    }    
-    
-    /**
-     * Use this constructor when creating a new review object.
-     * ID unknown.
-     * @param baseID
-     * @param customerID
-     * @param rating
-     * @param body
-     */
-    public VenueReview(Integer baseID, Integer customerID, Integer rating, String body) 
-    {
-        super(baseID, customerID, rating, body);
-        table = DatabaseTable.VENUE_REVIEW;
-        this.baseID = baseID;
     }
 }

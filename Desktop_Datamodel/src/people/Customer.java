@@ -6,11 +6,13 @@
 package people;
 
 import bookings.IOrder;
+import bookings.Order;
 import database.DatabaseTable;
 import java.util.LinkedList;
 import java.util.List;
 import reviews.IHaveReviews;
 import reviews.IReview;
+import reviews.Review;
 import utilities.Validator;
 import static utilities.Validator.idValidator;
 
@@ -20,7 +22,7 @@ import static utilities.Validator.idValidator;
  */
 public class Customer extends User implements IHaveReviews, ICustomer {
 
-    private LinkedList<IReview> reviews;
+    private List<IReview> reviews;
     private List<IOrder> orders;
     
     
@@ -35,10 +37,13 @@ public class Customer extends User implements IHaveReviews, ICustomer {
      * @param postcode 
      */
     public Customer(Integer ID, String firstName, String lastName,
-            String email, String address, String postcode) 
-    {
+                    String email, String address, String postcode,
+                    List<IReview> reviews, List<IOrder> orders){
+
         super(ID, firstName, lastName, email, address, postcode);
-        table = DatabaseTable.CUSTOMER;
+        this.table = DatabaseTable.CUSTOMER;
+        this.reviews = reviews;
+        this.orders = orders;
     }
     
     /**
@@ -64,7 +69,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
     }
 
     @Override
-    public LinkedList<IReview> getReviews() {
+    public List<IReview> getReviews() {
         if (reviews == null) {
             throw new NullPointerException();
         } else {
@@ -92,7 +97,6 @@ public class Customer extends User implements IHaveReviews, ICustomer {
                 throw new IllegalArgumentException("Invalid ID");
             }
         }
-
     }
 
     @Override

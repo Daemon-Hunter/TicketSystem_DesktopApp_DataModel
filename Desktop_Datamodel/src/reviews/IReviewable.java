@@ -5,6 +5,8 @@
  */
 package reviews;
 
+import java.util.Date;
+
 /**
  *
  * @author 10512691
@@ -12,5 +14,5 @@ package reviews;
 public interface IReviewable extends IHaveReviews {
     
     // Inside create review method, call getReviewFactory() on 'this' object
-    public IReview createReview(Integer customerID, Integer rating, String body);
+    public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified);
 }

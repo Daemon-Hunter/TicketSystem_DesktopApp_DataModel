@@ -90,7 +90,13 @@ public class Admin implements IAdmin {
 
     @Override
     public void notifyObservers() {
-        observers.stream().forEach(observer -> { observer.update(this); });
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        }
     }
 
     @Override

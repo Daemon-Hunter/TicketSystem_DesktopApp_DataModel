@@ -5,9 +5,12 @@
  */
 package datamodel;
 
+
 import database.DatabaseTable;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.List;
+
 import utilities.Validator;
 import utilities.observer.IObserver;
 
@@ -19,24 +22,23 @@ public class SocialMedia implements ISocial {
     
     private Integer id;
     private String  facebook, twitter, instagram, soundcloud, website, spotify;
-    private BufferedImage image;
+    private List<BufferedImage> images;
     private final DatabaseTable table = DatabaseTable.SOCIAL_MEDIA;
     private LinkedList<IObserver> observers;
     
-    public SocialMedia(Integer id, BufferedImage img, String fb, String tw, 
-            String insta, String sc, String web, String sp) {
-        this.id    = id;
-        image      = img;
-        facebook   = fb;
-        twitter    = tw;
-        instagram  = insta;
-        soundcloud = sc;
-        website    = web;
-        spotify    = sp;
-        observers = new LinkedList<>();
-    }
-    
-    public SocialMedia(){
+    public SocialMedia() {}
+
+    public SocialMedia(Integer id, List<BufferedImage> images, String facebook, String twitter,
+                       String instagram, String soundcloud, String website, String spoify){
+
+        this.id = id;
+        this.images = images;
+        this.facebook = facebook;
+        this.twitter = twitter;
+        this.instagram = instagram;
+        this.soundcloud = soundcloud;
+        this.website = website;
+        this.spotify = spoify;
     }
     
 
@@ -64,20 +66,33 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public BufferedImage getImage() {
-        if (image == null) {
-            throw new NullPointerException();
-        } else return image;
+    public List<BufferedImage> getImages() {
+        return new LinkedList<BufferedImage>(images);
     }
 
     @Override
-    public Boolean setImage(BufferedImage img) {
-        if (img == null) {
-            throw new NullPointerException("Null image");
-        } else {
-            image = img;
-            return true;
-        }
+    public BufferedImage getImage(int index) {
+        return images.get(index);
+    }
+
+    @Override
+    public Boolean addImage(BufferedImage img) {
+        if (images.toArray().length >= 5)
+            throw new IllegalArgumentException("Cannot add more than 5 images.");
+        else
+            return images.add(img);
+    }
+
+    @Override
+    public Boolean removeImage(int index) {
+    images.remove(index);
+    return !images.contains(index);
+    }
+
+    @Override
+    public Boolean setImages(List<BufferedImage> images) {
+        this.images = new LinkedList<>(images);
+        return this.images == new LinkedList<>(images);
     }
 
     @Override
@@ -193,7 +208,13 @@ public class SocialMedia implements ISocial {
 
     @Override
     public void notifyObservers() {
-        observers.stream().forEach(observer -> { observer.update(this); });
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        }
     }
 
     @Override

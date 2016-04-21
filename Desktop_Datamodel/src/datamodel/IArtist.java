@@ -5,13 +5,15 @@
  */
 package datamodel;
 
+import reviews.IReviewable;
+
 import java.util.List;
 
 /**
  *
  * @author 10467841
  */
-public interface IArtist {
+public interface IArtist extends ISocial, IReviewable {
     
     public Integer getArtistID();
     public String getArtistName();
@@ -21,4 +23,14 @@ public interface IArtist {
     public Boolean removeArtistTag(String tag);
     public String getDescription();
     public void setDescription(String decription);
+
+    public void setSocialMedia(SocialMedia socialMedia);
+
+    public List<IChildEvent> getChildEvents();
+    public Boolean removeChildEvent(IChildEvent childEvent);
+    public Boolean addChildEvent(IChildEvent childEvent);
+
+    public List<Integer> getChildEventIDs();
+    public Boolean removeChildEventID(Integer childEventID);
+    public Boolean addChildEventID(Integer childEventID);
 }

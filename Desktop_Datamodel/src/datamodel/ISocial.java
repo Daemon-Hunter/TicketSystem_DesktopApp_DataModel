@@ -8,6 +8,8 @@ package datamodel;
 import java.awt.image.BufferedImage;
 import utilities.observer.IDbSubject;
 
+import java.util.List;
+
 /**
  *
  * @author 10512691
@@ -17,8 +19,11 @@ public interface ISocial extends IDbSubject {
     Integer getSocialId();
     Boolean setSocialId(Integer id);
     
-    BufferedImage getImage();
-    Boolean setImage(BufferedImage img);
+    List<BufferedImage> getImages();
+    BufferedImage getImage(int index);
+    Boolean addImage(BufferedImage img);
+    Boolean removeImage(int index);
+    Boolean setImages(List<BufferedImage> images);
     
     String getFacebook();
     Boolean setFacebook(String fb);

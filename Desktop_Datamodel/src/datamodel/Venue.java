@@ -6,30 +6,42 @@
 package datamodel;
 
 import database.DatabaseTable;
-import java.util.LinkedList;
+import java.awt.image.BufferedImage;
 import reviews.IReview;
-import reviews.ReviewBase;
+import reviews.IReviewFactory;
 import reviews.VenueReviewFactory;
-import utilities.Validator;
-import static utilities.Validator.*;
+import utilities.observer.IObserver;
+
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+import static utilities.Validator.addressValidator;
+import static utilities.Validator.capacityValidator;
+import static utilities.Validator.descriptionValidator;
+import static utilities.Validator.emailValidator;
+import static utilities.Validator.facilitiesValidator;
+import static utilities.Validator.idValidator;
+import static utilities.Validator.nameValidator;
+import static utilities.Validator.parkingSpaceValidator;
+import static utilities.Validator.phoneNumberValidator;
+import static utilities.Validator.postcodeValidator;
 
 /**
  *
  * @author 10512691
  */
-public class Venue extends ReviewBase implements IVenue {
+public class Venue implements IVenue {
 
-    /*
-        Inherits:
-        IReviewFactory        reviewFactory;
-        LinkedList<Review>    reviews;
-        LinkedList<IObserver> observers;
-        SocialMedia           socialMedia;
-        Integer               ID, socialMediaID;
-        String                name;
-        DatabaseTable         table;
-     */
-    
+    private IReviewFactory reviewFactory;
+    private List<IReview> reviews;
+    private List<IObserver> observers;
+    private Integer socialMediaID;
+    private SocialMedia socialMedia;
+    private String description;
+    private DatabaseTable table;
+    private int ID;
+    private String name;
     private String  phoneNumber,
                     email,
                     address,
@@ -41,18 +53,6 @@ public class Venue extends ReviewBase implements IVenue {
     private String  facilities;
     
     public Venue() {
-        super();
-        // Initialize table variable -> matches Java object to database table
-        setTable(DatabaseTable.VENUE);
-        capacitySeating  = null;
-        capacityStanding = null;
-        disabledAccess   = null;
-        this.facilities  = "None";
-        parkingSpaces    = null;
-        phoneNumber      = null;
-        this.email       = null;
-        this.address     = null;
-        this.postcode    = null;
         reviewFactory    = new VenueReviewFactory();
     }
     
@@ -72,34 +72,35 @@ public class Venue extends ReviewBase implements IVenue {
      * @param address
      * @param postcode
      * @param name 
-     * @param reviews 
+     * @param reviewsList
      */
     public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, 
             String facilities, Integer parking, String phoneNo, String email, String address, String postcode,
-            String name, LinkedList<IReview> reviews) 
+            String name, List<IReview> reviewsList)
     {
-        super(0, name, description, social, reviews);
-        // Initialize table variable -> matches Java object to database table
-        setTable(DatabaseTable.VENUE);
+        this.name = name;
+        this.description = description;
+        this.socialMedia = social;
+        this.reviews = reviewsList;
+        this.table = DatabaseTable.VENUE;
         
         // Initialize all other variables with method arguments
-        capacitySeating  = capSeating;
-        capacityStanding = capStanding;
-        disabledAccess   = access;
+        this.capacitySeating  = capSeating;
+        this.capacityStanding = capStanding;
+        this.disabledAccess   = access;
         this.facilities  = facilities;
-        parkingSpaces    = parking;
-        phoneNumber      = phoneNo;
+        this.parkingSpaces    = parking;
+        this.phoneNumber      = phoneNo;
         this.email       = email;
         this.address     = address;
         this.postcode    = postcode;
-        reviewFactory    = new VenueReviewFactory();
+        this.reviewFactory    = new VenueReviewFactory();
     }
     
     /**
      * For use when creating venues that already exist in the database.
      * ID is given and assigned.
      * @param id
-     * @param social
      * @param description
      * @param capSeating
      * @param capStanding
@@ -110,16 +111,18 @@ public class Venue extends ReviewBase implements IVenue {
      * @param email
      * @param address
      * @param postcode
-     * @param name 
-     * @param reviews 
+     * @param name
      */
-    public Venue(Integer id, SocialMedia social, String description, Integer capSeating, Integer capStanding, 
+    public Venue(Integer id, Integer socialMediaID, String description, Integer capSeating, Integer capStanding,
             Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, 
-            String postcode, String name, LinkedList<IReview> reviews) 
+            String postcode, String name)
     {
-        super(id, name, description, social, reviews);
-        // Initialize table variable -> matches Java object to database table
-        setTable(DatabaseTable.VENUE);
+        this.ID = id;
+        this.name = name;
+        this.description = description;
+        this.socialMedia = new SocialMedia();
+        this.reviews = new LinkedList<>();
+        this.table = DatabaseTable.VENUE;
         
         // Initialize all other variables with method arguments
         capacitySeating  = capSeating;
@@ -132,6 +135,7 @@ public class Venue extends ReviewBase implements IVenue {
         this.address     = address;
         this.postcode    = postcode;
         reviewFactory    = new VenueReviewFactory();
+        this.socialMediaID = socialMediaID;
     }
 
 @Override
@@ -236,6 +240,11 @@ public class Venue extends ReviewBase implements IVenue {
         } else {
             return postcode;
         }
+    }
+
+    @Override
+    public void setSocialMedia(SocialMedia socialMedia) {
+        this.socialMedia = socialMedia;
     }
 
     @Override
@@ -387,5 +396,214 @@ public class Venue extends ReviewBase implements IVenue {
             }
             return valid;
         }
+    }
+
+    @Override
+    public Integer getSocialId() {
+        return socialMediaID;
+    }
+
+    /**
+     * Checks the validity of the ID before assigning.
+     * @param id
+     * @return Boolean true if ID set.
+     */
+
+    @Override
+    public Boolean setSocialId(Integer id) {
+        socialMediaID = id;
+        return socialMedia.setSocialId(id);
+    }
+
+
+
+    protected IReviewFactory getReviewFactory() {
+        return reviewFactory;
+    }
+
+    /**
+     * Adds IObserver object to list of objects to notify when a change is made.
+     * Checks if the object is null or already exists in the list.
+     * @param o
+     * @return
+     */
+    @Override
+    public Boolean registerObserver(IObserver o) {
+        if (o == null) {
+            throw new NullPointerException("Null observer");
+        } else if (observers.contains(o)) {
+            throw new IllegalArgumentException("Observer already exists");
+        } else {
+            observers.add(o);
+            return true;
+        }
+    }
+
+    @Override
+    public Boolean removeObserver(IObserver o) {
+        if (o == null) {
+            throw new NullPointerException("Null observer");
+        } else if (!observers.contains(o)) {
+            throw new IllegalArgumentException("Observer doesn't exist in observers list");
+        } else {
+            observers.remove(o);
+            return true;
+        }
+    }
+
+    @Override
+    public void notifyObservers() {
+        if (observers == null) {
+            observers = new LinkedList();
+        } else {
+            for (IObserver o : observers) {
+                o.update(this);
+            }
+        }
+    }
+
+    @Override
+    public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified) {
+        return reviewFactory.createReview( ID, customerID, rating, date, body, verified);
+    }
+
+    @Override
+    public IReview getReview(Integer customerID) {
+        if (customerID == null) {
+            throw new NullPointerException();
+        } else {
+            Boolean valid = idValidator(customerID);
+
+            if (valid) {
+                for (IReview r : reviews) {
+                    if (r.getCustomerID().equals(customerID)) {
+                        return r;
+                    }
+                }
+                throw new IllegalArgumentException("No customers with that ID have "
+                        + "written a review for this venue.");
+
+            } else {
+                throw new IllegalArgumentException("Invalid ID");
+            }
+        }
+
+    }
+
+    @Override
+    public List<IReview> getReviews() {
+        if (reviews == null) {
+            throw new NullPointerException();
+        } else {
+            return reviews;
+        }
+    }
+
+    @Override
+    public Boolean deleteReview(IReview review) {
+        if (review == null) {
+            throw new NullPointerException("Review to be deleted was null");
+        } else if (!reviews.contains(review)) {
+            throw new IllegalArgumentException("Review to be deleted wasn't in list");
+        } else {
+            reviews.remove(review);
+            notifyObservers();
+            return true;
+        }
+    }
+
+    @Override
+    public DatabaseTable getTable() {
+        if (table == null) {
+            throw new NullPointerException();
+        } else {
+            return table;
+        }
+    }
+
+    @Override
+    public List<BufferedImage> getImages() {
+        return socialMedia.getImages();
+    }
+
+    @Override
+    public BufferedImage getImage(int index) {
+        return socialMedia.getImage(index);
+    }
+
+    @Override
+    public Boolean addImage(BufferedImage img) {
+        return socialMedia.addImage(img);
+    }
+
+    @Override
+    public Boolean removeImage(int index) {
+        return socialMedia.removeImage(index);
+    }
+
+    @Override
+    public Boolean setImages(List<BufferedImage> images) {
+        return socialMedia.setImages(images);
+    }
+
+
+    @Override
+    public String getFacebook() {
+        return socialMedia.getFacebook();
+    }
+
+    @Override
+    public Boolean setFacebook(String fb) {
+        return socialMedia.setFacebook(fb);
+    }
+
+    @Override
+    public String getTwitter() {
+        return socialMedia.getTwitter();
+    }
+
+    @Override
+    public Boolean setTwitter(String tw) {
+        return socialMedia.setTwitter(tw);
+    }
+
+    @Override
+    public String getInstagram() {
+        return socialMedia.getInstagram();
+    }
+
+    @Override
+    public Boolean setInstagram(String insta) {
+        return socialMedia.setInstagram(insta);
+    }
+
+    @Override
+    public String getSoundcloud() {
+        return socialMedia.getSoundcloud();
+    }
+
+    @Override
+    public Boolean setSoundcloud(String sc) {
+        return socialMedia.setSoundcloud(sc);
+    }
+
+    @Override
+    public String getWebsite() {
+        return socialMedia.getWebsite();
+    }
+
+    @Override
+    public Boolean setWebsite(String web) {
+        return socialMedia.setWebsite(web);
+    }
+
+    @Override
+    public String getSpotify() {
+        return socialMedia.getSpotify();
+    }
+
+    @Override
+    public Boolean setSpotify(String sp) {
+        return socialMedia.setSpotify(sp);
     }
 }
