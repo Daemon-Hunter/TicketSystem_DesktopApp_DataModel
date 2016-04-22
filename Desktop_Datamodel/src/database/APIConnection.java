@@ -195,7 +195,7 @@ public final class APIConnection {
     }
 
     public static List<Map<String,String>> search(String searchText, DatabaseTable table) throws IOException {
-        return Connection(URI + "functions/search" + DBTableToString(table) + searchText);
+        return Connection(URI + "functions/search" + DBTableToString(table) + "/" + searchText);
     }
 
     public static List<Map<String,String>> comparePassword(String email, String password) throws IOException {
