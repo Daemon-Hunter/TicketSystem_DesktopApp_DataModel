@@ -198,6 +198,10 @@ public final class APIConnection {
         return Connection(URI + "functions/search" + DBTableToString(table) + searchText);
     }
 
+    public static List<Map<String,String>> comparePassword(String email, String password) throws IOException {
+        return Connection(URI + "functions/comparepasswords/" + email + "/" + password);
+    }
+
     private static List<Map<String, String>> Connection (String urlText) throws IOException {
 
         URL url = null;
@@ -217,8 +221,6 @@ public final class APIConnection {
             List<Map<String,String>> listOfEntities = JSONBreakDown(in.readLine());
             return listOfEntities;
         }
-
-
     }
 
     private static List<Map<String,String>> JSONBreakDown(String JSONString){
@@ -231,7 +233,9 @@ public final class APIConnection {
         ExecutorService service = Executors.newFixedThreadPool(threads);
         List<Future<Map<String, String>>> futures = new LinkedList<>();
 
-        if(!JSONString.isEmpty()) {
+        if(JSONString.equals(null)){
+            return null;
+        }else if(!JSONString.isEmpty()) {
             String[] objArray = JSONString.split("\\},");
             // Loops though the array and puts it into a Map
             for (final String anObjArray : objArray) {
@@ -260,7 +264,12 @@ public final class APIConnection {
         // Initializes of map which stores keys and values
         Map<String,String> map = new HashMap<>();
         // split up the string into the different columns
-        String[] splitArray = input.split(",");
+        String[] splitArray = input.split(",\"");
+
+        for (int i = 1; i < splitArray.length; i++) {
+            splitArray[i] = "\"" + splitArray[i];
+        }
+
         // remove the beginning brace
         splitArray[0] = splitArray[0].replaceAll("\\{", "");
         // remove the end brace
