@@ -10,16 +10,14 @@ import bookings.GuestBooking;
 import bookings.IBooking;
 import bookings.IOrder;
 import bookings.Order;
-import datamodel.Artist;
-import datamodel.ChildEvent;
-import datamodel.IArtist;
-import datamodel.IChildEvent;
-import datamodel.IParentEvent;
-import datamodel.ISocial;
-import datamodel.IVenue;
-import datamodel.ParentEvent;
-import datamodel.SocialMedia;
-import datamodel.Venue;
+import events.Artist;
+import events.ChildEvent;
+import events.IChildEvent;
+import events.IParentEvent;
+import events.IVenue;
+import events.ParentEvent;
+import events.SocialMedia;
+import events.Venue;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,7 +25,6 @@ import people.Admin;
 import people.Customer;
 import people.Guest;
 import people.IAdmin;
-import people.ICustomer;
 import people.IUser;
 import reviews.ArtistReviewFactory;
 import reviews.IReview;
@@ -53,10 +50,10 @@ import javax.imageio.ImageIO;
  *
  *
  */
-public final class MapToObject {
+final class MapToObject {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
-    public static ICustomer ConvertCustomer(Map<String, String> custMap, List<IReview> reviews, List<IOrder> orders) {
+    public static IUser ConvertCustomer(Map<String, String> custMap) {
         String firstName, lastName, address, email, postcode;
         int ID = Integer.parseInt(custMap.get("CUSTOMER_ID"));
 
@@ -66,7 +63,7 @@ public final class MapToObject {
         email = custMap.get("CUSTOMER_EMAIL");
         postcode = custMap.get("CUSTOMER_POSTCODE");
 
-        return new Customer(ID, firstName, lastName, email, address, postcode, reviews, orders);
+        return new Customer(ID, firstName, lastName, email, address, postcode);
     }
 
     public static Artist ConvertArtist(Map<String, String> artistMap) {
@@ -78,17 +75,21 @@ public final class MapToObject {
         String[] tempArr = tags.split("#");
         String description = artistMap.get("ARTIST_DESCRIPTION");
         Integer socialID = Integer.parseInt(artistMap.get("SOCIAL_MEDIA_ID"));
+        Integer type = Integer.parseInt(artistMap.get("ARTIST_TYPE_ID"));
 
         LinkedList<String> listOfTags = new LinkedList<>();
         listOfTags.addAll(Arrays.asList(tempArr));
 
-        return new Artist(ID, name, description, listOfTags, socialID);
+        return new Artist(ID, name, description, listOfTags, socialID, type);
     }
 
-    public static SocialMedia ConvertSocialMedia(Map<String, String> socialMap) {
+    public static String ConvertArtistType(Map<String, String> artistTypeMap) {
+        return artistTypeMap.get("ARTIST_TYPE");
+    }
+
+    public static SocialMedia ConvertSocialMedia(Map<String, String> socialMap) throws IOException {
         Integer socialMediaID;
         String facebook, twitter, instagram, soundcloud, website, spotify;
-        byte[] decodedBytes;
         List<BufferedImage> images = new LinkedList<>();
 
         socialMediaID = Integer.parseInt(socialMap.get("SOCIAL_MEDIA_ID"));
@@ -98,15 +99,11 @@ public final class MapToObject {
         soundcloud = socialMap.get("SOUNDCLOUD");
         website = socialMap.get("WEBSITE");
         spotify = socialMap.get("SPOTIFY");
-        try{
         images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE").getBytes())));
         images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE2").getBytes())));
         images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE3").getBytes())));
         images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE4").getBytes())));
         images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE5").getBytes())));
-        
-        } catch (IOException e){
-        }
 
         return new SocialMedia(socialMediaID, images, facebook, twitter, instagram, soundcloud, website, spotify);
     }
@@ -168,7 +165,7 @@ public final class MapToObject {
 
         ParentEventReviewFactory factory = new ParentEventReviewFactory();
 
-        Integer eventID = Integer.parseInt(reviewMap.get("PARENT_EVENT_ID	"));
+        Integer eventID = Integer.parseInt(reviewMap.get("PARENT_EVENT_ID"));
         Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
         Integer rating = Integer.parseInt(reviewMap.get("EVENT_REVIEW_RATING"));
         String body = reviewMap.get("EVENT_REVIEW_BODY");
@@ -201,7 +198,7 @@ public final class MapToObject {
         phoneNumber = venueMap.get("VENUE_PHONE_NUMBER");
         email = venueMap.get("VENUE_EMAIL");
         address = venueMap.get("VENUE_ADDRESS");
-        postcode = venueMap.get("VENUE_ADDRESS");
+        postcode = venueMap.get("VENUE_POSTCODE");
         name = venueMap.get("VENUE_NAME");
         socialMediaID = Integer.parseInt(venueMap.get("SOCIAL_MEDIA_ID"));
 
@@ -212,8 +209,8 @@ public final class MapToObject {
                 facilities, parking, phoneNumber, email, address, postcode, name);
     }
 
-    public static ITicket ConvertTicket(Map<String, String> ticketMap, ChildEvent event) {
-        Integer ticketID, remaining;
+    public static ITicket ConvertTicket(Map<String, String> ticketMap) {
+        Integer ticketID, remaining, childEventID;
         Double price;
         String desc, type;
 
@@ -222,8 +219,9 @@ public final class MapToObject {
         remaining = Integer.parseInt(ticketMap.get("TICKET_AMOUNT_REMAINING"));
         type = ticketMap.get("TICKET_TYPE");
         desc = ticketMap.get("TICKET_DESCRIPTION");
+        childEventID = Integer.parseInt(ticketMap.get("TICKET_ID"));
 
-        return new Ticket(ticketID, event, price, desc, remaining, type);
+        return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
 
     public static IChildEvent ConvertChildEvent(Map<String, String> eventMap) {
@@ -251,12 +249,14 @@ public final class MapToObject {
         return new ChildEvent(eventID, name, description, startTime, endTime, cancelled);
     }
 
-    public static IBooking ConvertCustomerBooking(Map<String, String> bookingMap, ITicket ticket, IOrder order) {
-        Integer bookingID, quantity;
+    public static IBooking ConvertCustomerBooking(Map<String, String> bookingMap) {
+        Integer bookingID, quantity, ticketID, orderID;
         Date date = new Date();
 
         bookingID = Integer.parseInt(bookingMap.get("BOOKING_ID"));
         quantity = Integer.parseInt(bookingMap.get("BOOKING_QUANTITY"));
+        ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
+        orderID = Integer.parseInt(bookingMap.get("ORDER_ID"));
 
         try {
             date = formatter.parse(bookingMap.get("BOOKING_DATE_TIME"));
@@ -264,20 +264,20 @@ public final class MapToObject {
             System.err.println(e.toString());
         }
 
-        return new CustomerBooking(bookingID, ticket, quantity, date, order);
+        return new CustomerBooking(bookingID, ticketID, orderID, quantity, date);
     }
 
-    public static IOrder ConvertOrder(Map<String, String> orderMap, List<IBooking> bookings, IUser user) {
+    public static IOrder ConvertOrder(Map<String, String> orderMap) {
 
         Integer orderID, userID;
 
         orderID = parseInt(orderMap.get("ORDER_ID"));
         userID = parseInt(orderMap.get("CUSTOMER_ID"));
 
-        return new Order(orderID, user, bookings);
+        return new Order(orderID, userID);
     }
 
-    public static IBooking ConvertGuestBooking(Map<String, String> bookingMap, ITicket ticket) {
+    public static IBooking ConvertGuestBooking(Map<String, String> bookingMap) {
         Integer bookingID, ticketID, quantity;
         String email, address, postcode;
         Date dateTime = new Date();
@@ -295,7 +295,7 @@ public final class MapToObject {
             System.err.println(e.toString());
         }
 
-        return new GuestBooking(bookingID, ticket, quantity, dateTime, new Guest("GUEST", "ACCOUNT", email, address, postcode));
+        return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest("GUEST", "ACCOUNT", email, address, postcode));
     }
 
     public static IParentEvent ConvertParentEvent(Map<String, String> eventMap) {

@@ -6,9 +6,10 @@
 package wrappers;
 
 import database.APIHandle;
-import datamodel.IArtist;
-import datamodel.IParentEvent;
-import datamodel.IVenue;
+import database.DatabaseTable;
+import events.IArtist;
+import events.IParentEvent;
+import events.IVenue;
 import people.IUser;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.List;
 
 /**
  *
- * @author 10512691
+ * @author 10467841
  */
 public class UserWrapper implements IUserWrapper {
 
@@ -45,14 +46,11 @@ public class UserWrapper implements IUserWrapper {
         }
         return wrapper;
     }
-    
+
     @Override
-    public Boolean setUser(IUser user) {
-        if (user == null){
-            throw new IllegalArgumentException("Cannot set user to null.");
-        }
-        this.currentUser = user;
-        return (this.currentUser == user);
+    public IUser loginUser(String email, String password) throws IOException, IllegalArgumentException {
+        currentUser = APIHandle.isPasswordTrue(email, password);
+        return currentUser;
     }
 
     @Override
@@ -61,13 +59,12 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IParentEvent> getParentEvents() throws IOException {
+    public LinkedList getParentEvents() throws IOException {
         if (parentEventArray != null){
-            return new ArrayList(parentEventArray);
+            return new LinkedList<>(parentEventArray);
         } else {
-            //parentEventArray = APIHandle.getParentAmount(amountToLoad, parentEventArray.get(parentEventArray.size()).getParentEventID());
-            parentEventArray = new ArrayList<>(APIHandle.getParentAmount(amountToLoad, 0));
-            return new ArrayList(parentEventArray);
+            parentEventArray = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT);
+            return new LinkedList<>(parentEventArray);
         }
     }
 
@@ -75,18 +72,18 @@ public class UserWrapper implements IUserWrapper {
     public List<IParentEvent> loadMoreParentEvents() throws IOException {
         int lowestID = 99999999;
         for (IParentEvent parentEvent : parentEventArray){
-            if (parentEvent.getParentEventID() < lowestID)
-                lowestID = parentEvent.getParentEventID();
+            if (parentEvent.getID() < lowestID)
+                lowestID = parentEvent.getID();
         }
-        List<IParentEvent> newData = APIHandle.getParentAmount(amountToLoad, lowestID);
+        List<IParentEvent> newData = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.PARENT_EVENT);
         parentEventArray.addAll(newData);
-        return new ArrayList(newData);
+        return new LinkedList<>(newData);
     }
 
     @Override
     public IParentEvent getParentEvent(Integer id) {
         for (IParentEvent parentEvent : parentEventArray){
-            if(parentEvent.getParentEventID().equals(id));
+            if(parentEvent.getID().equals(id))
             return parentEvent;
         }
         throw new NullPointerException("No item in the list has this id :/.");
@@ -102,30 +99,29 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IParentEvent> refreshParentEvents() throws IOException {
-        parentEventArray = new ArrayList<>(APIHandle.getParentAmount(amountToLoad, 0));
-        return new ArrayList(parentEventArray);
+        parentEventArray = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT);
+        return new LinkedList<>(parentEventArray);
     }
 
     @Override
     public List<IParentEvent> searchParentEvents(String searchString) throws IOException {
-        return new LinkedList<>(APIHandle.searchParentEvents(searchString));
+        return (List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.PARENT_EVENT);
     }
 
     @Override
     public List<IVenue> getVenues() throws IOException {
         if (venueArray != null){
-            return new ArrayList(venueArray);
+            return new ArrayList<IVenue>(venueArray);
         } else {
-            //venueArray = APIHandle.getVenueAmount(amountToLoad, venueArray.get(venueArray.size()).getVenueID());
-            venueArray = new ArrayList<>(APIHandle.getVenueAmount(amountToLoad, 0));
-            return new ArrayList(venueArray);
+            venueArray = (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
+            return venueArray;
         }
     }
 
     @Override
     public IVenue getVenue(Integer id) {
         for (IVenue venue : venueArray){
-            if(venue.getVenueID().equals(id));
+            if(venue.getID().equals(id))
                 return venue;
         }
         throw new NullPointerException("No item in the list has this id :/.");
@@ -135,12 +131,12 @@ public class UserWrapper implements IUserWrapper {
     public List<IVenue> loadMoreVenues() throws IOException {
         int lowestID = 0;
         for (IVenue venue : venueArray){
-            if (venue.getVenueID() < lowestID || lowestID == 0)
-                lowestID = venue.getVenueID();
+            if (venue.getID() < lowestID || lowestID == 0)
+                lowestID = venue.getID();
         }
-        List<IVenue> newData = APIHandle.getVenueAmount(amountToLoad, lowestID);
+        List<IVenue> newData = (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.VENUE);
         venueArray.addAll(newData);
-        return new ArrayList(newData);
+        return new ArrayList<IVenue>(newData);
     }
 
     @Override
@@ -153,22 +149,21 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IVenue> refreshVenues() throws IOException {
-        venueArray = new ArrayList<>(APIHandle.getVenueAmount(amountToLoad, 0));
-        return new ArrayList(venueArray);
+        venueArray = (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
+        return new LinkedList<>(venueArray);
     }
 
     @Override
     public List<IVenue> searchVenues(String searchString) throws IOException {
-        return APIHandle.searchVenues(searchString);
+        return (List<IVenue>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.VENUE);
     }
 
     @Override
     public List<IArtist> getArtists() throws IOException {
         if (artistArray != null){
-            return new LinkedList(artistArray);
+            return new LinkedList<IArtist>(artistArray);
         } else {
-            //artistArray = APIHandle.getArtistAmount(amountToLoad, artistArray.get(artistArray.size() - 1).getArtistID());
-            artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
+            artistArray = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
             return new ArrayList<>(artistArray);
         }
     }
@@ -177,18 +172,18 @@ public class UserWrapper implements IUserWrapper {
     public List<IArtist> loadMoreArtists() throws IOException {
         int lowestID = 0;
         for (IArtist artist : artistArray){
-            if (artist.getArtistID() < lowestID || lowestID == 0)
-                lowestID = artist.getArtistID();
+            if (artist.getID() < lowestID || lowestID == 0)
+                lowestID = artist.getID();
         }
-        List<IArtist> newData = APIHandle.getArtistAmount(amountToLoad, lowestID);
+        List<IArtist> newData = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.ARTIST);
         artistArray.addAll(newData);
-        return new ArrayList(newData);
+        return new ArrayList<IArtist>(newData);
     }
 
     @Override
     public IArtist getArtist(Integer id) {
         for (IArtist artist : artistArray){
-            if(artist.getArtistID().equals(id));
+            if(artist.getID().equals(id))
             return artist;
         }
         throw new NullPointerException("No item in the list has this id :/.");
@@ -204,12 +199,18 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IArtist> refreshArtists() throws IOException {
-        artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
+        artistArray = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
         return new ArrayList<>(artistArray);
     }
 
     @Override
     public List<IArtist> searchArtists(String searchString) throws IOException {
-        return APIHandle.searchArtists(searchString);
+        return (List<IArtist>) (Object)APIHandle.searchObjects(searchString, DatabaseTable.ARTIST);
+    }
+
+    @Override
+    public Boolean setAmountToLoad(Integer amountToLoad) {
+        this.amountToLoad = amountToLoad;
+        return amountToLoad == amountToLoad;
     }
 }

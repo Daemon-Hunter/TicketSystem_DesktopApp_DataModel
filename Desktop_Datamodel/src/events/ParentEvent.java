@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package datamodel;
+package events;
 
 import database.DatabaseTable;
 import java.awt.image.BufferedImage;
-import reviews.ArtistReviewFactory;
-import reviews.IReview;
-import reviews.IReviewFactory;
-import utilities.Validator;
-import utilities.observer.IObserver;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import reviews.IReview;
+import reviews.IReviewFactory;
+import reviews.ParentEventReviewFactory;
+import utilities.observer.IObserver;
 
 import static utilities.Validator.idValidator;
 
@@ -23,163 +23,130 @@ import static utilities.Validator.idValidator;
  *
  * @author 10512691
  */
-public class Artist implements IArtist {
-
-
-    private List<Integer> childEventIDs;
-    private List<IChildEvent> childEvents;
-    private List<IReview> reviews;
-
-    private Integer socialMediaID;
-    private SocialMedia socialMedia;
+public class ParentEvent implements IParentEvent {
 
     private IReviewFactory reviewFactory;
+    private List<IReview> reviews;
     private List<IObserver> observers;
+    private SocialMedia socialMedia;
+    private Integer socialMediaID;
     private String description;
     private DatabaseTable table;
     private int ID;
     private String name;
-
-    /*
-        Inherits:
-        IReviewFactory        reviewFactory;
-        LinkedList<Review>    reviews;
-        LinkedList<IObserver> observers;
-        SocialMedia           socialMedia;
-        Integer               socialMediaID
-        DatabaseTable         table;
+    
+    private List<IChildEvent> childEvents;
+    
+    /**
+     * Empty constructor initializes it's review factory and child event list.
      */
-    
-    private LinkedList<String> tags;
-    
-    public Artist() {
-        this.table = DatabaseTable.ARTIST;
-        tags = new LinkedList<>();
-        reviewFactory = new ArtistReviewFactory();
-        childEventIDs = new LinkedList<>();
+    public ParentEvent() {
+        super();
+        // Initialize table variable, which matches Java object to database table
+        table = DatabaseTable.PARENT_EVENT;
         childEvents = new LinkedList<>();
+        reviewFactory = new ParentEventReviewFactory();
     }
-
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social,
-                  List<IReview> reviewsList, List<Integer> childEventIDs) {
-        this.ID = ID;
-        this.name = name;
-        this.description = description;
-        this.socialMedia = social;
-        this.reviews = reviewsList;
-        this.table = DatabaseTable.ARTIST;
-
-        // Initialise default values for rest of attributes
-        this.tags = tags;
-        reviewFactory = new ArtistReviewFactory();
-        this.childEventIDs = childEventIDs;
-        this.childEvents = new LinkedList<>();
-    }
-
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID) {
+    
+    public ParentEvent(Integer ID, Integer social, String name, String description)
+    {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.socialMedia = new SocialMedia();
         this.reviews = new LinkedList<>();
-        this.table = DatabaseTable.ARTIST;
-        this.socialMediaID = socialMediaID;
-
-        // Initialise default values for rest of attributes
-        this.tags = tags;
-        reviewFactory = new ArtistReviewFactory();
-        this.childEventIDs = new LinkedList<>();
+        this.table = DatabaseTable.PARENT_EVENT;
         this.childEvents = new LinkedList<>();
+        this.reviewFactory = new ParentEventReviewFactory();
+        this.socialMediaID = social;
+
     }
 
     @Override
-    public List<String> getArtistTags() {
-        return tags;
-    }
-
-    @Override
-    public Boolean addArtistTag(String tag) {
-        if (tag == null) {
-            throw new NullPointerException();
+    public List<IChildEvent> getChildEvents() {
+        if (childEvents == null) {
+            throw new NullPointerException("Null child event list");
         } else {
-            Boolean valid = Validator.tagValidator(tag);
-            if (valid) {
-                tags.add(tag);
-                notifyObservers();
-            }
-            return valid;
+            return childEvents;
         }
     }
 
     @Override
-    public Boolean removeArtistTag(String tag) {
-        
-        return tags.remove(tag);
-            
+    public Boolean addChildEvent(IChildEvent childEvent) {
+        if (childEvent == null) {
+            throw new NullPointerException("Null child event");
+        }
+        return childEvents.add(childEvent);
     }
 
     @Override
-    public Integer getArtistID() {
+    public Boolean addChildEventList(List<IChildEvent> childEvents) {
+        this.childEvents = childEvents;
+        return this.childEvents == childEvents;
+    }
+
+    @Override
+    public IChildEvent getChildEvent(Integer childEventID) {
+        if (childEventID == null) {
+            throw new NullPointerException("Null child event ID");
+        } else {
+            return childEvents.get(childEventID);
+        }
+    }
+
+    @Override
+    public Boolean removeChildEvent(IChildEvent childEvent) {
+        if (childEvent == null) {
+            throw new NullPointerException("Null child event");
+        } else {
+            childEvents.remove(childEvent);
+            return true;
+        }
+    }
+
+    @Override
+    public Integer getID() {
         return ID;
     }
 
     @Override
-    public String getArtistName() {
+    public String getName() {
         return name;
-    }
-
-    @Override
-    public void setArtist(String name) {
-        this.name = name;
     }
 
     @Override
     public String getDescription() {
         if (description == null) {
-            throw new NullPointerException("Artist description is null");
+            throw new NullPointerException("Parent Event description is null");
         } else {
             return description;
         }
     }
 
     @Override
-    public void setDescription(String description) {
-        this.description = description;
+    public Boolean setName(String name) {
+        if (name == null){
+            throw new IllegalArgumentException("Name cannot be null.");
+        } else {
+            this.name = name;
+            return true;
+        }
+    }
+
+    @Override
+    public Boolean setDescription(String description) {
+        if (description == null){
+            throw new IllegalArgumentException("Description cannot be null");
+        } else {
+            this.description = description;
+            return true;
+
+        }
     }
 
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
         this.socialMedia = socialMedia;
-    }
-
-    @Override
-    public List<IChildEvent> getChildEvents() {
-        return new LinkedList<>(childEvents);
-    }
-
-    @Override
-    public Boolean removeChildEvent(IChildEvent childEvent) {
-        return childEvents.remove(childEvent);
-    }
-
-    @Override
-    public Boolean addChildEvent(IChildEvent childEvent) {
-        return childEvents.add(childEvent);
-    }
-
-    @Override
-    public List<Integer> getChildEventIDs() {
-        return new LinkedList<>(childEventIDs);
-    }
-
-    @Override
-    public Boolean removeChildEventID(Integer childEventID) {
-        return childEventIDs.remove(childEventID);
-    }
-
-    @Override
-    public Boolean addChildEventID(Integer childEventID) {
-        return childEventIDs.add(childEventID);
     }
 
     @Override
@@ -195,7 +162,7 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean setSocialId(Integer id) {
-        socialMediaID = id;
+        this.socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
 

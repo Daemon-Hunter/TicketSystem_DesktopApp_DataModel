@@ -5,12 +5,12 @@
  */
 package wrappers;
 
-import datamodel.Artist;
-import datamodel.IArtist;
-import datamodel.IParentEvent;
-import datamodel.IVenue;
+import events.IArtist;
+import events.IParentEvent;
+import events.IVenue;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface IWrapper {
 
-    List<IParentEvent> getParentEvents() throws IOException;
+    LinkedList getParentEvents() throws IOException;
     List<IParentEvent> loadMoreParentEvents() throws IOException;
     IParentEvent       getParentEvent(Integer id);
     Boolean            removeParentEvent(IParentEvent pEvent);
@@ -41,4 +41,6 @@ public interface IWrapper {
     Boolean        removeArtist(IArtist artist);
     List<IArtist> refreshArtists() throws IOException;
     List<IArtist> searchArtists(String string) throws IOException;
+
+    Boolean setAmountToLoad(Integer amountToLoad);
 }

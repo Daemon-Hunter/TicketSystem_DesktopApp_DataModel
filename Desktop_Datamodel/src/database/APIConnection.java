@@ -29,7 +29,7 @@ import java.util.concurrent.Future;
  *
  * @author 10512691
  */
-public final class APIConnection {
+final class APIConnection {
 
     // URL of the web API
     private static String URI = "http://xserve.uopnet.plymouth.ac.uk/Modules/INTPROJ/PRCS251G/api/";
@@ -187,11 +187,7 @@ public final class APIConnection {
         if (table != DatabaseTable.ARTIST && table != DatabaseTable.PARENT_EVENT && table != DatabaseTable.VENUE)
             throw new IllegalArgumentException("Table must be ARTIST/PARENT_EVENT/VENUE.");
 
-        return Connection(URI + "functions/get" +  DBTableToString(table) + "reviews/" + objectID.toString());
-    }
-
-    public static List<Map<String,String>> getChildEventsViaParent(Integer parentEventID) throws IOException {
-        return Connection(URI + "functions/getChild_EventsViaParent/" + parentEventID.toString());
+        return Connection(URI + "functions/getReviewsOf" +  table.toString() + "/" + objectID.toString());
     }
 
     public static List<Map<String,String>> search(String searchText, DatabaseTable table) throws IOException {
@@ -200,6 +196,10 @@ public final class APIConnection {
 
     public static List<Map<String,String>> comparePassword(String email, String password) throws IOException {
         return Connection(URI + "functions/comparepasswords/" + email + "/" + password);
+    }
+
+    public static List<Map<String, String>> getObjectsOfObject(Integer artistID, DatabaseTable objectsToGet, DatabaseTable objectToUse) throws IOException {
+        return Connection(URI + "functions/get" + DBTableToString(objectsToGet) + "Of" + objectToUse.toString() + "/" + artistID.toString());
     }
 
     private static List<Map<String, String>> Connection (String urlText) throws IOException {

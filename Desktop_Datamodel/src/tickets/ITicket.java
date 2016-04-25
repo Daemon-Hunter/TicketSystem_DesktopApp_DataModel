@@ -5,7 +5,8 @@
  */
 package tickets;
 
-import datamodel.ChildEvent;
+import events.IChildEvent;
+import java.io.IOException;
 import utilities.observer.IDbSubject;
 
 /**
@@ -16,8 +17,8 @@ public interface ITicket extends IDbSubject {
     
     public Integer getID();
     
-    public ChildEvent getEvent();
-    public Boolean    setEvent(ChildEvent event);
+    public IChildEvent getEvent() throws IOException;
+    public Boolean    setEvent(IChildEvent event);
     
     public Double getPrice();
     public Boolean setPrice(Double price);

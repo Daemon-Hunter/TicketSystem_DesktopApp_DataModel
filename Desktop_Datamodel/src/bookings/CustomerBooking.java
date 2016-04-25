@@ -6,10 +6,9 @@
 package bookings;
 
 import database.DatabaseTable;
-import java.util.Date;
-
 import tickets.ITicket;
-import tickets.Ticket;
+
+import java.util.Date;
 
 /**
  *
@@ -18,20 +17,18 @@ import tickets.Ticket;
 public class CustomerBooking extends Booking {
     
     private IOrder order;
+    private Integer orderID;
     
     /**
      * Use this constructor when creating a booking object from the database.
      * @param ID
-     * @param ticket
      * @param ticketQty
      * @param dateTime
-     * @param order 
      */
-    public CustomerBooking (Integer ID, ITicket ticket, Integer ticketQty, Date dateTime,
-                            IOrder order) {
-        super(ID, ticket, ticketQty, dateTime);
-        this.order = order;
-        table = DatabaseTable.BOOKING;
+    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) {
+        super(ID, ticketID, ticketQty, dateTime);
+        this.table = DatabaseTable.BOOKING;
+        this.orderID = orderID;
     }
     
     /**

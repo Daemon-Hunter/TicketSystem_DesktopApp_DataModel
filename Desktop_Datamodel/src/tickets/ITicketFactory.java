@@ -5,7 +5,7 @@
  */
 package tickets;
 
-import datamodel.ChildEvent;
+import events.ChildEvent;
 
 /**
  *

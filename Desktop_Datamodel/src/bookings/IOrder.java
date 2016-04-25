@@ -5,9 +5,11 @@
  */
 package bookings;
 
-import java.util.List;
 import people.IUser;
 import utilities.observer.IDbSubject;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -17,10 +19,7 @@ public interface IOrder extends IDbSubject {
     
     
     public Integer getOrderID();
-    public IUser getUser();
-    public List<IBooking> getBookingList();
+    public IUser getUser() throws IOException;
+    public List<IBooking> getBookingList() throws IOException;
     public IBooking getBooking(Integer bookingID);
-    public Boolean removeBooking(IBooking booking);
-    public Boolean addBooking(IBooking booking);
-    public void addBookingList(List<IBooking> bookingList);
 }

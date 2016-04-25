@@ -5,8 +5,6 @@
  */
 package database;
 
-import datamodel.Artist;
-
 /**
  *
  * @author 10512691
@@ -14,6 +12,7 @@ import datamodel.Artist;
 public enum DatabaseTable {
     ADMIN,
     ARTIST ,
+    ARTIST_TYPE,
     ARTIST_REVIEW, 
     BOOKING, 
     CHILD_EVENT,

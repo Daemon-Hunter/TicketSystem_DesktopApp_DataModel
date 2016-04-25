@@ -6,14 +6,14 @@
 package people;
 
 import bookings.IOrder;
-import bookings.Order;
 import database.DatabaseTable;
-import java.util.LinkedList;
-import java.util.List;
 import reviews.IHaveReviews;
 import reviews.IReview;
-import reviews.Review;
 import utilities.Validator;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import static utilities.Validator.idValidator;
 
 /**
@@ -37,13 +37,11 @@ public class Customer extends User implements IHaveReviews, ICustomer {
      * @param postcode 
      */
     public Customer(Integer ID, String firstName, String lastName,
-                    String email, String address, String postcode,
-                    List<IReview> reviews, List<IOrder> orders){
+                    String email, String address, String postcode){
 
         super(ID, firstName, lastName, email, address, postcode);
         this.table = DatabaseTable.CUSTOMER;
-        this.reviews = reviews;
-        this.orders = orders;
+        this.orders = new LinkedList<>();
     }
     
     /**

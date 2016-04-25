@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package datamodel;
+package events;
 
+import database.APIHandle;
 import database.DatabaseTable;
 import java.awt.image.BufferedImage;
+import reviews.ArtistReviewFactory;
+import reviews.IReview;
+import reviews.IReviewFactory;
+import utilities.Validator;
+import utilities.observer.IObserver;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import reviews.IReview;
-import reviews.IReviewFactory;
-import reviews.ParentEventReviewFactory;
-import utilities.observer.IObserver;
 
 import static utilities.Validator.idValidator;
 
@@ -23,130 +25,165 @@ import static utilities.Validator.idValidator;
  *
  * @author 10512691
  */
-public class ParentEvent implements IParentEvent {
+public class Artist implements IArtist {
+
+    private List<IChildEvent> childEvents;
+    private List<IReview> reviews;
+
+    private Integer socialMediaID;
+    private SocialMedia socialMedia;
 
     private IReviewFactory reviewFactory;
-    private List<IReview> reviews;
     private List<IObserver> observers;
-    private SocialMedia socialMedia;
-    private Integer socialMediaID;
     private String description;
     private DatabaseTable table;
     private int ID;
     private String name;
-    
-    private List<IChildEvent> childEvents;
-    
-    /**
-     * Empty constructor initializes it's review factory and child event list.
+    private String type;
+    private Integer typeID;
+
+    /*
+        Inherits:
+        IReviewFactory        reviewFactory;
+        LinkedList<Review>    reviews;
+        LinkedList<IObserver> observers;
+        SocialMedia           socialMedia;
+        Integer               socialMediaID
+        DatabaseTable         table;
      */
-    public ParentEvent() {
-        super();
-        // Initialize table variable, which matches Java object to database table
-        table = DatabaseTable.PARENT_EVENT;
-        childEvents = new LinkedList<>();
-        reviewFactory = new ParentEventReviewFactory();
-    }
     
-    public ParentEvent(Integer ID, Integer social, String name, String description)
-    {
+    private LinkedList<String> tags;
+    
+    public Artist() {
+        this.table = DatabaseTable.ARTIST;
+        tags = new LinkedList<>();
+        reviewFactory = new ArtistReviewFactory();
+        childEvents = new LinkedList<>();
+    }
+
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social,
+                  List<IReview> reviewsList, List<Integer> childEventIDs) {
+        this.ID = ID;
+        this.name = name;
+        this.description = description;
+        this.socialMedia = social;
+        this.reviews = reviewsList;
+        this.table = DatabaseTable.ARTIST;
+
+        // Initialise default values for rest of attributes
+        this.tags = tags;
+        reviewFactory = new ArtistReviewFactory();
+        this.childEvents = new LinkedList<>();
+    }
+
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.socialMedia = new SocialMedia();
         this.reviews = new LinkedList<>();
-        this.table = DatabaseTable.PARENT_EVENT;
+        this.table = DatabaseTable.ARTIST;
+        this.socialMediaID = socialMediaID;
+        this.typeID = typeID;
+
+        // Initialise default values for rest of attributes
+        this.tags = tags;
+        reviewFactory = new ArtistReviewFactory();
         this.childEvents = new LinkedList<>();
-        this.reviewFactory = new ParentEventReviewFactory();
-        this.socialMediaID = social;
-
     }
 
     @Override
-    public List<IChildEvent> getChildEvents() {
-        if (childEvents == null) {
-            throw new NullPointerException("Null child event list");
+    public List<String> getTags() {
+        return tags;
+    }
+
+    @Override
+    public Boolean addTag(String tag) {
+        if (tag == null) {
+            throw new NullPointerException();
         } else {
-            return childEvents;
+            Boolean valid = Validator.tagValidator(tag);
+            if (valid) {
+                tags.add(tag);
+                notifyObservers();
+            }
+            return valid;
         }
     }
 
     @Override
-    public Boolean addChildEvent(IChildEvent childEvent) {
-        if (childEvent == null) {
-            throw new NullPointerException("Null child event");
-        }
-        return childEvents.add(childEvent);
+    public Boolean removeTag(String tag) {
+        
+        return tags.remove(tag);
+            
     }
 
     @Override
-    public Boolean addChildEventList(List<IChildEvent> childEvents) {
-        this.childEvents = childEvents;
-        return this.childEvents == childEvents;
-    }
-
-    @Override
-    public IChildEvent getChildEvent(Integer childEventID) {
-        if (childEventID == null) {
-            throw new NullPointerException("Null child event ID");
-        } else {
-            return childEvents.get(childEventID);
-        }
-    }
-
-    @Override
-    public Boolean removeChildEvent(IChildEvent childEvent) {
-        if (childEvent == null) {
-            throw new NullPointerException("Null child event");
-        } else {
-            childEvents.remove(childEvent);
-            return true;
-        }
-    }
-
-    @Override
-    public Integer getParentEventID() {
+    public Integer getID() {
         return ID;
     }
 
     @Override
-    public String getParentEventName() {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String getParentEventDescription() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getDescription() {
         if (description == null) {
-            throw new NullPointerException("Parent Event description is null");
+            throw new NullPointerException("Artist description is null");
         } else {
             return description;
         }
     }
 
     @Override
-    public Boolean setParentEventName(String name) {
-        if (name == null){
-            throw new IllegalArgumentException("Name cannot be null.");
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String getType() {
+        if (type == null) {
+            throw new NullPointerException("Artist type is null");
         } else {
-            this.name = name;
-            return true;
+            return type;
         }
     }
 
     @Override
-    public Boolean setParentEventDescription(String description) {
-        if (description == null){
-            throw new IllegalArgumentException("Description cannot be null");
+    public Boolean setType(String type) {
+        if (type == null) {
+            throw new NullPointerException("Artist type is null");
         } else {
-            this.description = description;
-            return true;
-
+            this.type = type;
+            return this.type == type;
         }
+    }
+
+    @Override
+    public Integer getTypeID() {
+        return typeID;
     }
 
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
         this.socialMedia = socialMedia;
+    }
+
+    @Override
+    public List<IChildEvent> getChildEvents() throws IOException {
+        if (childEvents == null) {
+            childEvents = (List<IChildEvent>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.ARTIST);
+            return new LinkedList<>(childEvents);
+        } else {
+            return new LinkedList<>(childEvents);
+        }
     }
 
     @Override
@@ -162,7 +199,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public Boolean setSocialId(Integer id) {
-        this.socialMediaID = id;
+        socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
 
