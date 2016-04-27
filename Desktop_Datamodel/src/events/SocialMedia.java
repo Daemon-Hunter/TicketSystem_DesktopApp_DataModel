@@ -39,7 +39,7 @@ public class SocialMedia implements ISocial {
         this.website = website;
         this.spotify = spoify;
     }
-    
+   
 
     @Override
     public Integer getSocialId() {
@@ -66,7 +66,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public List<BufferedImage> getImages() {
-        return new LinkedList<BufferedImage>(images);
+        return new LinkedList<>(images);
     }
 
     @Override
