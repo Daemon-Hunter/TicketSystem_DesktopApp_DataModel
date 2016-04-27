@@ -38,6 +38,7 @@ import static database.MapToObject.ConvertParentEvent;
 import static database.MapToObject.ConvertSocialMedia;
 import static database.MapToObject.ConvertTicket;
 import static database.MapToObject.ConvertVenue;
+import people.Customer;
 import static utilities.HashString.Encrypt;
 
 /**
@@ -87,6 +88,16 @@ public final class APIHandle {
         }
         return adminList;
     }
+        public static List<IUser> getUsers() throws IOException {
+
+        List<IUser> userList = new LinkedList<>();
+        List<Map<String, String>> userMapList = APIConnection.readAll(DatabaseTable.CUSTOMER);
+        for (Map<String, String> user : userMapList) {
+            userList.add(ConvertCustomer(user));
+        }
+        return userList;
+    }
+
 
     public static List<Object> searchObjects(String search, final DatabaseTable table) throws IOException {
         List<Object> objectList = new LinkedList<>();
