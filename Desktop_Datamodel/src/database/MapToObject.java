@@ -45,6 +45,7 @@ import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 import javax.imageio.ImageIO;
+import static javax.xml.bind.DatatypeConverter.parseBase64Binary;
 
 /**
  *
@@ -100,11 +101,11 @@ final class MapToObject {
         soundcloud = socialMap.get("SOUNDCLOUD");
         website = socialMap.get("WEBSITE");
         spotify = socialMap.get("SPOTIFY");
-        images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE").getBytes())));
-        images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE2").getBytes())));
-        images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE3").getBytes())));
-        images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE4").getBytes())));
-        images.add(ImageIO.read(new ByteArrayInputStream(socialMap.get("IMAGE5").getBytes())));
+        images.add(ImageIO.read(new ByteArrayInputStream(parseBase64Binary(socialMap.get("IMAGE")))));
+        images.add(ImageIO.read(new ByteArrayInputStream(parseBase64Binary(socialMap.get("IMAGE2")))));
+        images.add(ImageIO.read(new ByteArrayInputStream(parseBase64Binary(socialMap.get("IMAGE3")))));
+        images.add(ImageIO.read(new ByteArrayInputStream(parseBase64Binary(socialMap.get("IMAGE4")))));
+        images.add(ImageIO.read(new ByteArrayInputStream(parseBase64Binary(socialMap.get("IMAGE5")))));
 
         return new SocialMedia(socialMediaID, images, facebook, twitter, instagram, soundcloud, website, spotify);
     }
