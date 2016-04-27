@@ -105,6 +105,7 @@ public final class APIHandle {
                             IParentEvent parentEvent;
                             parentEvent = ConvertParentEvent(objectMap);
                             parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getID(), DatabaseTable.SOCIAL_MEDIA)));
+                            return parentEvent;
                         case VENUE: 
                             IVenue venue;
                             venue = ConvertVenue(objectMap);
@@ -113,6 +114,7 @@ public final class APIHandle {
                         case ARTIST:
                             IArtist artist = ConvertArtist(objectMap);
                             artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                            artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getID(), DatabaseTable.SOCIAL_MEDIA)));
                             return artist;
                         default: throw new IllegalArgumentException();
                     }

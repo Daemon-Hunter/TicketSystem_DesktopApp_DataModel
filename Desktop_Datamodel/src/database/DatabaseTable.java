@@ -11,7 +11,7 @@ package database;
  */
 public enum DatabaseTable {
     ADMIN,
-    ARTIST ,
+    ARTIST,
     ARTIST_TYPE,
     ARTIST_REVIEW, 
     BOOKING, 
