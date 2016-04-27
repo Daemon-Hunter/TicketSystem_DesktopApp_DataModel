@@ -122,7 +122,7 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public IChildEvent getEvent() throws IOException {
+    public IChildEvent getEvent() throws IOException{
         childEvent = (IChildEvent)APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
         return childEvent;
     }

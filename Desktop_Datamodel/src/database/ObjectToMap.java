@@ -1,28 +1,28 @@
 package database;
 
-import bookings.CustomerBooking;
-import people.Customer;
+import bookings.IBooking;
+import people.IUser;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Dominic on 20/04/2016.
+ *
  */
-public class ObjectToMap {
+class ObjectToMap {
 
-    public static Map<String,String> ConvertBooking(CustomerBooking aBooking)
+    public static Map<String,String> ConvertBooking(IBooking aBooking)
     {
         Map<String,String> returnMap = new HashMap<>();
         returnMap.put("BOOKING_ID",Integer.toString(aBooking.getBookingID()));
         returnMap.put("TICKET_ID", Integer.toString(aBooking.getTicket().getID()));
-        returnMap.put("ORDER_ID",Integer.toString(aBooking.getOrder().getOrderID()));
+        //returnMap.put("ORDER_ID",Integer.toString(aBooking.getOrder().getOrderID()));
         returnMap.put("BOOKING_QUANTITY",Integer.toString(aBooking.getQuantity()));
         returnMap.put("BOOKING_DATE_TIME",aBooking.getBookingTime().toString());
         return returnMap;
     }
 
-    public static Map<String,String> ConvertCustomer(Customer aCustomer)
+    public static Map<String,String> ConvertCustomer(IUser aCustomer)
     {
         Map<String,String> returnMap = new HashMap<>();
         returnMap.put("CUSTOMER_ID",Integer.toString(aCustomer.getID()));

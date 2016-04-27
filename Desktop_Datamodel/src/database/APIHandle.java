@@ -10,8 +10,10 @@ import events.IChildEvent;
 import events.IParentEvent;
 import events.IVenue;
 import people.IAdmin;
+import people.ICustomer;
 import people.IUser;
 import reviews.IReview;
+import utilities.HashString;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -36,6 +38,7 @@ import static database.MapToObject.ConvertParentEvent;
 import static database.MapToObject.ConvertSocialMedia;
 import static database.MapToObject.ConvertTicket;
 import static database.MapToObject.ConvertVenue;
+import static utilities.HashString.Encrypt;
 
 /**
  *
@@ -43,8 +46,8 @@ import static database.MapToObject.ConvertVenue;
 public final class APIHandle {
 
     public static IUser isPasswordTrue(String email, String password) throws IOException, IllegalArgumentException {
-        Map<String, String> customer = APIConnection.comparePassword(email, password).get(0);
-        if (customer != null)
+        Map<String, String> customer = APIConnection.comparePassword(email, Encrypt(password)).get(0);
+        if (Integer.parseInt(customer.get("CUSTOMER_ID").toString()) != -1)
             return ConvertCustomer(customer);
         else
             throw new IllegalArgumentException("Email or password is wrong");
@@ -55,19 +58,25 @@ public final class APIHandle {
         switch (table){
             case ADMIN: MapToObject.ConvertAdmin(objMap);break;
             case ARTIST: MapToObject.ConvertArtist(objMap);break;
-            //case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
-            case CHILD_EVENT: MapToObject.ConvertChildEvent(objMap);break;
+            case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
             case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
-            //case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
-            //case ORDER: MapToObject.ConvertOrder(objMap);break;
+            case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
+            case ORDER: MapToObject.ConvertOrder(objMap);break;
             case PARENT_EVENT: MapToObject.ConvertParentEvent(objMap);break;
             case SOCIAL_MEDIA: MapToObject.ConvertSocialMedia(objMap);break;
-            //case TICKET: MapToObject.ConvertTicket(objMap);break;
+            case TICKET: MapToObject.ConvertTicket(objMap);break;
             case VENUE: MapToObject.ConvertVenue(objMap);break;
             default: throw new IllegalArgumentException("These tables are not supported");
         }
         return MapToObject.ConvertArtist(APIConnection.readSingle(id, table));
     }
+
+    public static int registerUser(IUser newUser, String password) throws IOException {
+        Map<String, String> customerMap = ObjectToMap.ConvertCustomer(newUser);
+        customerMap.put("CUSTOMER_PASSWORD", Encrypt(password));
+        return APIConnection.add(customerMap, DatabaseTable.CUSTOMER);
+    }
+
 
     public static List<IAdmin> getAdmins() throws IOException {
 
@@ -143,7 +152,6 @@ public final class APIHandle {
                             IParentEvent parentEvent;
                             parentEvent = ConvertParentEvent(objectMap);
                             parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-                            parentEvent.addChildEventList((List<IChildEvent>) (Object)getObjectsFromObject(parentEvent.getID(), DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT));
                             return parentEvent;
                         case VENUE:
                             IVenue venue;
@@ -185,7 +193,7 @@ public final class APIHandle {
                 public Object call() throws Exception {
                     switch (objectsToGet){
                         case CHILD_EVENT:
-                            return ConvertChildEvent(objectMap);
+                            return ConvertChildEvent(objectMap, parentID);
                         case ARTIST:
                             IArtist artist = ConvertArtist(objectMap);
                             artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));

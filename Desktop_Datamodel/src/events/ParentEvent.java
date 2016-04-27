@@ -6,8 +6,8 @@
 package events;
 
 import database.DatabaseTable;
-import java.awt.image.BufferedImage;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +17,8 @@ import reviews.IReviewFactory;
 import reviews.ParentEventReviewFactory;
 import utilities.observer.IObserver;
 
+import static database.APIHandle.getObjectsFromObject;
+import java.awt.image.BufferedImage;
 import static utilities.Validator.idValidator;
 
 /**
@@ -63,12 +65,11 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public List<IChildEvent> getChildEvents() {
+    public List<IChildEvent> getChildEvents() throws IOException {
         if (childEvents == null) {
-            throw new NullPointerException("Null child event list");
-        } else {
-            return childEvents;
+            childEvents = (List<IChildEvent>) (Object)getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT);
         }
+        return childEvents;
     }
 
     @Override
@@ -77,12 +78,6 @@ public class ParentEvent implements IParentEvent {
             throw new NullPointerException("Null child event");
         }
         return childEvents.add(childEvent);
-    }
-
-    @Override
-    public Boolean addChildEventList(List<IChildEvent> childEvents) {
-        this.childEvents = childEvents;
-        return this.childEvents == childEvents;
     }
 
     @Override
@@ -205,7 +200,7 @@ public class ParentEvent implements IParentEvent {
     @Override
     public void notifyObservers() {
         if (observers == null) {
-            observers = new LinkedList();
+            observers = new LinkedList<>();
         } else {
             for (IObserver o : observers) {
                 o.update(this);

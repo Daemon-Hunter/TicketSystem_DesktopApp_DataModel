@@ -10,19 +10,19 @@ import database.DatabaseTable;
 import events.IArtist;
 import events.IParentEvent;
 import events.IVenue;
+import people.IAdmin;
+import people.IUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import people.IAdmin;
-import people.IUser;
 /**
  *
  * @author 10512691
  */
 public class DesktopWrapper implements IDesktopWrapper {
-    
+
     private static DesktopWrapper wrapper;
 
     private Integer amountToLoad = 9;
@@ -34,7 +34,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     private List<IAdmin>        adminArray;
 
     private  DesktopWrapper(){}
-    
+
     public static DesktopWrapper getInstance(){
         if (wrapper == null){
             wrapper = new DesktopWrapper();
@@ -69,7 +69,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     public IParentEvent getParentEvent(Integer id) {
         for (IParentEvent parentEvent : parentEventArray){
             if(parentEvent.getID().equals(id))
-            return parentEvent;
+                return parentEvent;
         }
         throw new NullPointerException("No item in the list has this id :/.");
     }
@@ -171,7 +171,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     public IArtist getArtist(Integer id) {
         for (IArtist artist : artistArray){
             if(artist.getID().equals(id))
-            return artist;
+                return artist;
         }
         throw new NullPointerException("No item in the list has this id :/.");
     }
@@ -239,5 +239,20 @@ public class DesktopWrapper implements IDesktopWrapper {
     public Boolean setAmountToLoad(Integer amountToLoad) {
         this.amountToLoad = amountToLoad;
         return this.amountToLoad == amountToLoad;
+    }
+
+    @Override
+    public IParentEvent getParentEventSearch(Integer id) {
+        return null;
+    }
+
+    @Override
+    public IArtist getArtistSearch(Integer id) {
+        return null;
+    }
+
+    @Override
+    public IVenue getVenueSearch(Integer id) {
+        return null;
     }
 }

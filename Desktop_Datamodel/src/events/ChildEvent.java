@@ -8,6 +8,7 @@ package events;
 import database.APIHandle;
 import database.DatabaseTable;
 import java.awt.image.BufferedImage;
+import tickets.ITicket;
 import utilities.Validator;
 import utilities.observer.IObserver;
 
@@ -25,8 +26,11 @@ public class ChildEvent implements IChildEvent {
 
     private List<IArtist> artists;
     private IParentEvent parentEvent;
+    private Integer parentEventID;
+    private List<ITicket> tickets;
     private IVenue venue;
     private Integer venueID;
+    private SocialMedia socialMedia;
     
     private Integer childEventID;
     private String childEventName, childEventDescription;
@@ -46,7 +50,7 @@ public class ChildEvent implements IChildEvent {
      * @param endTime
      * @param cancelled
      */
-    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled) {
+    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) {
         childEventID = ID;
         childEventName = name;
         childEventDescription = description;
@@ -54,7 +58,7 @@ public class ChildEvent implements IChildEvent {
         endDateTime = endTime;
         this.cancelled = cancelled;
         table = DatabaseTable.CHILD_EVENT;
-        this.artists = new LinkedList<>();
+        this.parentEventID = parentEventID;
     }
     
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
@@ -69,7 +73,6 @@ public class ChildEvent implements IChildEvent {
                 this.artists = artists;
                 this.cancelled = false;
                 this.table = DatabaseTable.CHILD_EVENT;
-                this.artists = new LinkedList<>();
                 this.parentEvent = parentEvent;
             } else {
                 throw new IllegalArgumentException("Invalid description");
@@ -80,9 +83,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     public ChildEvent() {
-    
         table = DatabaseTable.CHILD_EVENT;
-
     }
     
     @Override
@@ -180,7 +181,10 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IParentEvent getParentEvent() {
+    public IParentEvent getParentEvent() throws IOException{
+        if (this.parentEvent == null){
+            parentEvent = (IParentEvent) APIHandle.getSingle(parentEventID, DatabaseTable.PARENT_EVENT);
+        }
         return this.parentEvent;
     }
 
@@ -191,7 +195,10 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
-        this.setSocialMedia(socialMedia);
+        if (socialMedia == null){
+            throw new IllegalArgumentException("SocialMedia cannot be null");
+        }
+        this.socialMedia = socialMedia;
     }
 
     @Override
@@ -258,12 +265,11 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IVenue getVenue() {
+    public IVenue getVenue() throws IOException {
         if (venue == null) {
-            throw new NullPointerException("The child event's venue hasn't been initialised (still null).");
-        } else {
-            return venue;
+            venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
         }
+        return venue;
     }
 
     @Override

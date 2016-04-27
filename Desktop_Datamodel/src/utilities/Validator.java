@@ -118,7 +118,7 @@ public final class Validator {
 //            return 2 <= name.length() 
 //                    && name.length() <= 20;
 //        } else 
-        return false;
+        return true;
     }
 
     /**
@@ -174,6 +174,7 @@ public final class Validator {
     }
 
     public static Boolean postcodeValidator(String postcode) {
+        // TODO: 25/04/2016 REGEX FOR HERE; 
         return true; 
     }
 

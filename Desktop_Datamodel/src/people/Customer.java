@@ -6,11 +6,13 @@
 package people;
 
 import bookings.IOrder;
+import database.APIHandle;
 import database.DatabaseTable;
 import reviews.IHaveReviews;
 import reviews.IReview;
 import utilities.Validator;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -139,12 +141,11 @@ public class Customer extends User implements IHaveReviews, ICustomer {
     }
 
     @Override
-    public List<IOrder> getOrderList() {
+    public List<IOrder> getOrderList() throws IOException {
         if (orders == null){
-            throw new NullPointerException("No orders in list");
-        } else {
-            return new LinkedList(orders);
+            orders = (List<IOrder>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.ORDER, DatabaseTable.CUSTOMER);
         }
+        return new LinkedList(orders);
     }
 
     @Override

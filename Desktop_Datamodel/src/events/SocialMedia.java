@@ -5,7 +5,6 @@
  */
 package events;
 
-
 import database.DatabaseTable;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;

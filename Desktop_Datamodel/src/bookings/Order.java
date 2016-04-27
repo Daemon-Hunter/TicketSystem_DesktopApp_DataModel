@@ -62,10 +62,9 @@ public class Order implements IOrder{
     /**
      * 
      * @return 
-     * @throws java.io.IOException 
      */
     @Override
-    public IUser getUser() throws IOException {
+    public IUser getUser() throws IOException{
         user = (IUser)APIHandle.getSingle(userID, DatabaseTable.CUSTOMER);
         return user;
     }
