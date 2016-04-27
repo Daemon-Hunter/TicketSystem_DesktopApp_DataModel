@@ -101,8 +101,15 @@ public final class APIHandle {
                 @Override
                 public Object call() throws Exception {
                     switch (table){
-                        case PARENT_EVENT: return ConvertParentEvent(objectMap);
-                        case VENUE: return ConvertVenue(objectMap);
+                        case PARENT_EVENT:
+                            IParentEvent parentEvent;
+                            parentEvent = ConvertParentEvent(objectMap);
+                            parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getID(), DatabaseTable.SOCIAL_MEDIA)));
+                        case VENUE: 
+                            IVenue venue;
+                            venue = ConvertVenue(objectMap);
+                            venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getID(), DatabaseTable.SOCIAL_MEDIA)));
+                            return venue;
                         case ARTIST:
                             IArtist artist = ConvertArtist(objectMap);
                             artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
