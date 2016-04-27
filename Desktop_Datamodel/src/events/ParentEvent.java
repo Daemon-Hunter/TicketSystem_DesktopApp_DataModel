@@ -46,7 +46,6 @@ public class ParentEvent implements IParentEvent {
         super();
         // Initialize table variable, which matches Java object to database table
         table = DatabaseTable.PARENT_EVENT;
-        childEvents = new LinkedList<>();
         reviewFactory = new ParentEventReviewFactory();
     }
     
@@ -55,10 +54,7 @@ public class ParentEvent implements IParentEvent {
         this.ID = ID;
         this.name = name;
         this.description = description;
-        this.socialMedia = new SocialMedia();
-        this.reviews = new LinkedList<>();
         this.table = DatabaseTable.PARENT_EVENT;
-        this.childEvents = new LinkedList<>();
         this.reviewFactory = new ParentEventReviewFactory();
         this.socialMediaID = social;
 
