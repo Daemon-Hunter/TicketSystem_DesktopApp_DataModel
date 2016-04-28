@@ -123,6 +123,7 @@ public final class APIHandle implements IObserver{
         return adminList;
     }
 
+
     public static List<Object> searchObjects(String search, final DatabaseTable table) throws IOException {
         List<Object> objectList = new LinkedList<>();
         List<Map<String, String>> objectMapList = APIConnection.search(search, table);

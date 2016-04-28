@@ -199,7 +199,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     public Boolean addUser(IUser user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public List<IUser> getUsers() throws IOException {
         if (userArray == null) {
