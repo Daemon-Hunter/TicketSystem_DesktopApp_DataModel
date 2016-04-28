@@ -8,6 +8,9 @@ package people;
 import bookings.IBooking;
 import database.DatabaseTable;
 
+import java.io.IOException;
+import java.util.List;
+
 /**
  *
  * @author 10512691

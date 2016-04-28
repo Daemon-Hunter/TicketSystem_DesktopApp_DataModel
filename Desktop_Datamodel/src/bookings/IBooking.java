@@ -5,6 +5,7 @@
  */
 package bookings;
 
+import java.io.IOException;
 import java.util.Date;
 
 import tickets.ITicket;
@@ -16,14 +17,15 @@ import utilities.observer.IDbSubject;
  * @author 10512691
  */
 public interface IBooking extends IDbSubject {
-    public Integer getBookingID();
+    Integer getBookingID();
 
-    public ITicket getTicket();
-    public Boolean setTicket(ITicket ticket);
+    Integer getTicketID();
+    ITicket getTicket() throws IOException;
+    Boolean setTicket(ITicket ticket);
     
-    public Integer getQuantity();
-    public Boolean setQuantity(Integer qty);
+    Integer getQuantity();
+    Boolean setQuantity(Integer qty) throws IOException;
     
-    public Date    getBookingTime();
-    public Boolean setBookingTime(Date time);
+    Date    getBookingTime();
+    Boolean setBookingTime(Date time) throws IOException;
 }

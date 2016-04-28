@@ -5,6 +5,7 @@
  */
 package people;
 
+import bookings.IBooking;
 import bookings.IOrder;
 import database.APIHandle;
 import database.DatabaseTable;
@@ -43,7 +44,6 @@ public class Customer extends User implements IHaveReviews, ICustomer {
 
         super(ID, firstName, lastName, email, address, postcode);
         this.table = DatabaseTable.CUSTOMER;
-        this.orders = new LinkedList<>();
     }
     
     /**
@@ -100,7 +100,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
     }
 
     @Override
-    public Boolean deleteReview(IReview review) {
+    public Boolean deleteReview(IReview review) throws IOException {
         if (review == null) {
             throw new NullPointerException("Review to be deleted was null");
         } else if (!reviews.contains(review)) {
@@ -113,7 +113,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
     }
 
     @Override
-    public Boolean setFirstName(String name) {
+    public Boolean setFirstName(String name) throws IOException {
         if (name == null) {
             throw new NullPointerException("Cannot set name to null");
         } else {
@@ -127,7 +127,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
     }
 
     @Override
-    public Boolean setLastName(String name) {
+    public Boolean setLastName(String name) throws IOException {
         if (name == null) {
             throw new NullPointerException("Cannot set name to null");
         } else {
@@ -178,5 +178,15 @@ public class Customer extends User implements IHaveReviews, ICustomer {
         } else {
         return orders.remove(order);
         }
+    }
+
+    @Override
+    public List<IBooking> getBookings() throws IOException {
+        List<IBooking> bookings = new LinkedList<>();
+        getOrderList();
+        for (IOrder order : orders){
+            bookings.addAll(order.getBookingList());
+        }
+        return bookings;
     }
 }

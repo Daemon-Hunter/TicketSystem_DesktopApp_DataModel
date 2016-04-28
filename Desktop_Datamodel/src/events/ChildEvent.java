@@ -30,7 +30,6 @@ public class ChildEvent implements IChildEvent {
     private List<ITicket> tickets;
     private IVenue venue;
     private Integer venueID;
-    private SocialMedia socialMedia;
     
     private Integer childEventID;
     private String childEventName, childEventDescription;
@@ -50,15 +49,17 @@ public class ChildEvent implements IChildEvent {
      * @param endTime
      * @param cancelled
      */
-    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) {
-        childEventID = ID;
-        childEventName = name;
-        childEventDescription = description;
-        startDateTime = startTime;
-        endDateTime = endTime;
+    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
+        this.childEventID = ID;
+        this.childEventName = name;
+        this.childEventDescription = description;
+        this.startDateTime = startTime;
+        this.endDateTime = endTime;
         this.cancelled = cancelled;
-        table = DatabaseTable.CHILD_EVENT;
+        this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
+        this.venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
+        this.venueID = this.venue.getID();
     }
     
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
@@ -171,6 +172,11 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
+    public Integer getVenueID() {
+        return venueID;
+    }
+
+    @Override
     public List<IArtist> getArtistList() throws IOException {
         if (artists == null) {
             artists = (List<IArtist>) (Object)APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.ARTIST, DatabaseTable.CHILD_EVENT);
@@ -181,11 +187,47 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IParentEvent getParentEvent() throws IOException{
+    public Integer getParentEventID() {
+        return parentEventID;
+    }
+
+    @Override
+    public IParentEvent getParentEvent() throws IOException {
         if (this.parentEvent == null){
             parentEvent = (IParentEvent) APIHandle.getSingle(parentEventID, DatabaseTable.PARENT_EVENT);
+            parentEventID = parentEvent.getID();
         }
         return this.parentEvent;
+    }
+
+    @Override
+    public ITicket getTicket(Integer id) {
+        for (ITicket ticket : tickets){
+            if(ticket.getID().equals(id))
+                return ticket;
+        }
+        throw new IllegalArgumentException("No item in the list contains that id.");
+    }
+
+    @Override
+    public List<ITicket> getTickets() {
+        return new LinkedList<>(tickets);
+    }
+
+    @Override
+    public Boolean addTicket(ITicket ticket) {
+        if(ticket == null){
+            throw new IllegalArgumentException("Cannot add a null ticket.");
+        }
+        return tickets.add(ticket);
+    }
+
+    @Override
+    public Boolean removeTicket(ITicket ticket) {
+        if(ticket == null){
+            throw new IllegalArgumentException("Cannot remove a null ticket.");
+        }
+        return tickets.remove(ticket);
     }
 
     @Override
@@ -198,7 +240,7 @@ public class ChildEvent implements IChildEvent {
         if (socialMedia == null){
             throw new IllegalArgumentException("SocialMedia cannot be null");
         }
-        this.socialMedia = socialMedia;
+        this.parentEvent.setSocialMedia(socialMedia);
     }
 
     @Override
@@ -207,12 +249,12 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -265,10 +307,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IVenue getVenue() throws IOException {
-        if (venue == null) {
-            venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
-        }
+    public IVenue getVenue() {
         return venue;
     }
 
@@ -278,7 +317,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setSocialId(Integer id) {
+    public Boolean setSocialId(Integer id) throws IOException {
         return parentEvent.setSocialId(id);
     }
 

@@ -7,14 +7,15 @@
 
 package tickets;
 
+import bookings.IBooking;
 import database.APIHandle;
 import database.DatabaseTable;
 import events.ChildEvent;
 import events.IChildEvent;
-import java.io.IOException;
 import utilities.observer.IDbSubject;
 import utilities.observer.IObserver;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class Ticket implements ITicket, IDbSubject {
     private String          type;
     private List<IObserver> observers;
     private Integer         childEventID;
+    private List<IBooking>  bookings;
     private DatabaseTable   table;
 
     /**
@@ -79,12 +81,12 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -122,13 +124,19 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public IChildEvent getEvent() throws IOException{
-        childEvent = (IChildEvent)APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
+    public Integer getChildEventID() {
+        return childEventID;
+    }
+
+    @Override
+    public IChildEvent getChildEvent() throws IOException {
+        childEvent = (IChildEvent) APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
+        childEventID = childEvent.getID();
         return childEvent;
     }
 
     @Override
-    public Boolean setEvent(IChildEvent event) {
+    public Boolean setChildEvent(IChildEvent event) {
         if (event == null) {
             throw new NullPointerException("Cannot set event to null");
         } else {
@@ -195,6 +203,26 @@ public class Ticket implements ITicket, IDbSubject {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<IBooking> getBookings() throws IOException {
+        bookings = (List<IBooking>)(Object) APIHandle.getObjectsFromObject(this.ticketID, DatabaseTable.BOOKING, DatabaseTable.TICKET);
+        return bookings;
+    }
+
+    @Override
+    public Boolean addBooking(IBooking booking) {
+        if (booking == null)
+            throw new IllegalArgumentException("Cannot add a null booking");
+        return bookings.add(booking);
+    }
+
+    @Override
+    public Boolean removeBooking(IBooking booking) {
+        if (booking == null)
+            throw new IllegalArgumentException("Cannot remove a null booking");
+        return bookings.remove(booking);
     }
 
 }

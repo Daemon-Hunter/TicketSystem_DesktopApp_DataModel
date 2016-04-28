@@ -5,11 +5,15 @@
  */
 package utilities.observer;
 
+import database.DatabaseTable;
+
+import java.io.IOException;
+
 /**
  *
  * @author 10512691
  */
 public interface IObserver {
     
-    void update(ISubject object);
+    void update(ISubject object, DatabaseTable table) throws IOException;
 }

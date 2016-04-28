@@ -5,11 +5,13 @@
  */
 package bookings;
 
+import database.APIHandle;
 import database.DatabaseTable;
 import tickets.ITicket;
 import utilities.Validator;
 import utilities.observer.IObserver;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -19,8 +21,8 @@ import java.util.LinkedList;
  */
 public abstract class Booking implements IBooking {
 
-    protected ITicket  ticket;
-    protected IOrder order;
+    protected ITicket ticket;
+    protected IOrder  order;
 
     protected Integer ticketID;
     protected DatabaseTable table;
@@ -67,14 +69,19 @@ public abstract class Booking implements IBooking {
             return bookingID;
         }
     }
+
+    @Override
+    public Integer getTicketID(){
+        return ticketID;
+    }
     
     @Override
-    public ITicket getTicket() {
+    public ITicket getTicket() throws IOException {
         if (ticket == null) {
-            throw new NullPointerException("Null ticket");
-        } else {
-            return ticket;
+            ticket = (ITicket) APIHandle.getSingle(this.ticketID, DatabaseTable.TICKET);
+            ticketID = ticket.getID();
         }
+        return ticket;
     }
     @Override
     public Boolean setTicket(ITicket ticket) {
@@ -82,6 +89,7 @@ public abstract class Booking implements IBooking {
             throw new NullPointerException("Null ticket");
         } else {
             this.ticket = ticket;
+            this.ticketID = ticket.getID();
             return true;
         }
     }
@@ -95,7 +103,7 @@ public abstract class Booking implements IBooking {
         }
     }
     @Override
-    public Boolean setQuantity(Integer qty) {
+    public Boolean setQuantity(Integer qty) throws IOException {
         if (qty == null) {
             throw new NullPointerException("Null quantity");
         } else {
@@ -117,7 +125,7 @@ public abstract class Booking implements IBooking {
         }
     }
     @Override
-    public Boolean setBookingTime(Date time) {
+    public Boolean setBookingTime(Date time) throws IOException {
         if (time == null) {
             throw new NullPointerException("Null date / time");
         } else {
@@ -135,9 +143,9 @@ public abstract class Booking implements IBooking {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
     }
     @Override

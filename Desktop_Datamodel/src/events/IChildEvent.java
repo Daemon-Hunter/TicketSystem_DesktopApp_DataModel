@@ -5,6 +5,7 @@
  */
 package events;
 
+import tickets.ITicket;
 import utilities.observer.IDbSubject;
 
 import java.io.IOException;
@@ -29,13 +30,21 @@ public interface IChildEvent extends IDbSubject, ISocial {
     Boolean setStartDateTime(Date startDateTime);
     Boolean setEndDateTime(Date endDateTime);
     Boolean setCancelled(Boolean cancelled);
-    
+
+    Integer getVenueID();
     Boolean setVenue(IVenue venue);
-    IVenue  getVenue() throws IOException;
+    IVenue  getVenue();
     
     List<IArtist> getArtistList() throws IOException;
 
+    Integer getParentEventID();
     IParentEvent getParentEvent() throws IOException;
+
+    ITicket getTicket(Integer id);
+    List<ITicket> getTickets();
+    Boolean addTicket(ITicket ticket);
+    Boolean removeTicket(ITicket ticket);
+
 
     void setVenueID(Integer venue);
 

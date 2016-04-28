@@ -5,6 +5,7 @@
  */
 package reviews;
 
+import java.io.IOException;
 import java.util.Date;
 import utilities.observer.IDbSubject;
 
@@ -24,10 +25,10 @@ public interface IReview extends IDbSubject {
     Boolean setDateTime(Date datetime);
     
     Integer getRating();
-    Boolean setRating(Integer rating);
+    Boolean setRating(Integer rating) throws IOException;
     
     String  getBody();
-    Boolean SetBody(String body);
+    Boolean SetBody(String body) throws IOException;
     
     Boolean isVerified();
     Boolean setVerified(Boolean verified);

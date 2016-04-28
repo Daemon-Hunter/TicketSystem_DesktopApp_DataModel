@@ -7,6 +7,8 @@ package people;
 
 import utilities.observer.IDbSubject;
 
+import java.io.IOException;
+
 /**
  *
  * @author 10512691
@@ -14,11 +16,11 @@ import utilities.observer.IDbSubject;
 public interface IPerson extends IDbSubject {
     
     String  getFirstName();
-    Boolean setFirstName(String name);
+    Boolean setFirstName(String name) throws IOException;
     
     String getLastName();
-    Boolean setLastName(String name);
+    Boolean setLastName(String name) throws IOException;
     
     String  getEmail();
-    Boolean setEmail(String email);
+    Boolean setEmail(String email) throws IOException;
 }

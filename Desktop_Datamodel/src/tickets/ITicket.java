@@ -5,9 +5,12 @@
  */
 package tickets;
 
+import bookings.IBooking;
 import events.IChildEvent;
-import java.io.IOException;
 import utilities.observer.IDbSubject;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -15,16 +18,17 @@ import utilities.observer.IDbSubject;
  */
 public interface ITicket extends IDbSubject {
     
-    public Integer getID();
+    Integer getID();
+
+    Integer getChildEventID();
+    IChildEvent getChildEvent() throws IOException;
+    Boolean setChildEvent(IChildEvent event);
     
-    public IChildEvent getEvent() throws IOException;
-    public Boolean    setEvent(IChildEvent event);
+    Double getPrice();
+    Boolean setPrice(Double price);
     
-    public Double getPrice();
-    public Boolean setPrice(Double price);
-    
-    public String  getDescription();
-    public Boolean setDescription(String description);
+    String  getDescription();
+    Boolean setDescription(String description);
     
     /**
      * Gets the amount of tickets of that ticket type remaining.
@@ -32,9 +36,13 @@ public interface ITicket extends IDbSubject {
      * is stored in that ticket type.
      * @return 
      */
-    public Integer getRemaining();
-    public Boolean setRemaining(Integer remaining);
+    Integer getRemaining();
+    Boolean setRemaining(Integer remaining);
     
-    public String  getType();
-    public Boolean setType(String type);
+    String  getType();
+    Boolean setType(String type);
+
+    List<IBooking> getBookings() throws IOException;
+    Boolean addBooking(IBooking booking);
+    Boolean removeBooking(IBooking booking);
 }

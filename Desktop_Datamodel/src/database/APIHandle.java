@@ -5,15 +5,20 @@
  */
 package database;
 
+import bookings.CustomerBooking;
+import bookings.GuestBooking;
+import bookings.IOrder;
 import events.IArtist;
 import events.IChildEvent;
 import events.IParentEvent;
 import events.IVenue;
+import events.SocialMedia;
 import people.IAdmin;
-import people.ICustomer;
 import people.IUser;
 import reviews.IReview;
-import utilities.HashString;
+import tickets.ITicket;
+import utilities.observer.IObserver;
+import utilities.observer.ISubject;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -25,30 +30,50 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static database.MapToObject.ConvertAdmin;
-import static database.MapToObject.ConvertArtist;
-import static database.MapToObject.ConvertArtistReview;
-import static database.MapToObject.ConvertArtistType;
-import static database.MapToObject.ConvertChildEvent;
-import static database.MapToObject.ConvertCustomer;
-import static database.MapToObject.ConvertCustomerBooking;
-import static database.MapToObject.ConvertGuestBooking;
-import static database.MapToObject.ConvertOrder;
-import static database.MapToObject.ConvertParentEvent;
-import static database.MapToObject.ConvertSocialMedia;
-import static database.MapToObject.ConvertTicket;
-import static database.MapToObject.ConvertVenue;
+import static database.MapToObject.MapToAdmin;
+import static database.MapToObject.MapToArtist;
+import static database.MapToObject.MapToArtistReview;
+import static database.MapToObject.MapToArtistType;
+import static database.MapToObject.MapToChildEvent;
+import static database.MapToObject.MapToCustomer;
+import static database.MapToObject.MapToCustomerBooking;
+import static database.MapToObject.MapToGuestBooking;
+import static database.MapToObject.MapToOrder;
+import static database.MapToObject.MapToParentEvent;
+import static database.MapToObject.MapToSocialMedia;
+import static database.MapToObject.MapToTicket;
+import static database.MapToObject.MapToVenue;
+import static database.ObjectToMap.artistToMap;
+import static database.ObjectToMap.childEventToMap;
+import static database.ObjectToMap.customerBookingToMap;
+import static database.ObjectToMap.customerToMap;
+import static database.ObjectToMap.guestBookingToMap;
+import static database.ObjectToMap.orderToMap;
+import static database.ObjectToMap.parentEventToMap;
+import static database.ObjectToMap.socialMediaToMap;
+import static database.ObjectToMap.ticketToMap;
+import static database.ObjectToMap.venueToMap;
 import static utilities.HashString.Encrypt;
 
 /**
  *
  */
-public final class APIHandle {
+public final class APIHandle implements IObserver{
+
+    public static List<IUser> getUsers() throws IOException {
+
+           List<IUser> userList = new LinkedList<>();
+           List<Map<String, String>> userMapList = APIConnection.readAll(DatabaseTable.CUSTOMER);
+           for (Map<String, String> user : userMapList) {
+                 userList.add(MapToCustomer(user));
+            }
+            return userList;
+        }
 
     public static IUser isPasswordTrue(String email, String password) throws IOException, IllegalArgumentException {
         Map<String, String> customer = APIConnection.comparePassword(email, Encrypt(password)).get(0);
         if (Integer.parseInt(customer.get("CUSTOMER_ID").toString()) != -1)
-            return ConvertCustomer(customer);
+            return MapToCustomer(customer);
         else
             throw new IllegalArgumentException("Email or password is wrong");
     }
@@ -56,34 +81,44 @@ public final class APIHandle {
     public static Object getSingle(int id, DatabaseTable table) throws IOException{
         Map<String, String> objMap = APIConnection.readSingle(id, table);
         switch (table){
-            case ADMIN: MapToObject.ConvertAdmin(objMap);break;
-            case ARTIST: MapToObject.ConvertArtist(objMap);break;
-            case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
-            case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
-            case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
-            case ORDER: MapToObject.ConvertOrder(objMap);break;
-            case PARENT_EVENT: MapToObject.ConvertParentEvent(objMap);break;
-            case SOCIAL_MEDIA: MapToObject.ConvertSocialMedia(objMap);break;
-            case TICKET: MapToObject.ConvertTicket(objMap);break;
-            case VENUE: MapToObject.ConvertVenue(objMap);break;
+            case ADMIN: return MapToObject.MapToAdmin(objMap);
+            case BOOKING: return MapToObject.MapToCustomerBooking(objMap);
+            case CUSTOMER: return MapToObject.MapToCustomer(objMap);
+            case GUEST_BOOKING: return MapToObject.MapToGuestBooking(objMap);
+            case ORDER: return MapToObject.MapToOrder(objMap);
+            case SOCIAL_MEDIA: return MapToObject.MapToSocialMedia(objMap);
+            case TICKET: return MapToObject.MapToTicket(objMap);
+            case PARENT_EVENT:
+                IParentEvent parentEvent;
+                parentEvent = MapToParentEvent(objMap);
+                parentEvent.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                return parentEvent;
+            case VENUE:
+                IVenue venue;
+                venue = MapToVenue(objMap);
+                venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                return venue;
+            case ARTIST:
+                IArtist artist = MapToArtist(objMap);
+                artist.setType(MapToArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                artist.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                return artist;
             default: throw new IllegalArgumentException("These tables are not supported");
         }
-        return MapToObject.ConvertArtist(APIConnection.readSingle(id, table));
     }
 
     public static int registerUser(IUser newUser, String password) throws IOException {
-        Map<String, String> customerMap = ObjectToMap.ConvertCustomer(newUser);
+        Map<String, String> customerMap = ObjectToMap.customerToMap(newUser);
         customerMap.put("CUSTOMER_PASSWORD", Encrypt(password));
         return APIConnection.add(customerMap, DatabaseTable.CUSTOMER);
     }
-
 
     public static List<IAdmin> getAdmins() throws IOException {
 
         List<IAdmin> adminList = new LinkedList<>();
         List<Map<String, String>> adminMapList = APIConnection.readAll(DatabaseTable.ADMIN);
         for (Map<String, String> admin : adminMapList) {
-            adminList.add(ConvertAdmin(admin));
+            adminList.add(MapToAdmin(admin));
         }
         return adminList;
     }
@@ -103,18 +138,18 @@ public final class APIHandle {
                     switch (table){
                         case PARENT_EVENT:
                             IParentEvent parentEvent;
-                            parentEvent = ConvertParentEvent(objectMap);
-                            parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            parentEvent = MapToParentEvent(objectMap);
+                            parentEvent.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return parentEvent;
-                        case VENUE: 
+                        case VENUE:
                             IVenue venue;
-                            venue = ConvertVenue(objectMap);
-                            venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            venue = MapToVenue(objectMap);
+                            venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return venue;
                         case ARTIST:
-                            IArtist artist = ConvertArtist(objectMap);
-                            artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
-                            artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            IArtist artist = MapToArtist(objectMap);
+                            artist.setType(MapToArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                            artist.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return artist;
                         default: throw new IllegalArgumentException();
                     }
@@ -154,19 +189,19 @@ public final class APIHandle {
                     switch (table){
                         case ARTIST:
                             IArtist artist;
-                            artist = ConvertArtist(objectMap);
-                            artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-                            artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                            artist = MapToArtist(objectMap);
+                            artist.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            artist.setType(MapToArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
                             return artist;
                         case PARENT_EVENT:
                             IParentEvent parentEvent;
-                            parentEvent = ConvertParentEvent(objectMap);
-                            parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            parentEvent = MapToParentEvent(objectMap);
+                            parentEvent.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return parentEvent;
                         case VENUE:
                             IVenue venue;
-                            venue = ConvertVenue(objectMap);
-                            venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            venue = MapToVenue(objectMap);
+                            venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return venue;
                         default: throw new IllegalArgumentException();
                     }
@@ -203,28 +238,30 @@ public final class APIHandle {
                 public Object call() throws Exception {
                     switch (objectsToGet){
                         case CHILD_EVENT:
-                            return ConvertChildEvent(objectMap, parentID);
+                            IChildEvent childEvent = MapToChildEvent(objectMap, parentID);
+                            childEvent.getParentEvent();
+                            return childEvent;
                         case ARTIST:
-                            IArtist artist = ConvertArtist(objectMap);
-                            artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            IArtist artist = MapToArtist(objectMap);
+                            artist.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return artist;
                         case BOOKING:
-                            return ConvertCustomerBooking(objectMap);
+                            return MapToCustomerBooking(objectMap);
                         case CUSTOMER:
-                            return ConvertCustomer(objectMap);
+                            return MapToCustomer(objectMap);
                         case GUEST_BOOKING:
-                            return ConvertGuestBooking(objectMap);
+                            return MapToGuestBooking(objectMap);
                         case PARENT_EVENT:
-                            IParentEvent parentEvent =  ConvertParentEvent(objectMap);
-                            parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            IParentEvent parentEvent =  MapToParentEvent(objectMap);
+                            parentEvent.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return parentEvent;
                         case TICKET:
-                            return ConvertTicket(objectMap);
+                            return MapToTicket(objectMap);
                         case VENUE:
-                            IVenue venue =  ConvertVenue(objectMap);
-                            venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            IVenue venue =  MapToVenue(objectMap);
+                            venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                         case ORDER:
-                            return ConvertOrder(objectMap);
+                            return MapToOrder(objectMap);
                         default: throw new IllegalArgumentException();
                     }
                 }
@@ -249,8 +286,71 @@ public final class APIHandle {
         List<IReview> reviewList = new LinkedList<>();
         List<Map<String, String>> reviewMapList = APIConnection.readObjectsReviews(table, objectID);
         for (Map<String, String> reviewsMap : reviewMapList){
-            reviewList.add(ConvertArtistReview(reviewsMap));
+            reviewList.add(MapToArtistReview(reviewsMap));
         }
         return reviewList;
+    }
+
+    public static Integer pushObjectToDatabase(Object object, DatabaseTable table) throws IOException{
+        Map<String, String> objectMap;
+        switch (table){
+//            case ADMIN:
+//                //objectMap = AdminToMap
+//                break;
+            case ARTIST:
+                IArtist artist = (IArtist) object;
+                artist.setSocialId(pushObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                objectMap = artistToMap((IArtist) object);
+                break;
+//            case ARTIST_TYPE:
+//                //objectMap = artistTypeToMap();
+//            case ARTIST_REVIEW:
+//                break;
+            case BOOKING:
+                objectMap = customerBookingToMap((CustomerBooking) object);
+                break;
+            case CHILD_EVENT:
+                objectMap = childEventToMap((IChildEvent) object);
+                break;
+            case CUSTOMER:
+                objectMap = customerToMap((IUser) object);
+                break;
+//            case CONTRACTS:
+//                break;
+//            case PARENT_EVENT_REVIEW:
+//                break;
+            case GUEST_BOOKING:
+                objectMap = guestBookingToMap((GuestBooking) object);
+                break;
+            case PARENT_EVENT:
+                IParentEvent parentEvent = (IParentEvent) object;
+                parentEvent.setSocialId(pushObjectToDatabase(parentEvent.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                objectMap = parentEventToMap((IParentEvent) object);
+                break;
+            case SOCIAL_MEDIA:
+                objectMap = socialMediaToMap((SocialMedia) object);
+                break;
+            case TICKET:
+                objectMap = ticketToMap((ITicket) object);
+                break;
+            case VENUE:
+                IVenue venue = (IVenue) object;
+                venue.setSocialId(pushObjectToDatabase(venue.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                objectMap = venueToMap(venue);
+                break;
+//            case VENUE_REVIEW:
+//                break;
+            case ORDER:
+                objectMap = orderToMap((IOrder) object);
+                break;
+            default: throw new IllegalArgumentException("Not supported table.");
+        }
+
+        return APIConnection.add(objectMap, table);
+    }
+
+    @Override
+    public void update(ISubject object, DatabaseTable table) throws IOException {
+        pushObjectToDatabase(object, table);
     }
 }

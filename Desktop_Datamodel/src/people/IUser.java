@@ -5,6 +5,11 @@
  */
 package people;
 
+import bookings.IBooking;
+
+import java.io.IOException;
+import java.util.List;
+
 /**
  *
  * @author 10512691
@@ -12,10 +17,10 @@ package people;
 public interface IUser extends IPerson {
     
     String getAddress();
-    Boolean setAddress(String address);
+    Boolean setAddress(String address) throws IOException;
     
     Integer getID();
     
     String getPostcode();
-    Boolean setPostcode(String postcode);
+    Boolean setPostcode(String postcode) throws IOException;
 }

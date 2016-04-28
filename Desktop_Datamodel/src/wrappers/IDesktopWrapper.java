@@ -5,6 +5,7 @@
  */
 package wrappers;
 
+import java.io.IOException;
 import java.util.List;
 import people.IAdmin;
 import people.IUser;
@@ -15,7 +16,7 @@ import people.IUser;
  */
 public interface IDesktopWrapper extends IWrapper {
     public Boolean      addUser(IUser user);
-    public List<IUser>  getUsers();
+    public List<IUser>  getUsers()throws IOException;
     public IUser        getUser(Integer index);
     public Boolean      removeUser(IUser user);
     

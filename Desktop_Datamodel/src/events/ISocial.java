@@ -8,6 +8,7 @@ package events;
 import java.awt.image.BufferedImage;
 import utilities.observer.IDbSubject;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
 public interface ISocial extends IDbSubject {
     
     Integer getSocialId();
-    Boolean setSocialId(Integer id);
+    Boolean setSocialId(Integer id) throws IOException;
     
     List<BufferedImage> getImages();
     BufferedImage getImage(int index);
