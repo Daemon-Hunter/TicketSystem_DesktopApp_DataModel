@@ -43,13 +43,14 @@ public class ChildEvent implements IChildEvent {
      * creating an object already stored in the database.
      * Therefore do not need to check validation - will already have been checked.
      * @param ID
+     * @param venueID
      * @param name
      * @param description
      * @param startTime
      * @param endTime
      * @param cancelled
      */
-    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
+    public ChildEvent(Integer ID, Integer venueID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
         this.childEventName = name;
         this.childEventDescription = description;
@@ -58,8 +59,8 @@ public class ChildEvent implements IChildEvent {
         this.cancelled = cancelled;
         this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
+        this.venueID = venueID;
         this.venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
-        this.venueID = this.venue.getID();
     }
     
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
