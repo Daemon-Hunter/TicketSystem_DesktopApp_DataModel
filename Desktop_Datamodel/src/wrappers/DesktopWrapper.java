@@ -47,7 +47,6 @@ public class DesktopWrapper implements IDesktopWrapper {
         if (parentEventArray != null){
             return new LinkedList(parentEventArray);
         } else {
-            //parentEventArray = APIHandle.getParentAmount(amountToLoad, parentEventArray.get(parentEventArray.size()).getParentEventID());
             parentEventArray = new LinkedList((List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT));
             return new LinkedList(parentEventArray);
         }

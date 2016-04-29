@@ -23,42 +23,23 @@ public final class Validator {
         return 0 < qty;
     }
 
-//    /**
-//     * Checks whether the date / time is in a valid time period.
-//     * @param time
-//     * @return 
-//     */
-//    public static Boolean dateTimeValidator(Date time) {
-//        
-//        // Initialise date object with values from first launch.
-//        Date date = new Date();
-//        date.setDate(22);
-//        date.setHours(12);
-//        date.setMinutes(0);
-//        date.setMonth(2);
-//        date.setSeconds(0);
-//        date.setYear(2016);
-//        
-//        // Check whether the date object is in a valid time period.
-//        return time.after(date) && time.before(new Date()); 
-//    }
-
     /**
      * Checks the rating is in range '0 to 5'
      * @param rating
      * @return 
      */
     public static Boolean ratingValidator(Integer rating) {
-        return 0 <+ rating && rating <= 5; 
+        return 0 <= rating && rating <= 5; 
     }
 
     /**
-     * Returns true if the review body is between 15 & 100 characters.
+     * Returns true if the review body is between 15 & 100 characters, and doesn't 
+     * contain any blacklisted words.
      * @param body
      * @return 
      */
     public static Boolean reviewBodyValidator(String body) {
-        return (body.length() <= 140 && 5 <= body.length() && !Blacklist.contains(body));
+        return (body.length() <= 100 && 15 <= body.length() && !Blacklist.contains(body));
     }
     
     /**
@@ -68,16 +49,9 @@ public final class Validator {
      */
     public static Boolean idValidator(Integer id) {
         
-//      ************ Remove this statement in final version!! *****************
-        if (id == 0) {
-            System.out.println("Object has not been set a valid ID!");
-            return true;
-            // return false!
-        } else {
-            Pattern idPattern = Pattern.compile("[1-9]{1}[0-9]{0,7}");
-            Matcher matcher = idPattern.matcher(id.toString());
-            return matcher.matches();
-        }
+        Pattern idPattern = Pattern.compile("[0-9]{1,8}");
+        Matcher matcher = idPattern.matcher(id.toString());
+        return matcher.matches();
     }
     
     /**
@@ -114,10 +88,10 @@ public final class Validator {
      */
     public static Boolean nameValidator(String name) 
     {
-//        if (!Blacklist.contains(name)) {
-//            return 2 <= name.length() 
-//                    && name.length() <= 20;
-//        } else 
+        if (!Blacklist.contains(name)) {
+            return 2 <= name.length() 
+                    && name.length() <= 20;
+        } else 
         return true;
     }
 

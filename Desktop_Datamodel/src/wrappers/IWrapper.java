@@ -36,11 +36,11 @@ public interface IWrapper {
 
 
     List<IArtist>  getArtists() throws IOException;
-    List<IArtist> loadMoreArtists() throws IOException;
+    List<IArtist>  loadMoreArtists() throws IOException;
     IArtist        getArtist(Integer id);
     Boolean        removeArtist(IArtist artist);
-    List<IArtist> refreshArtists() throws IOException;
-    List<IArtist> searchArtists(String string) throws IOException;
+    List<IArtist>  refreshArtists() throws IOException;
+    List<IArtist>  searchArtists(String string) throws IOException;
 
     Boolean setAmountToLoad(Integer amountToLoad);
 }
