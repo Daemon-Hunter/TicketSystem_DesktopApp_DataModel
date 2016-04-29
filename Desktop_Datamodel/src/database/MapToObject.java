@@ -247,8 +247,8 @@ final class MapToObject {
 
         Integer eventID, venueID;
         String description, name;
-        Date startTime = new Date();
-        Date endTime = new Date();
+        String startTime;
+        String endTime;
         Boolean cancelled = false;
 
 
@@ -259,12 +259,15 @@ final class MapToObject {
 
         if (eventMap.get("CHILD_EVENT_CANCELED").equals("true"))
             cancelled = true;
-        try {
-            startTime = formatter.parse(eventMap.get("START_DATE_TIME"));
-            endTime = formatter.parse(eventMap.get("END_DATE_TIME"));
-        } catch (ParseException e) {
-            System.err.println(e.toString());
-        }
+        
+            System.out.println("Start Of Event " + name);
+            System.out.println("START TIME - " + name + " " + eventMap.get("START_DATE_TIME"));
+            System.out.println("END TIME - " +name + " " + eventMap.get("END_DATE_TIME"));
+            System.out.println("End Of Event " + name);
+
+            startTime = eventMap.get("START_DATE_TIME");
+            endTime = eventMap.get("END_DATE_TIME");
+        
         return new ChildEvent(eventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 

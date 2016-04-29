@@ -21,8 +21,8 @@ public interface IChildEvent extends IDbSubject, ISocial {
     Integer getID();
     String  getName();
     String  getDescription();
-    Date    getStartDateTime();
-    Date    getEndDateTime();
+    String    getStartDateTime();
+    String    getEndDateTime();
     Boolean getCancelled();
     
     Boolean setName(String name);

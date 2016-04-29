@@ -5,9 +5,7 @@
  */
 package desktop_datamodel;
 
-import database.APIConnection;
-import database.DatabaseTable;
-import database.MapToObject;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,15 +18,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import wrappers.DesktopWrapper;
 
 /**
  *
  * @author Dominic
  */
 public class APIConnectionTest {
-    Map<String,String> customer = new HashMap<>();
-    Map<String,String> editedCustomer = new HashMap<>();
-    APIConnection custConn = new APIConnection(DatabaseTable.LINEUP);
     public APIConnectionTest() {
     }
     
@@ -42,21 +38,6 @@ public class APIConnectionTest {
     
     @Before
     public void setUp() {
-//        customer.put("CUSTOMER_ID","0");
-//        customer.put("CUSTOMER_FIRST_NAME", "James");
-//        customer.put("CUSTOMER_LAST_NAME", "White");
-//        customer.put("CUSTOMER_POSTCODE", "This");
-//        customer.put("CUSTOMER_EMAIL", "is");
-//        customer.put("CUSTOMER_PASSWORD", "doctor");
-//        customer.put("CUSTOMER_ADDRESS", "here and there street");
-//        
-//        editedCustomer.put("CUSTOMER_ID","48"); // CHANGE THIS TO THE REAL ONE
-//        editedCustomer.put("CUSTOMER_FIRST_NAME", "James");
-//        editedCustomer.put("CUSTOMER_LAST_NAME", "Green");
-//        editedCustomer.put("CUSTOMER_POSTCODE", "DY101ST ");
-//        editedCustomer.put("CUSTOMER_EMAIL", "jimNew@googlemail.COM");
-//        editedCustomer.put("CUSTOMER_PASSWORD", "passwordcomplex");
-//        editedCustomer.put("CUSTOMER_ADDRESS", "mansion drive plymouth");
 
     }
     
@@ -65,10 +46,8 @@ public class APIConnectionTest {
     }
 
     @Test
-    public void testAdd()
+    public void testAdd() throws IOException
     {
-        System.out.print(custConn.readSingle(0).get("ARTIST3_ID"));
-
         
     }
 //            public void testRead()

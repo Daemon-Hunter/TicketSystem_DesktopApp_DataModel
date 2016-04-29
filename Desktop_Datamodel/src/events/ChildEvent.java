@@ -33,7 +33,7 @@ public class ChildEvent implements IChildEvent {
     
     private Integer childEventID;
     private String childEventName, childEventDescription;
-    private Date startDateTime, endDateTime;
+    private String startDateTime, endDateTime;
     private Boolean cancelled;
     private List<IObserver> observers;
     private final DatabaseTable table;
@@ -50,7 +50,7 @@ public class ChildEvent implements IChildEvent {
      * @param endTime
      * @param cancelled
      */
-    public ChildEvent(Integer ID, Integer venueID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
+    public ChildEvent(Integer ID, Integer venueID, String name, String description, String startTime, String endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
         this.childEventName = name;
         this.childEventDescription = description;
@@ -63,7 +63,7 @@ public class ChildEvent implements IChildEvent {
         this.venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
     
-    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
+    public ChildEvent(String name, String description, String startTime, String endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
         childEventID = 0;
         if (Validator.nameValidator(name)) {
             if (Validator.descriptionValidator(description)) {
@@ -104,13 +104,13 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Date getStartDateTime() {
-        return (Date) startDateTime.clone();
+    public String getStartDateTime() {
+        return  startDateTime;
     }
 
     @Override
-    public Date getEndDateTime() {
-        return (Date) endDateTime.clone();
+    public String getEndDateTime() {
+        return endDateTime;
     }
 
     @Override
@@ -147,7 +147,8 @@ public class ChildEvent implements IChildEvent {
         if (startDateTime == null) {
             throw new NullPointerException("start time is null");
         } else {
-            this.startDateTime = startDateTime;
+            
+            this.startDateTime = startDateTime.toString();
         }
         return this.startDateTime.equals(startDateTime);
     }
@@ -157,7 +158,7 @@ public class ChildEvent implements IChildEvent {
         if (endDateTime == null) {
             throw new NullPointerException("end time is null");
         } else {
-            this.endDateTime = endDateTime;
+            this.startDateTime = startDateTime.toString();
         }
         return this.endDateTime.equals(endDateTime);
     }
