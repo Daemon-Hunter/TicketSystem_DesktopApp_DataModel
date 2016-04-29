@@ -82,7 +82,7 @@ public final class Validator {
 
     /**
      * returns true if the name does not contain any blacklisted words, 
-     * and is between 2 & 20 characters long.
+     * and is between 2 & 30 characters long.
      * @param name
      * @return 
      */
@@ -90,44 +90,32 @@ public final class Validator {
     {
         if (!Blacklist.contains(name)) {
             return 2 <= name.length() 
-                    && name.length() <= 20;
-        } else 
-        return true;
+                    && name.length() <= 30;
+        }
+        else return false;
     }
 
     /**
-     * Description must be between 10 & 100 characters long,
-     * and not have bad words...
+     * Description must be between 10 & 500 characters long,
+     * and not contain any blacklisted words.
      * @param description
      * @return 
      */
-    public static Boolean descriptionValidator(String description) {
-        
-        ArrayList<String> badWords = new ArrayList<>();
-
-        Boolean naughty = false;
-        
-        for (String badWord : badWords) 
-        {
-            if (description.contains(badWord)) 
-            {
-                System.err.println("Oi! None of that...");
-                naughty = true;
-                break;
-            }
+    public static Boolean descriptionValidator(String description) 
+    {
+        if (!Blacklist.contains(description)) {
+            return 10 <= description.length() 
+                && description.length() <= 500;
         }
-        
-        return 10 <= description.length() 
-                && description.length() <= 100
-                && naughty; 
+        else return false;
     }
 
     public static Boolean capacityValidator(Integer standing) {
-        return true; 
+        return 0 < standing && standing < 1000000; 
     }
 
     public static Boolean facilitiesValidator(String facilities) {
-        return Blacklist.contains(facilities) && facilities.length() <= 100; 
+        return !Blacklist.contains(facilities) && facilities.length() <= 100; 
     }
 
     public static Boolean parkingSpaceValidator(Integer parking) {
@@ -135,7 +123,7 @@ public final class Validator {
     }
 
     public static  Boolean emailValidator(String email) {
-        return true; 
+        return true;
     }
 
     public static Boolean phoneNumberValidator(String phoneNumber) {
@@ -153,7 +141,7 @@ public final class Validator {
     }
 
     public static Boolean tagValidator(String tag) {
-        return Blacklist.contains(tag) && tag.contains(","); 
+        return !Blacklist.contains(tag); 
     }
     
     public static String formatPrice(Double price) {
