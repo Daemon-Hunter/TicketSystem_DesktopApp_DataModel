@@ -26,7 +26,7 @@ import static utilities.Validator.descriptionValidator;
  *
  * @author 10512691
  */
-public class Ticket implements ITicket, IDbSubject {
+public class Ticket implements ITicket {
 
     private Integer         ticketID;
     private IChildEvent     childEvent;
@@ -34,7 +34,6 @@ public class Ticket implements ITicket, IDbSubject {
     private String          description;
     private Integer         amountRemaining;
     private String          type;
-    private List<IObserver> observers;
     private Integer         childEventID;
     private List<IBooking>  bookings;
     private DatabaseTable   table;
@@ -75,47 +74,8 @@ public class Ticket implements ITicket, IDbSubject {
         }
     }
 
-    @Override
     public DatabaseTable getTable() {
         return table;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("cannot register null observer");
-        } else {
-            if (!observers.contains(o)) {
-                return observers.add(o);
-            } else {
-                return false;
-            }
-        }
-    }
-
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("cannot remove null observer");
-        } else {
-            if (observers.contains(o)) {
-                return observers.remove(o);
-            } else {
-                return false;
-            }
-        }
     }
 
     @Override

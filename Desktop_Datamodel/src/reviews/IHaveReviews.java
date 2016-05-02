@@ -6,18 +6,15 @@
 package reviews;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
-
-import utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface IHaveReviews extends IDbSubject {
+public interface IHaveReviews {
     
-    public List<IReview> getReviews();
-    public IReview getReview(Integer uniqueID);
-    public Boolean deleteReview(IReview review) throws IOException;
+    List<IReview> getReviews();
+    IReview getReview(Integer uniqueID);
+    Boolean deleteReview(IReview review) throws IOException;
 }

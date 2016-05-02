@@ -72,7 +72,7 @@ final class MapToObject {
         Integer ID = Integer.parseInt(artistMap.get("ARTIST_ID"));
         String name = artistMap.get("ARTIST_NAME");
         String tags = artistMap.get("ARTIST_TAGS");
-        String[] tempArr = tags.split("#");
+        String[] tempArr = tags.split(",");
         String description = artistMap.get("ARTIST_DESCRIPTION");
         Integer socialID = Integer.parseInt(artistMap.get("SOCIAL_MEDIA_ID"));
         Integer type = Integer.parseInt(artistMap.get("ARTIST_TYPE_ID"));
@@ -150,14 +150,11 @@ final class MapToObject {
     public static IReview MapToVenueReview(Map<String, String> reviewMap, DatabaseTable table) {
 
         IReviewFactory factory;
-        if (table == DatabaseTable.VENUE)
-            factory = new VenueReviewFactory();
-        else if (table == DatabaseTable.ARTIST)
-            factory = new ArtistReviewFactory();
+        if (table == DatabaseTable.VENUE) factory = new VenueReviewFactory();
+        else if (table == DatabaseTable.ARTIST) factory = new ArtistReviewFactory();
         else if (table == DatabaseTable.PARENT_EVENT_REVIEW)
             factory = new ParentEventReviewFactory();
-        else
-            throw new IllegalArgumentException(table.toString() + " is not a valid table.");
+        else throw new IllegalArgumentException(table.toString() + " is not a valid table.");
 
         String sTable = table.toString().toUpperCase();
 
@@ -205,7 +202,7 @@ final class MapToObject {
     public static IVenue MapToVenue(Map<String, String> venueMap) {
 
         Integer venueID, capSeating, capStanding, parking, socialMediaID;
-        String description, facilities, phoneNumber, email, address, postcode, name;
+        String description, facilities, phoneNumber, email, address, city, postcode, name;
         Boolean disabledAccess;
 
         venueID = Integer.parseInt(venueMap.get("VENUE_ID"));
@@ -217,6 +214,7 @@ final class MapToObject {
         phoneNumber = venueMap.get("VENUE_PHONE_NUMBER");
         email = venueMap.get("VENUE_EMAIL");
         address = venueMap.get("VENUE_ADDRESS");
+        city = venueMap.get("VENUE_CITY");
         postcode = venueMap.get("VENUE_POSTCODE");
         name = venueMap.get("VENUE_NAME");
         socialMediaID = Integer.parseInt(venueMap.get("SOCIAL_MEDIA_ID"));
@@ -224,8 +222,9 @@ final class MapToObject {
         disabledAccess = venueMap.get("VENUE_DISABLED_ACCESS").equals("true");
 
 
-        return new Venue(venueID, socialMediaID, description, capSeating, capStanding, disabledAccess,
-                facilities, parking, phoneNumber, email, address, postcode, name);
+        return new Venue(venueID, socialMediaID, description, capSeating, capStanding,
+                disabledAccess, facilities, parking, phoneNumber, email, address, city, postcode,
+                name);
     }
 
     public static ITicket MapToTicket(Map<String, String> ticketMap) {
@@ -243,32 +242,25 @@ final class MapToObject {
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
 
-    public static IChildEvent MapToChildEvent(Map<String, String> eventMap, Integer parentEventID) throws IOException {
+    public static IChildEvent MapToChildEvent(Map<String, String> childEventMap) throws IOException {
 
-        Integer eventID, venueID;
+        Integer childEventID, venueID, parentEventID;
         String description, name;
         String startTime;
         String endTime;
         Boolean cancelled = false;
 
 
-        eventID = Integer.parseInt(eventMap.get("CHILD_EVENT_ID"));
-        venueID = Integer.parseInt(eventMap.get("VENUE_ID"));
-        name = eventMap.get("CHILD_EVENT_NAME");
-        description = eventMap.get("CHILD_EVENT_DESCRIPTION");
+        childEventID = Integer.parseInt(childEventMap.get("CHILD_EVENT_ID"));
+        parentEventID = Integer.parseInt(childEventMap.get("PARENT_EVENT_ID"));
+        venueID = Integer.parseInt(childEventMap.get("VENUE_ID"));
+        name = childEventMap.get("CHILD_EVENT_NAME");
+        description = childEventMap.get("CHILD_EVENT_DESCRIPTION");
 
-        if (eventMap.get("CHILD_EVENT_CANCELED").equals("true"))
-            cancelled = true;
-        
-            System.out.println("Start Of Event " + name);
-            System.out.println("START TIME - " + name + " " + eventMap.get("START_DATE_TIME"));
-            System.out.println("END TIME - " +name + " " + eventMap.get("END_DATE_TIME"));
-            System.out.println("End Of Event " + name);
-
-            startTime = eventMap.get("START_DATE_TIME");
-            endTime = eventMap.get("END_DATE_TIME");
-        
-        return new ChildEvent(eventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
+        if (childEventMap.get("CHILD_EVENT_CANCELED").equals("true")) cancelled = true;
+            startTime = childEventMap.get("START_DATE_TIME");
+            endTime = childEventMap.get("END_DATE_TIME");
+        return new ChildEvent(childEventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 
     public static IBooking MapToCustomerBooking(Map<String, String> bookingMap) {
@@ -317,7 +309,7 @@ final class MapToObject {
             System.err.println(e.toString());
         }
 
-        return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest("GUEST", "ACCOUNT", email, address, postcode));
+        return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest(email, address, postcode));
     }
 
     public static IParentEvent MapToParentEvent(Map<String, String> eventMap) {
@@ -332,16 +324,16 @@ final class MapToObject {
         return new ParentEvent(eventID, socialMediaID, name, description);
     }
 
-    public static IAdmin MapToAdmin(Map<String, String> adminMap){
+    public static IAdmin MapToAdmin(Map<String, String> adminMap) {
         Integer adminID = Integer.parseInt(adminMap.get("ADMIN_ID"));
         String email = adminMap.get("ADMIN_EMAIL");
 
         return new Admin(adminID, "ADMIN", "ADMIN", email);
     }
 
-    public static Integer[] MapToContract(Map<String, String> contractMap){
+    public static Integer[] MapToContract(Map<String, String> contractMap) {
         Integer artistID = Integer.parseInt(contractMap.get("ADMIN_ID"));
         Integer child_event_id = Integer.parseInt(contractMap.get("CHILD_EVENT_ID"));
-        return new Integer[] {artistID, child_event_id};
+        return new Integer[]{artistID, child_event_id};
     }
 }

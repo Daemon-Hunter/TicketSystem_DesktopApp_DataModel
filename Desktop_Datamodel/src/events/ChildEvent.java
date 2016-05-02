@@ -7,7 +7,6 @@ package events;
 
 import database.APIHandle;
 import database.DatabaseTable;
-import java.awt.image.BufferedImage;
 import tickets.ITicket;
 import utilities.Validator;
 import utilities.observer.IObserver;
@@ -16,6 +15,13 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import static database.APIHandle.createContract;
+import java.awt.image.BufferedImage;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The child of a parent event, containing lineup and venue details, as well
@@ -38,12 +44,14 @@ public class ChildEvent implements IChildEvent {
     private List<IObserver> observers;
     private final DatabaseTable table;
 
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+
     /**
      * ID and 'cancelled' variables being passed, so this constructor will be used when 
      * creating an object already stored in the database.
      * Therefore do not need to check validation - will already have been checked.
      * @param ID
-     * @param venueID
      * @param name
      * @param description
      * @param startTime
@@ -60,7 +68,7 @@ public class ChildEvent implements IChildEvent {
         this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
         this.venueID = venueID;
-        this.venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
+        venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
     
     public ChildEvent(String name, String description, String startTime, String endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
@@ -104,13 +112,23 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public String getStartDateTime() {
-        return  startDateTime;
+    public Date getStartDateTime() {
+        try {
+            return  formatter.parse(startDateTime);
+        } catch (ParseException ex) {
+            Logger.getLogger(ChildEvent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        throw new NullPointerException();
     }
 
     @Override
-    public String getEndDateTime() {
-        return endDateTime;
+    public Date getEndDateTime() {
+        try {
+            return formatter.parse(endDateTime);
+        } catch (ParseException ex) {
+            Logger.getLogger(ChildEvent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        throw new NullPointerException();
     }
 
     @Override
@@ -144,11 +162,11 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean setStartDateTime(Date startDateTime) {
+
         if (startDateTime == null) {
             throw new NullPointerException("start time is null");
         } else {
-            
-            this.startDateTime = startDateTime.toString();
+            this.startDateTime = formatter.format(startDateTime);
         }
         return this.startDateTime.equals(startDateTime);
     }
@@ -158,7 +176,7 @@ public class ChildEvent implements IChildEvent {
         if (endDateTime == null) {
             throw new NullPointerException("end time is null");
         } else {
-            this.startDateTime = startDateTime.toString();
+            this.endDateTime = formatter.format(endDateTime);
         }
         return this.endDateTime.equals(endDateTime);
     }
@@ -246,57 +264,12 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
+    public Boolean newContract(IArtist artist) throws IOException {
+        if(createContract(artist.getID(), this.childEventID)){
+            artists.add(artist);
+            return true;
         }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Cannot register a null observer");
-        } else {
-            if (observers == null) {
-                observers = new LinkedList();
-                observers.add(o);
-            } else {
-                if (observers.contains(o)) {
-                    throw new IllegalArgumentException("Observer already registered");
-                } else {
-                    observers.add(o);
-                }
-            }
-            return observers.contains(o);
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Cannot remove a null observer");
-        } else {
-            if (observers == null) {
-                observers = new LinkedList();
-                throw new IllegalArgumentException("Observer list is empty. Doesn't contain any objects.");
-            } else {
-                if (!observers.contains(o)) {
-                    throw new IllegalArgumentException("Observer isn't already registered");
-                } else {
-                    observers.remove(o);
-                }
-            }
-            return !observers.contains(o);
-        }
+        return false;
     }
 
     @Override

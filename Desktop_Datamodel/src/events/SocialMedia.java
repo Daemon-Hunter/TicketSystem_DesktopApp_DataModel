@@ -61,14 +61,13 @@ public class SocialMedia implements ISocial {
         Boolean valid = Validator.idValidator(id);
         if (valid) {
             this.id = id;
-            notifyObservers();
         }
         return valid;
     }
 
     @Override
     public List<BufferedImage> getImages() {
-        return new LinkedList<>(images);
+        return new LinkedList<BufferedImage>(images);
     }
 
     @Override
@@ -200,45 +199,5 @@ public class SocialMedia implements ISocial {
             spotify = sp;
         }
         return valid;
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Observer is null");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists in list");
-        } else {
-            observers.add(o);
-            return true;
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Observer is null");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in list");
-        } else {
-            observers.remove(o);
-            return true;
-        }
     }
 }

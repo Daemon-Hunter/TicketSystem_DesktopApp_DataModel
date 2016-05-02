@@ -5,15 +5,13 @@
  */
 package people;
 
-import utilities.observer.IDbSubject;
-
 import java.io.IOException;
 
 /**
  *
  * @author 10512691
  */
-public interface IPerson extends IDbSubject {
+public interface IPerson {
     
     String  getFirstName();
     Boolean setFirstName(String name) throws IOException;
@@ -23,4 +21,7 @@ public interface IPerson extends IDbSubject {
     
     String  getEmail();
     Boolean setEmail(String email) throws IOException;
+
+    Boolean setPassword(String password);
+    String getPassword();
 }

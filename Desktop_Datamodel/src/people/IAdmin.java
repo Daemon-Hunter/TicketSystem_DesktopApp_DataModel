@@ -11,5 +11,5 @@ package people;
  */
 public interface IAdmin extends IPerson {
     
-    public int getID();
+    Integer getID();
 }

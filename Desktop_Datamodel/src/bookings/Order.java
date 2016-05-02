@@ -8,6 +8,7 @@ package bookings;
 import database.APIHandle;
 import database.DatabaseTable;
 import people.IUser;
+import utilities.Validator;
 import utilities.observer.IObserver;
 
 import java.io.IOException;
@@ -19,22 +20,21 @@ import java.util.List;
  *
  * @author 10467841
  */
-public class Order implements IOrder{
+public class Order implements IOrder {
    
     private Integer orderID;
     private Integer userID;
     private IUser user;
     private List<IBooking> bookingList;
-    private LinkedList<IObserver> observers;
     private DatabaseTable table = DatabaseTable.ORDER;
     
     /**
-     * 
+     * Use this constructor when creating an order object from the database.
      * @param ID
      * @param user
      * @param bList 
      */
-    public Order(Integer ID, IUser user, List<IBooking> bList){
+    public Order(Integer ID, IUser user, List<IBooking> bList) {
         this.orderID = ID;
         this.user = user;
         if (bList != null){
@@ -45,13 +45,27 @@ public class Order implements IOrder{
 
     }
 
-    public Order(Integer ID, Integer userID){
-        this.orderID = ID;
-        this.userID = userID;
+    /**
+     * Use this constructor when create a new order object
+     * @param ID
+     * @param userID
+     */
+    public Order(Integer ID, Integer userID) {
+        if (Validator.idValidator(ID)) {
+            this.orderID = ID;
+
+            if (Validator.idValidator(userID)) {
+                this.userID = userID;
+            } else {
+                throw new IllegalArgumentException("Invalid user ID");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid order ID");
+        }
     }
     
     /**
-     * 
+     * Gets the order's unique ID
      * @return 
      */
     @Override
@@ -60,7 +74,7 @@ public class Order implements IOrder{
     }
 
     /**
-     * 
+     * Returns the user that made the order
      * @return 
      */
     @Override
@@ -76,17 +90,17 @@ public class Order implements IOrder{
     }
 
     /**
-     * 
+     * Gets the list of bookings related to the order
      * @return 
      */
     @Override
     public List<IBooking> getBookingList() throws IOException {
-        bookingList = (List<IBooking>)(Object)APIHandle.getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
+        bookingList = (List<IBooking>) (Object)APIHandle.getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
         return new ArrayList(bookingList);
     }
 
     /**
-     * 
+     * Returns a single booking, get via booking ID.
      * @param bookingID
      * @return 
      */
@@ -101,49 +115,5 @@ public class Order implements IOrder{
             throw new IllegalArgumentException("Booking cannot be null");
         }
         return bookingList.add(booking);
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return DatabaseTable.ORDER;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (observers == null) {
-            observers = new LinkedList<>();
-            observers.add(o);
-            return observers.contains(o);
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists in list");
-        } else {
-            observers.add(o);
-            return observers.contains(o);
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in list");
-        } else {
-            observers.remove(o);
-            return !observers.contains(o);
-        }
     }
 }

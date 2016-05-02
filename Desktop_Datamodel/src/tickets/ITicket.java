@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author 10512691
  */
-public interface ITicket extends IDbSubject {
+public interface ITicket {
     
     Integer getID();
 

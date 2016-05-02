@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author 10512691
  */
-public interface ISocial extends IDbSubject {
+public interface ISocial {
     
     Integer getSocialId();
     Boolean setSocialId(Integer id) throws IOException;

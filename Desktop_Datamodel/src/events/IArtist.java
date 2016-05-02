@@ -5,8 +5,6 @@
  */
 package events;
 
-import reviews.IReviewable;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -14,7 +12,7 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface IArtist extends ISocial, IReviewable {
+public interface IArtist extends ISocial {
     
     Integer getID();
     String getName();
@@ -24,7 +22,7 @@ public interface IArtist extends ISocial, IReviewable {
     Boolean removeTag(String tag);
     String getDescription();
     void setDescription(String decription);
-    String getType();
+    String getType() throws IOException;
     Boolean setType(String type);
     Integer getTypeID();
 
@@ -32,4 +30,6 @@ public interface IArtist extends ISocial, IReviewable {
     SocialMedia getSocialMedia();
 
     List<IChildEvent> getChildEvents() throws IOException;
+
+    Boolean newContract(IChildEvent childEvent) throws IOException;
 }

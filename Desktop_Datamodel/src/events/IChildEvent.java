@@ -16,13 +16,13 @@ import java.util.List;
  *
  * @author 10512691
  */
-public interface IChildEvent extends IDbSubject, ISocial {
+public interface IChildEvent extends ISocial {
     
     Integer getID();
     String  getName();
     String  getDescription();
-    String    getStartDateTime();
-    String    getEndDateTime();
+    Date    getStartDateTime();
+    Date    getEndDateTime();
     Boolean getCancelled();
     
     Boolean setName(String name);
@@ -49,4 +49,6 @@ public interface IChildEvent extends IDbSubject, ISocial {
     void setVenueID(Integer venue);
 
     void setSocialMedia(SocialMedia socialMedia);
+
+    Boolean newContract(IArtist artist) throws IOException;
 }

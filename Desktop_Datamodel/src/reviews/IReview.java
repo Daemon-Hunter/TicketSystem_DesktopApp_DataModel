@@ -13,7 +13,7 @@ import utilities.observer.IDbSubject;
  *
  * @author 10512691
  */
-public interface IReview extends IDbSubject {
+public interface IReview {
     
     Integer getReviewBaseID();
     // Boolean setReviewBaseID(Integer reviewBaseID);

@@ -5,18 +5,18 @@
  */
 package wrappers;
 
-import bookings.IBooking;
 import database.APIHandle;
 import database.DatabaseTable;
 import events.IArtist;
 import events.IParentEvent;
 import events.IVenue;
-import people.ICustomer;
 import people.IUser;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import static database.APIHandle.getObjectAmount;
 
 /**
  *
@@ -26,8 +26,7 @@ public class UserWrapper implements IUserWrapper {
 
     private static UserWrapper wrapper;
 
-    private static Integer amountListView = 10;
-    private static Integer amountGridView = 18;
+    private static Integer amountToLoad = 9;
 
     private List<IParentEvent> parentEventList;
     private List<IVenue> venueList;
@@ -39,13 +38,7 @@ public class UserWrapper implements IUserWrapper {
 
     private IUser currentUser;
 
-
-    private UserWrapper() {
-    }
-
-    private UserWrapper(IUser user) {
-        this.currentUser = user;
-    }
+    private UserWrapper() {}
 
     public static UserWrapper getInstance() {
         if (wrapper == null) {
@@ -57,9 +50,9 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public Boolean loginUser(String email, String password) throws IOException, IllegalArgumentException {
 
-        currentUser = APIHandle.isPasswordTrue(email, password);
+        currentUser = (IUser) APIHandle.isPasswordTrue(email, password, DatabaseTable.CUSTOMER);
         // if the passwords are incorrect then the returning Customer has an id of -1
-        if(currentUser.getID().equals(-1)) { return false; }  else{ return true; }
+        return !currentUser.getID().equals(-1);
 
     }
 
@@ -69,8 +62,8 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public Integer registerUser(IUser customer, String password) throws IOException {
-        return APIHandle.registerUser(customer, password);
+    public IUser registerUser(IUser customer) throws IOException {
+        return (IUser) APIHandle.pushObjectToDatabase(customer, DatabaseTable.CUSTOMER);
     }
 
     @Override
@@ -78,7 +71,7 @@ public class UserWrapper implements IUserWrapper {
         if (parentEventList != null){
             return new LinkedList<>(parentEventList);
         } else {
-            parentEventList = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountGridView, 0,
+            parentEventList = (List<IParentEvent>)(Object) getObjectAmount(amountToLoad, 0,
                     DatabaseTable.PARENT_EVENT);
             return new LinkedList<>(parentEventList);
         }
@@ -86,12 +79,12 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IParentEvent> loadMoreParentEvents() throws IOException {
-        int lowestID = 99999999;
+        int lowestID = 0;
         for (IParentEvent parentEvent : parentEventList){
-            if (parentEvent.getID() < lowestID)
+            if (parentEvent.getID() < lowestID || lowestID == 0)
                 lowestID = parentEvent.getID();
         }
-        List<IParentEvent> newData = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountGridView, lowestID, DatabaseTable.PARENT_EVENT);
+        List<IParentEvent> newData = (List<IParentEvent>)(Object) getObjectAmount(amountToLoad, lowestID, DatabaseTable.PARENT_EVENT);
         parentEventList.addAll(newData);
         return new LinkedList<>(newData);
     }
@@ -110,6 +103,14 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public Boolean addParentEvent(IParentEvent parentEvent) {
+        if (parentEvent == null || parentEvent.getID() <= 0){
+            throw new IllegalArgumentException("This parentEvent cannot be added, have to put it though createNewObject?");
+        }
+        return parentEventList.add(parentEvent);
+    }
+
+    @Override
     public Boolean removeParentEvent(IParentEvent pEvent) {
         if (pEvent == null){
             throw new IllegalArgumentException("Cannot remove null value.");
@@ -119,13 +120,13 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IParentEvent> refreshParentEvents() throws IOException {
-        parentEventList = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountGridView, 0, DatabaseTable.PARENT_EVENT);
+        parentEventList = (List<IParentEvent>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT);
         return new LinkedList<>(parentEventList);
     }
 
     @Override
     public List<IParentEvent> searchParentEvents(String searchString) throws IOException {
-        parentEventSearchList = (List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.PARENT_EVENT);
+        parentEventSearchList = (List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.PARENT_EVENT);
         return parentEventSearchList;
     }
 
@@ -134,7 +135,7 @@ public class UserWrapper implements IUserWrapper {
         if (venueList != null){
             return new LinkedList<>(venueList);
         } else {
-            venueList = (List<IVenue>) (Object) APIHandle.getObjectAmount(amountListView, 0, DatabaseTable.VENUE);
+            venueList = (List<IVenue>) (Object) getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
             return venueList;
         }
     }
@@ -159,10 +160,17 @@ public class UserWrapper implements IUserWrapper {
             if (venue.getID() < lowestID || lowestID == 0)
                 lowestID = venue.getID();
         }
-        List<IVenue> newData = (List<IVenue>) (Object) APIHandle.getObjectAmount(amountListView, lowestID,
-                DatabaseTable.VENUE);
+        List<IVenue> newData = (List<IVenue>) (Object) getObjectAmount(amountToLoad, lowestID, DatabaseTable.VENUE);
         venueList.addAll(newData);
         return new LinkedList<>(newData);
+    }
+
+    @Override
+    public Boolean addVenue(IVenue venue) {
+        if (venue.getID() <= 0 || venue == null){
+            throw new IllegalArgumentException("This venue cannot be added, have to put it though createNewObject?");
+        }
+        return venueList.add(venue);
     }
 
     @Override
@@ -175,13 +183,13 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IVenue> refreshVenues() throws IOException {
-        venueList = (List<IVenue>)(Object)APIHandle.getObjectAmount(amountGridView, 0, DatabaseTable.VENUE);
+        venueList = (List<IVenue>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
         return new LinkedList<>(venueList);
     }
 
     @Override
     public List<IVenue> searchVenues(String searchString) throws IOException {
-        venueSearchList = (List<IVenue>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.VENUE);
+        venueSearchList = (List<IVenue>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.VENUE);
         return venueSearchList;
     }
 
@@ -190,7 +198,7 @@ public class UserWrapper implements IUserWrapper {
         if (artistList != null){
             return new LinkedList<>(artistList);
         } else {
-            artistList = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountGridView, 0, DatabaseTable.ARTIST);
+            artistList = (List<IArtist>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
             return new LinkedList<>(artistList);
         }
     }
@@ -202,13 +210,13 @@ public class UserWrapper implements IUserWrapper {
             if (artist.getID() < lowestID || lowestID == 0)
                 lowestID = artist.getID();
         }
-        List<IArtist> newData = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountGridView, lowestID, DatabaseTable.ARTIST);
+        List<IArtist> newData = (List<IArtist>)(Object) getObjectAmount(amountToLoad, lowestID, DatabaseTable.ARTIST);
         artistList.addAll(newData);
         return new LinkedList<>(newData);
     }
 
     @Override
-    public IArtist getArtist(Integer id) {
+    public IArtist getArtist(Integer id) throws IOException {
         for (IArtist artist : artistList){
             if(artist.getID().equals(id))
             return artist;
@@ -221,6 +229,14 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public Boolean addArtist(IArtist artist) {
+        if (artist.getID() <= 0 || artist == null){
+            throw new IllegalArgumentException("This artist cannot be added, have to put it though createNewObject?");
+        }
+        return artistList.add(artist);
+    }
+
+    @Override
     public Boolean removeArtist(IArtist artist) {
         if (artist == null){
             throw new IllegalArgumentException("Cannot remove a null artist.");
@@ -230,19 +246,29 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IArtist> refreshArtists() throws IOException {
-        artistList = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountGridView, 0, DatabaseTable.ARTIST);
+        artistList = (List<IArtist>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
         return new LinkedList<>(artistList);
     }
 
     @Override
     public List<IArtist> searchArtists(String searchString) throws IOException {
-        artistSearchList = (List<IArtist>) (Object)APIHandle.searchObjects(searchString, DatabaseTable.ARTIST);
+        artistSearchList = (List<IArtist>) (Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.ARTIST);
         return artistSearchList;
     }
 
     @Override
     public Boolean setAmountToLoad(Integer amountToLoad) {
-        this.amountGridView = amountToLoad;
+        this.amountToLoad = amountToLoad;
         return amountToLoad == amountToLoad;
+    }
+
+    @Override
+    public Object createNewObject(Object object, DatabaseTable table) throws IOException {
+        return APIHandle.pushObjectToDatabase(object, table);
+    }
+
+    @Override
+    public Object updateObject(Object object, DatabaseTable table) throws IOException {
+        return APIHandle.updateObjectToDatabase(object, table);
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface IOrder extends IDbSubject {
+public interface IOrder {
     
     
     Integer getOrderID();

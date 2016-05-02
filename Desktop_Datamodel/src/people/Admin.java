@@ -6,11 +6,13 @@
 package people;
 
 import database.DatabaseTable;
+import utilities.Validator;
+import utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import utilities.Validator;
-import utilities.observer.IObserver;
+
+import static utilities.HashString.Encrypt;
 
 /**
  *
@@ -19,11 +21,10 @@ import utilities.observer.IObserver;
 public class Admin implements IAdmin {
     
     private Integer ID;
-    private String  firstName, lastName, email;
+    private String  firstName, lastName, email, password;
     private DatabaseTable table;
-    private LinkedList<IObserver> observers;
     
-    public Admin(String fName, String lName, String email) {
+    public Admin(String fName, String lName, String email, String password) {
         ID = 0;
         if (fName == null || lName == null) {
             throw new NullPointerException("First or last name is null.");
@@ -42,19 +43,18 @@ public class Admin implements IAdmin {
         } else {
             throw new IllegalArgumentException("Invalid email address");
         }
-        observers = new LinkedList<>();
+
+        this.password = Encrypt(password);
     }
     
     public Admin(Integer ID, String fName, String lName, String email) {
         this.ID = ID;
         firstName = fName;
         lastName = lName;
-        
-        observers = new LinkedList<>();
     }
     
     @Override
-    public int getID() {
+    public Integer getID() {
         if (ID == null) {
             throw new NullPointerException("Null ID");
         } else {
@@ -79,50 +79,20 @@ public class Admin implements IAdmin {
             Boolean valid = Validator.emailValidator(email);
             if (valid) {
                 this.email = email;
-                notifyObservers();
             }
             return this.email.equals(email);
         }
     }
 
     @Override
-    public DatabaseTable getTable() {
-        return table;
+    public Boolean setPassword(String password) {
+        this.password = password;
+        return this.password == password;
     }
 
     @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer, cannot register.");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists in list");
-        } else {
-            observers.add(o);
-            return true;
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer, cannot remove.");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in list");
-        } else {
-            observers.remove(o);
-            return true;
-        }
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -142,7 +112,6 @@ public class Admin implements IAdmin {
             Boolean valid = Validator.nameValidator(name);
             if (valid) {
                 firstName = name;
-                notifyObservers();
             }
             return firstName.equals(name);
         }
@@ -165,7 +134,6 @@ public class Admin implements IAdmin {
             Boolean valid = Validator.nameValidator(name);
             if (valid) {
                 lastName = name;
-                notifyObservers();
             }
             return lastName.equals(name);
         }

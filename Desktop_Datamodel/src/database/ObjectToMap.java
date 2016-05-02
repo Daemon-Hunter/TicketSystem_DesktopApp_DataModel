@@ -2,7 +2,6 @@ package database;
 
 import bookings.CustomerBooking;
 import bookings.GuestBooking;
-import bookings.IBooking;
 import bookings.IOrder;
 import events.IArtist;
 import events.IChildEvent;
@@ -10,12 +9,10 @@ import events.IParentEvent;
 import events.IVenue;
 import events.SocialMedia;
 import java.awt.image.BufferedImage;
-import people.Customer;
-import people.ICustomer;
+import people.IAdmin;
 import people.IUser;
 import tickets.ITicket;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +25,13 @@ import java.util.Map;
 final class ObjectToMap {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
+    public static Map<String, String> adminToMap(IAdmin admin) {
+        Map<String, String> adminMap = new HashMap<>();
+        adminMap.put("ADMIN_ID", Integer.toString(admin.getID()));
+        adminMap.put("ADMIN_EMAIL", admin.getEmail());
+        adminMap.put("ADMIN_PASSWORD", admin.getPassword());
+        return adminMap;
+    }
 
     public static Map<String, String> customerBookingToMap(CustomerBooking booking) {
         Map<String,String> returnMap = new HashMap<>();
@@ -47,6 +51,7 @@ final class ObjectToMap {
         returnMap.put("CUSTOMER_EMAIL",customer.getEmail());
         returnMap.put("CUSTOMER_ADDRESS", customer.getAddress());
         returnMap.put("CUSTOMER_POSTCODE",customer.getPostcode());
+        returnMap.put("CUSTOMER_PASSWORD",customer.getPassword());
         //May need to add password depending on where the registration is taking place.
         return returnMap;
     }
