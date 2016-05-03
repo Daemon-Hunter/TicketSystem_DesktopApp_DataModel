@@ -123,6 +123,7 @@ final class APIConnection {
         OutputStream os = connection.getOutputStream();
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
         writer.write(createJsonString(mapToAdd));
+        System.out.println(createJsonString(mapToAdd));
         writer.close();
         os.close();
         try (BufferedReader in = new BufferedReader(
