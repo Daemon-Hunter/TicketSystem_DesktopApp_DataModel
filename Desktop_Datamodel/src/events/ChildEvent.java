@@ -12,16 +12,15 @@ import utilities.Validator;
 import utilities.observer.IObserver;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import static database.APIHandle.createContract;
 import java.awt.image.BufferedImage;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The child of a parent event, containing lineup and venue details, as well
@@ -44,7 +43,7 @@ public class ChildEvent implements IChildEvent {
     private List<IObserver> observers;
     private final DatabaseTable table;
 
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
 
     /**
@@ -115,8 +114,8 @@ public class ChildEvent implements IChildEvent {
     public Date getStartDateTime() {
         try {
             return  formatter.parse(startDateTime);
-        } catch (ParseException ex) {
-            Logger.getLogger(ChildEvent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         throw new NullPointerException();
     }
@@ -125,8 +124,8 @@ public class ChildEvent implements IChildEvent {
     public Date getEndDateTime() {
         try {
             return formatter.parse(endDateTime);
-        } catch (ParseException ex) {
-            Logger.getLogger(ChildEvent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         throw new NullPointerException();
     }

@@ -9,11 +9,9 @@ import database.APIHandle;
 import database.DatabaseTable;
 import tickets.ITicket;
 import utilities.Validator;
-import utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedList;
 
 /**
  *
@@ -149,7 +147,7 @@ public abstract class Booking implements IBooking {
             return true;
         }
     }
-    
+
     public DatabaseTable getTable() {
         return table;
     }

@@ -7,7 +7,6 @@ package reviews;
 
 import java.io.IOException;
 import java.util.Date;
-import utilities.observer.IDbSubject;
 
 /**
  *

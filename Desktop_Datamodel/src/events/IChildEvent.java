@@ -6,7 +6,6 @@
 package events;
 
 import tickets.ITicket;
-import utilities.observer.IDbSubject;
 
 import java.io.IOException;
 import java.util.Date;

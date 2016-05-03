@@ -6,8 +6,6 @@
 package events;
 
 import java.awt.image.BufferedImage;
-import utilities.observer.IDbSubject;
-
 import java.io.IOException;
 import java.util.List;
 

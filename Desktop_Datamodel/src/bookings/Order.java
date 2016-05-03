@@ -9,7 +9,6 @@ import database.APIHandle;
 import database.DatabaseTable;
 import people.IUser;
 import utilities.Validator;
-import utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.ArrayList;

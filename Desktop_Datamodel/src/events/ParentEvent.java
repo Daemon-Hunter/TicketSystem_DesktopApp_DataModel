@@ -13,7 +13,6 @@ import utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import static database.APIHandle.getObjectsFromObject;

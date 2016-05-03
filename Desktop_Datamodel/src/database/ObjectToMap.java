@@ -134,6 +134,7 @@ final class ObjectToMap {
             }
             i++;
         }
+        
         String fb, insta, tw, sc, www, sp;
         if (socialMedia.getFacebook() == null)
             fb = "";

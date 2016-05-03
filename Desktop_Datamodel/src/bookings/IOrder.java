@@ -6,7 +6,6 @@
 package bookings;
 
 import people.IUser;
-import utilities.observer.IDbSubject;
 
 import java.io.IOException;
 import java.util.List;

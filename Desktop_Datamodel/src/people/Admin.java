@@ -7,10 +7,8 @@ package people;
 
 import database.DatabaseTable;
 import utilities.Validator;
-import utilities.observer.IObserver;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import static utilities.HashString.Encrypt;
 

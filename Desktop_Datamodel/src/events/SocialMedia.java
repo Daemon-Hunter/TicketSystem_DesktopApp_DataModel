@@ -7,14 +7,12 @@ package events;
 
 import database.DatabaseTable;
 import java.awt.image.BufferedImage;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import utilities.Validator;
 import utilities.observer.IObserver;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -68,7 +66,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public List<BufferedImage> getImages() {
-        return images;
+        return new LinkedList<BufferedImage>(images);
     }
 
     @Override

@@ -12,11 +12,8 @@ import database.APIHandle;
 import database.DatabaseTable;
 import events.ChildEvent;
 import events.IChildEvent;
-import utilities.observer.IDbSubject;
-import utilities.observer.IObserver;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import static utilities.Blacklist.contains;

@@ -10,7 +10,6 @@ import database.DatabaseTable;
 import reviews.ArtistReviewFactory;
 import reviews.IReviewFactory;
 import utilities.Validator;
-import utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -192,6 +191,22 @@ public class Artist implements IArtist {
             return new LinkedList<>(childEvents);
         } else {
             return new LinkedList<>(childEvents);
+        }
+    }
+
+    @Override
+    public IChildEvent getChildEvent(Integer childEventID) throws IOException {
+        if (childEventID == null) {
+            throw new NullPointerException("Null child event ID");
+        } else {
+            if (childEvents == null) {
+                childEvents = getChildEvents();
+            }
+            for (IChildEvent childEvent : childEvents) {
+                if (childEvent.getID().equals(childEventID))
+                    return childEvent;
+            }
+            throw new NullPointerException("No child event with this ID");
         }
     }
 

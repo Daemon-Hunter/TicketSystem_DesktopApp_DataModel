@@ -5,12 +5,10 @@
  */
 package bookings;
 
+import tickets.ITicket;
+
 import java.io.IOException;
 import java.util.Date;
-
-import tickets.ITicket;
-import tickets.Ticket;
-import utilities.observer.IDbSubject;
 
 /**
  *

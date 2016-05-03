@@ -7,7 +7,6 @@ package tickets;
 
 import bookings.IBooking;
 import events.IChildEvent;
-import utilities.observer.IDbSubject;
 
 import java.io.IOException;
 import java.util.List;

@@ -5,6 +5,7 @@
  */
 package utilities;
 
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import sun.misc.BASE64Encoder;
 
 /**
  *
- * @author Dominic
+ * 
  */
 public  class DecodeImage {
     

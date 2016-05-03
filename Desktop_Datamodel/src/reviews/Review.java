@@ -6,14 +6,12 @@
 package reviews;
 
 import database.DatabaseTable;
+import utilities.Validator;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.Objects;
-import utilities.Validator;
-import utilities.observer.IObserver;
 
 /**
  *
