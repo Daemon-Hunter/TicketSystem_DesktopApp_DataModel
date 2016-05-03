@@ -123,29 +123,18 @@ public final class Validator {
 
     /**
      * Description must be between 10 & 100 characters long,
-     * and not have bad words...
+     * and not contain blacklisted words...
      * @param description
      * @return 
      */
     public static Boolean descriptionValidator(String description) {
         
-        ArrayList<String> badWords = new ArrayList<>();
-
-        Boolean naughty = false;
-        
-        for (String badWord : badWords) 
-        {
-            if (description.contains(badWord)) 
-            {
-                System.err.println("Oi! None of that...");
-                naughty = true;
-                break;
-            }
+        if (Blacklist.contains(description)) {
+            return false;
+        } else {
+            return 10 <= description.length()
+                    && description.length() <= 500;
         }
-        
-        return 10 <= description.length() 
-                && description.length() <= 500
-                && naughty; 
     }
 
     public static Boolean capacityValidator(Integer standing) {
@@ -170,12 +159,14 @@ public final class Validator {
 
     // Check against other addresses? Cannot have 2 venues at same place?
     public static Boolean addressValidator(String address) {
-        return true; 
+        return !Blacklist.contains(address)
+                && address.length() <= 200; 
     }
 
     public static Boolean postcodeValidator(String postcode) {
-        // TODO: 25/04/2016 REGEX FOR HERE; 
-        return true; 
+        Pattern postcodeRegex = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?\\s?[0-9][a-zA-Z]{2}");
+        Matcher m = postcodeRegex.matcher(postcode);
+        return m.matches(); 
     }
 
     public static Boolean tagValidator(String tag) {

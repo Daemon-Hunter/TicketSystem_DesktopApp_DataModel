@@ -566,4 +566,14 @@ public class Venue implements IVenue {
     public Boolean setSpotify(String sp) {
         return socialMedia.setSpotify(sp);
     }
+
+    @Override
+    public Boolean setCity(String city) {
+        if (city == null) {
+            throw new NullPointerException();
+        } else {
+            this.city = city;
+            return true;
+        }
+    }
 }
