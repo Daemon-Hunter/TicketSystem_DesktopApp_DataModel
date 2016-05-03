@@ -27,7 +27,6 @@ public static String encodeToString(BufferedImage image, String type) throws IOE
             BASE64Encoder encoder = new BASE64Encoder();  
             imageString = encoder.encode(imageBytes);  
             bos.close();  
-            System.out.println(imageString);
         return imageString;  
     }  
 }

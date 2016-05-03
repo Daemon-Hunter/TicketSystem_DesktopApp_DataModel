@@ -5,6 +5,8 @@
  */
 package desktop_datamodel;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,12 +14,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import utilities.DecodeImage;
 import wrappers.DesktopWrapper;
 
 /**
@@ -48,25 +52,9 @@ public class APIConnectionTest {
     @Test
     public void testAdd() throws IOException
     {
-        
+        String file = "/Users/Dominic/Downloads/dominic.jpg";
+          BufferedImage buffer = ImageIO.read(new File(file));
+        DecodeImage.encodeToString(buffer, "PNG");
     }
-//            public void testRead()
-//    {
-//    }
-//    @Test0
-//        public void testUpdate()
-//    {
-//                custConn.add(customer);
-//                custConn.update(47,customer);
-//
-//    }
-//        
-//           @Test
-//        public void testDelete()
-//    {
-//                custConn.add(customer);
-//                custConn.update(47,customer);
-//
-//    }
 
 }

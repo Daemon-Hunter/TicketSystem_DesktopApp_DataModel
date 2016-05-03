@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utilities.DecodeImage;
 import utilities.HashString;
 
 /**
@@ -109,15 +110,29 @@ final class ObjectToMap {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
         List<BufferedImage> images = socialMedia.getImages();
-        returnMap.put("IMAGE", "");
-        for (int i = 2; i < 6; i++) { // IMAGE,IMAGE2,IMAGE3... 5
-            String imgKey = "IMAGE";
-            String imgValue = "";
-            if (images.get(i) != null) {
+        String imgKey = "IMAGE";
+        String imgValue = "";
+        
+        int i = 0;
+        for (BufferedImage image : images) {
+            if(i == 0){
+                try {
+                    returnMap.put(imgKey,DecodeImage.encodeToString(image, "PNG"));
+                } catch (IOException ex) {
+                  returnMap.put(imgKey,imgValue);
+
                 }
-            imgKey += Integer.toString(i);
-            // Encode image here
-            returnMap.put(imgKey, imgValue);
+            }else
+            {
+                imgKey += Integer.toString(i);
+                try {
+                    returnMap.put(imgKey,DecodeImage.encodeToString(image,"PNG"));
+                } catch (IOException ex) {
+                  returnMap.put(imgKey,imgValue);
+                }
+                
+            }
+            i++;
         }
         String fb, insta, tw, sc, www, sp;
         if (socialMedia.getFacebook() == null)
