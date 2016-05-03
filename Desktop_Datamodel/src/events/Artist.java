@@ -176,6 +176,7 @@ public class Artist implements IArtist {
 
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
+        this.socialMediaID = socialMedia.getSocialId();
         this.socialMedia = socialMedia;
     }
 
