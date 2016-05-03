@@ -9,6 +9,7 @@ import events.IParentEvent;
 import events.IVenue;
 import events.SocialMedia;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import people.IAdmin;
 import people.IUser;
 import tickets.ITicket;
@@ -18,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utilities.HashString;
 
 /**
  *
@@ -105,15 +109,15 @@ final class ObjectToMap {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
         List<BufferedImage> images = socialMedia.getImages();
-        for (int i = 0; i < 6; i++) { // IMAGE,IMAGE1,IMAGE2... 5
+        returnMap.put("IMAGE", "");
+        for (int i = 2; i < 6; i++) { // IMAGE,IMAGE2,IMAGE3... 5
             String imgKey = "IMAGE";
             String imgValue = "";
             if (images.get(i) != null) {
-                imgValue = images.get(i).toString();
-            }
-            if (i != 0) {
-                imgKey += Integer.toString(i);
-            }
+                System.out.println(images.get(i).toString());
+                }
+            imgKey += Integer.toString(i);
+            // Encode image here
             returnMap.put(imgKey, imgValue);
         }
         String fb, insta, tw, sc, www, sp;

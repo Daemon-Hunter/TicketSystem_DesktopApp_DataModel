@@ -25,7 +25,7 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     private static DesktopWrapper wrapper;
 
-    private Integer amountToLoad = 9;
+    private Integer amountToLoad = 20;
 
     private List<IParentEvent>  parentEventList;
     private List<IVenue>        venueList;

@@ -1,5 +1,11 @@
 package utilities;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import sun.misc.BASE64Encoder;
+
 /**
  * Created by Dominic on 25/04/2016.
  */
@@ -12,5 +18,5 @@ public class HashString {
         Integer hashedValue = pass.hashCode();
         return Integer.toString(hashedValue);
     }
-
+    
 }
