@@ -114,7 +114,6 @@ final class ObjectToMap {
             String imgKey = "IMAGE";
             String imgValue = "";
             if (images.get(i) != null) {
-                System.out.println(images.get(i).toString());
                 }
             imgKey += Integer.toString(i);
             // Encode image here
