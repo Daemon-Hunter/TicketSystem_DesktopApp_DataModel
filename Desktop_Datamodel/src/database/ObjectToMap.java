@@ -118,9 +118,9 @@ final class ObjectToMap {
         String imgKey = "IMAGE";
         String imgValue = "";
         
-        int j = 0;
+        int j = 1;
         for (BufferedImage img : images) {
-            if (j == 0) {
+            if (j == 1) {
                 try {
                     returnMap.put(imgKey, DecodeImage.encodeToString(img, "PNG"));
                 }
@@ -213,7 +213,7 @@ final class ObjectToMap {
         venueMap.put("VENUE_CAPACITY_STANDING", venue.getStandingCapacity().toString());
         venueMap.put("VENUE_CAPACTIY_SEATING", venue.getSeatingCapacity().toString());
         venueMap.put("VENUE_DISABLED_ACCESS", venue.getDisabledAccess().toString());
-        venueMap.put("VENUE_FACILITIES", venue.getFacilites());
+        venueMap.put("VENUE_FACILITES", venue.getFacilites());
         venueMap.put("VENUE_PARKING", venue.getParking().toString());
         venueMap.put("VENUE_PHONE_NUMBER", venue.getPhoneNumber());
         venueMap.put("VENUE_EMAIL", venue.getEmail());

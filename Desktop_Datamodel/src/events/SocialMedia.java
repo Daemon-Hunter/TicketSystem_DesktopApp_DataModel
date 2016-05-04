@@ -27,7 +27,7 @@ public class SocialMedia implements ISocial {
     private LinkedList<IObserver> observers;
     
     public SocialMedia() {
-        
+        id = 0;
     }
 
     public SocialMedia(Integer id, List<BufferedImage> images, String facebook, String twitter,
