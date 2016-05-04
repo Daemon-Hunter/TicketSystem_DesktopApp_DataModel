@@ -8,6 +8,7 @@ package wrappers;
 import database.APIHandle;
 import database.DatabaseTable;
 import events.IArtist;
+import events.IChildEvent;
 import events.IParentEvent;
 import events.IVenue;
 import people.IAdmin;

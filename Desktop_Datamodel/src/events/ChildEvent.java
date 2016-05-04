@@ -51,11 +51,14 @@ public class ChildEvent implements IChildEvent {
      * creating an object already stored in the database.
      * Therefore do not need to check validation - will already have been checked.
      * @param ID
+     * @param venueID
      * @param name
      * @param description
      * @param startTime
      * @param endTime
      * @param cancelled
+     * @param parentEventID
+     * @throws java.io.IOException
      */
     public ChildEvent(Integer ID, Integer venueID, String name, String description, String startTime, String endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
@@ -69,6 +72,31 @@ public class ChildEvent implements IChildEvent {
         this.venueID = venueID;
         venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
+public ChildEvent(String name, String description,Date startTime,Date endTime, IVenue venue, IParentEvent parentEvent)
+{
+            childEventID = 0;
+        if (Validator.nameValidator(name)) {
+            if (Validator.descriptionValidator(description)) {
+                this.childEventName = name;
+                this.childEventDescription = description;
+                setStartDateTime(startTime);
+                setEndDateTime(endTime);
+                this.venue = venue;
+                this.cancelled = false;
+                this.table = DatabaseTable.CHILD_EVENT;
+                this.parentEvent = parentEvent;
+                this.parentEventID = parentEvent.getID();
+                this.venueID = venue.getID();
+               
+            } else {
+                throw new IllegalArgumentException("Invalid description");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid name");
+        }
+    }
+
+
     
     public ChildEvent(String name, String description, String startTime, String endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
         childEventID = 0;
@@ -277,6 +305,7 @@ public class ChildEvent implements IChildEvent {
             throw new NullPointerException("Cannot set venue to null");
         } else {
             this.venue = venue;
+            this.venueID = venue.getID();
         } return true;
     }
 
