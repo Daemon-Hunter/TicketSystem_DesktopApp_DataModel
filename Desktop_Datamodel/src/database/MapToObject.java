@@ -237,7 +237,7 @@ final class MapToObject {
         remaining = Integer.parseInt(ticketMap.get("TICKET_AMOUNT_REMAINING"));
         type = ticketMap.get("TICKET_TYPE");
         desc = ticketMap.get("TICKET_DESCRIPTION");
-        childEventID = Integer.parseInt(ticketMap.get("TICKET_ID"));
+        childEventID = Integer.parseInt(ticketMap.get("CHILDEVENT_ID"));
 
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
