@@ -118,27 +118,25 @@ final class ObjectToMap {
         String imgKey = "IMAGE";
         String imgValue = "";
         
-        int i = 0;
-        for (BufferedImage image : images) {
-            if(i == 0) {
+        int j = 0;
+        for (BufferedImage img : images) {
+            if (j == 0) {
                 try {
-                    returnMap.put(imgKey,DecodeImage.encodeToString(image, "PNG"));
-                } catch (IOException ex) {
-                  returnMap.put(imgKey,imgValue);
-
+                    returnMap.put(imgKey, DecodeImage.encodeToString(img, "PNG"));
+                }
+                catch (IOException ex) {
+                    returnMap.put(imgKey, imgValue);
                 }
             }
             else {
-                imgKey += Integer.toString(i);
                 try {
-                    returnMap.put(imgKey,DecodeImage.encodeToString(image,"PNG"));
-                } 
-                catch (IOException ex) {
-                  returnMap.put(imgKey,imgValue);
+                    returnMap.put(imgKey + j, DecodeImage.encodeToString(img, "PNG"));
                 }
-                
+                catch (IOException ex) {
+                    returnMap.put(imgKey + j, imgValue);
+                }
             }
-            i++;
+            j++;
         }
         
         String fb, insta, tw, sc, www, sp;
