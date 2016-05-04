@@ -108,26 +108,32 @@ final class ObjectToMap {
 
     public static Map<String, String> socialMediaToMap(SocialMedia socialMedia) {
         Map<String, String> returnMap = new HashMap<>();
-        returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
+        try {
+            returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
+        }
+        catch (NullPointerException ex) {
+            returnMap.put("SOCIAL_MEDIA_ID", "0");
+        }
         List<BufferedImage> images = socialMedia.getImages();
         String imgKey = "IMAGE";
         String imgValue = "";
         
         int i = 0;
         for (BufferedImage image : images) {
-            if(i == 0){
+            if(i == 0) {
                 try {
                     returnMap.put(imgKey,DecodeImage.encodeToString(image, "PNG"));
                 } catch (IOException ex) {
                   returnMap.put(imgKey,imgValue);
 
                 }
-            }else
-            {
+            }
+            else {
                 imgKey += Integer.toString(i);
                 try {
                     returnMap.put(imgKey,DecodeImage.encodeToString(image,"PNG"));
-                } catch (IOException ex) {
+                } 
+                catch (IOException ex) {
                   returnMap.put(imgKey,imgValue);
                 }
                 

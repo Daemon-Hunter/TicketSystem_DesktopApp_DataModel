@@ -142,7 +142,7 @@ public final class Validator {
     }
 
     public static Boolean facilitiesValidator(String facilities) {
-        return Blacklist.contains(facilities) && facilities.length() <= 100; 
+        return (!Blacklist.contains(facilities)) && facilities.length() <= 100; 
     }
 
     public static Boolean parkingSpaceValidator(Integer parking) {

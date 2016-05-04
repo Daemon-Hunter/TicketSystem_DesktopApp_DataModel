@@ -16,7 +16,8 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface IDesktopWrapper extends IWrapper {
+public interface IDesktopWrapper extends IWrapper 
+{
     Boolean      addCustomer(ICustomer customer);
     List<ICustomer>  getCustomers()throws IOException;
     ICustomer    getCustomer(Integer index) throws IOException;
