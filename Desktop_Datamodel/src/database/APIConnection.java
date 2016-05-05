@@ -64,7 +64,7 @@ final class APIConnection {
     // Allows the application to
     public static Map<String, String> update(int id, Map<String, String> mapToEdit, DatabaseTable table) throws IOException {
 
-        Map<String, String> map;
+        Map<String, String> map = new HashMap();
         // URL of where to add to the table.
         String urlToPost = URI + DBTableToString(table) + "/" + Integer.toString(id);
         BufferedReader br;
