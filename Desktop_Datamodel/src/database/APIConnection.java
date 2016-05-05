@@ -207,20 +207,34 @@ final class APIConnection {
         URL url;
         boolean result;
         try {
-            url = new URL(URI + "api/functions/createContract/" + artistID.toString() + "/" + childEventID.toString());
+            String urlToPost =URI + "functions/createContract/" + artistID.toString() + "/" + childEventID.toString();
+            url = new URL(urlToPost);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             throw new MalformedURLException("Error With URL");
         }
         // Connect
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
         connection.setRequestMethod("POST");
-        // to return in JSON Format
-        connection.setRequestProperty("Accept", "application/JSON");
+        connection.connect();
+        
+        
+         OutputStream os = connection.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        writer.write("{}");
+        writer.close();
+        os.close();
+
+        
+        
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()))) {
 
             result = Boolean.parseBoolean(in.readLine());
+            connection.disconnect();
         }
         return result;
     }
