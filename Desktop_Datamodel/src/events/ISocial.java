@@ -6,7 +6,6 @@
 package events;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
 public interface ISocial {
     
     Integer getSocialId();
-    Boolean setSocialId(Integer id) throws IOException;
+    Boolean setSocialId(Integer id);
     
     List<BufferedImage> getImages();
     BufferedImage getImage(int index);

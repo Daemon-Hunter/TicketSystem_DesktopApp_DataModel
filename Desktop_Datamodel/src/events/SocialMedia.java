@@ -58,7 +58,7 @@ public class SocialMedia implements ISocial {
      * @return 
      */
     @Override
-    public Boolean setSocialId(Integer id) throws IOException {
+    public Boolean setSocialId(Integer id) {
         Boolean valid = Validator.idValidator(id);
         if (valid) {
             this.id = id;

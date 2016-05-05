@@ -45,6 +45,6 @@ public interface IVenue extends ISocial, IReviewable {
     Boolean setEmail(String email) throws IOException;
     Boolean setPhoneNumber(String phoneNumber) throws IOException;
     Boolean setAddress(String address) throws IOException;
-    Boolean setPostcode(String postcode) throws IOException;
     Boolean setCity(String city);
+    Boolean setPostcode(String postcode) throws IOException;
 }

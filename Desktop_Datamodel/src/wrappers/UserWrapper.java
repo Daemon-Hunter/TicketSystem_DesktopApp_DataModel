@@ -5,6 +5,9 @@
  */
 package wrappers;
 
+import bookings.IBooking;
+import bookings.IOrder;
+import bookings.Order;
 import database.APIHandle;
 import database.DatabaseTable;
 import events.IArtist;
@@ -17,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static database.APIHandle.getObjectAmount;
+import static database.APIHandle.pushObjectToDatabase;
 
 /**
  *
@@ -64,6 +68,22 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public IUser registerUser(IUser customer) throws IOException {
         return (IUser) APIHandle.pushObjectToDatabase(customer, DatabaseTable.CUSTOMER);
+    }
+
+    @Override
+    public IOrder makeBooking(List<IBooking> bookings) throws IOException {
+        IOrder order = (IOrder) pushObjectToDatabase(new Order(currentUser.getID()),DatabaseTable.ORDER);
+        DatabaseTable table;
+        for (IBooking booking: bookings){
+            if (booking.getClass().getName() == "CustomerBooking")
+                table = DatabaseTable.BOOKING;
+            else
+                table = DatabaseTable.GUEST_BOOKING;
+            booking = (IBooking) APIHandle.pushObjectToDatabase(booking, table);
+            order.addBooking(booking);
+        }
+        return order;
+
     }
 
     @Override
@@ -283,4 +303,6 @@ public class UserWrapper implements IUserWrapper {
     public Object updateObject(Object object, DatabaseTable table) throws IOException {
         return APIHandle.updateObjectToDatabase(object, table);
     }
+
+
 }

@@ -95,8 +95,6 @@ public final class APIHandle{
             case ARTIST_TYPE: return MapToArtistType(objMap);
             
             case CHILD_EVENT: return MapToChildEvent(objMap);
-                
-                
             case PARENT_EVENT:
                 IParentEvent parentEvent;
                 parentEvent = MapToParentEvent(objMap);

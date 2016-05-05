@@ -130,12 +130,11 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setName(String name) {
+    public Boolean setName (String name) {
         if (Validator.nameValidator(name) && name != null) {
             this.name = name;
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
@@ -152,8 +151,7 @@ public class Artist implements IArtist {
         if (Validator.descriptionValidator(description) && description != null) {
             this.description = description;
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
@@ -172,7 +170,6 @@ public class Artist implements IArtist {
             throw new NullPointerException("cannot set type to null");
         } else {
             this.type = type;
-            
             switch (type) {
                 case "Singer":
                     typeID = 0;
@@ -193,7 +190,6 @@ public class Artist implements IArtist {
                     typeID = 0;
                     break;
             }
-            
             return Objects.equals(this.type, type);
         }
     }
@@ -261,7 +257,7 @@ public class Artist implements IArtist {
      * @return Boolean true if ID set.
      */
     @Override
-    public Boolean setSocialId(Integer id) throws IOException {
+    public Boolean setSocialId(Integer id) {
         socialMediaID = id;
         return socialMedia.setSocialId(id);
     }

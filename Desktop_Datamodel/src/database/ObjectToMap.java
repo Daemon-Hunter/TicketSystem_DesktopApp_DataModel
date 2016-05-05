@@ -19,10 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utilities.DecodeImage;
-import utilities.HashString;
 
 /**
  *
@@ -108,16 +105,16 @@ final class ObjectToMap {
 
     public static Map<String, String> socialMediaToMap(SocialMedia socialMedia) {
         Map<String, String> returnMap = new HashMap<>();
+        returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
         try {
             returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
-        }
-        catch (NullPointerException ex) {
+        } catch (NullPointerException ex) {
             returnMap.put("SOCIAL_MEDIA_ID", "0");
         }
         List<BufferedImage> images = socialMedia.getImages();
         String imgKey = "IMAGE";
         String imgValue = "";
-        
+
         int j = 1;
         for (BufferedImage img : images) {
             if (j == 1) {
@@ -138,7 +135,6 @@ final class ObjectToMap {
             }
             j++;
         }
-        
         String fb, insta, tw, sc, www, sp;
         if (socialMedia.getFacebook() == null)
             fb = "";
@@ -222,7 +218,6 @@ final class ObjectToMap {
         venueMap.put("VENUE_NAME", venue.getName());
         venueMap.put("VENUE_CITY", venue.getCity());
         return venueMap;
-                
     }
 
     public static Map<String, String> guestBookingToMap(GuestBooking guestBooking) {

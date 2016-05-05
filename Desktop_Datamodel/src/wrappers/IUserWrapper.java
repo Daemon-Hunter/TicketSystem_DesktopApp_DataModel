@@ -5,9 +5,12 @@
  */
 package wrappers;
 
+import bookings.IBooking;
+import bookings.IOrder;
 import people.IUser;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -18,4 +21,6 @@ public interface IUserWrapper extends IWrapper {
     Boolean loginUser(String email, String password) throws IOException;
     IUser   getUser();
     IUser registerUser(IUser customer) throws IOException;
+
+    IOrder makeBooking(List<IBooking> bookings) throws IOException;
 }
