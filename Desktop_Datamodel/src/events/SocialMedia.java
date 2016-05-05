@@ -86,14 +86,15 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean removeImage(int index) {
-    images.remove(index);
-    return !images.contains(index);
+        int length = images.size();
+        images.remove(index);
+        return length - 1 == images.size();
     }
 
     @Override
     public Boolean setImages(List<BufferedImage> images) {
         this.images = new LinkedList<>(images);
-        return this.images == new LinkedList<>(images);
+        return this.images == images;
     }
 
     @Override
