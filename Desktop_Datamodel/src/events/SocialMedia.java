@@ -93,7 +93,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean setImages(List<BufferedImage> images) {
-        this.images = new LinkedList<>(images);
+        this.images = images;
         return this.images == images;
     }
 
