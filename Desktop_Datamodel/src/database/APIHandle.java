@@ -92,7 +92,11 @@ public final class APIHandle{
             case ORDER: return MapToObject.MapToOrder(objMap);
             case SOCIAL_MEDIA: return MapToObject.MapToSocialMedia(objMap);
             case TICKET: return MapToObject.MapToTicket(objMap);
-            case ARTIST_TYPE: MapToArtistType(objMap);
+            case ARTIST_TYPE: return MapToArtistType(objMap);
+            
+            case CHILD_EVENT: return MapToChildEvent(objMap);
+                
+                
             case PARENT_EVENT:
                 IParentEvent parentEvent;
                 parentEvent = MapToParentEvent(objMap);
@@ -108,7 +112,7 @@ public final class APIHandle{
                 artist.setType(MapToArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
                 artist.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                 return artist;
-            default: throw new IllegalArgumentException("These tables are not supported");
+            default: throw new IllegalArgumentException("These tables are not supported" + table.toString());
         }
     }
 
