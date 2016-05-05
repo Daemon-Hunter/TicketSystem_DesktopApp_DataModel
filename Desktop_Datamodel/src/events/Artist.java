@@ -102,7 +102,7 @@ public class Artist implements IArtist {
     @Override
     public Boolean addTag(String tag) {
         if (tag == null) {
-            throw new NullPointerException();
+            return false;
         } else {
             Boolean valid = Validator.tagValidator(tag);
             if (valid) {
@@ -169,9 +169,31 @@ public class Artist implements IArtist {
     @Override
     public Boolean setType(String type) {
         if (type == null) {
-            throw new NullPointerException("Artist type is null");
+            throw new NullPointerException("cannot set type to null");
         } else {
             this.type = type;
+            
+            switch (type) {
+                case "Singer":
+                    typeID = 0;
+                    break;
+                case "Comedian":
+                    typeID = 1;
+                    break;
+                case "Sports Team":
+                    typeID = 2;
+                    break;
+                case "Band":
+                    typeID = 3;
+                    break;
+                case "DJ":
+                    typeID = 4;
+                    break;
+                default:
+                    typeID = 0;
+                    break;
+            }
+            
             return Objects.equals(this.type, type);
         }
     }

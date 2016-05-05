@@ -72,7 +72,7 @@ final class ObjectToMap {
         Map<String,String> returnMap = new HashMap<>();
         String tags = "";
 
-        if(artist.getTags() != null) {
+        if(artist.getTags() != null && !artist.getTags().isEmpty()) {
             for (String currTag : artist.getTags()) {
                 tags += currTag + ",";
             }

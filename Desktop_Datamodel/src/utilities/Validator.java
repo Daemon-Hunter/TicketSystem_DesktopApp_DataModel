@@ -129,7 +129,7 @@ public final class Validator {
      */
     public static Boolean descriptionValidator(String description) {
         
-        if (Blacklist.contains(description)) {
+        if (!Blacklist.contains(description)) {
             return false;
         } else {
             return 10 <= description.length()
@@ -171,7 +171,7 @@ public final class Validator {
     }
 
     public static Boolean tagValidator(String tag) {
-        return Blacklist.contains(tag) && tag.contains(","); 
+        return !Blacklist.contains(tag) && tag.contains(","); 
     }
     
     public static String formatPrice(Double price) {
