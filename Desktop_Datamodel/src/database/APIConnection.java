@@ -208,7 +208,6 @@ final class APIConnection {
         boolean result;
         try {
             String urlToPost =URI + "functions/createContract/" + artistID.toString() + "/" + childEventID.toString();
-            System.out.println(urlToPost);
             url = new URL(urlToPost);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -235,7 +234,6 @@ final class APIConnection {
                 new InputStreamReader(connection.getInputStream()))) {
 
             result = Boolean.parseBoolean(in.readLine());
-            System.out.println(result);
             connection.disconnect();
         }
         return result;
