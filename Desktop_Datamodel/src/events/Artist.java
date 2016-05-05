@@ -100,7 +100,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean addTag(String tag) throws IOException {
+    public Boolean addTag(String tag) {
         if (tag == null) {
             throw new NullPointerException();
         } else {

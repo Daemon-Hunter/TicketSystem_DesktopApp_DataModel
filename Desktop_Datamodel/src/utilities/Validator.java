@@ -116,7 +116,7 @@ public final class Validator {
     {
         if (!Blacklist.contains(name)) {
             return 2 <= name.length()
-                    && name.length() <= 20;
+                    && name.length() <= 30;
         } else
         return true;
     }
