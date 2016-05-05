@@ -130,8 +130,12 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public Boolean setName(String name) {
+        if (Validator.nameValidator(name) && name != null) {
+            this.name = name;
+            return true;
+        }
+        else return false;
     }
 
     @Override
@@ -144,8 +148,12 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public void setDescription(String description) {
-        this.description = description;
+    public Boolean setDescription(String description) {
+        if (Validator.descriptionValidator(description) && description != null) {
+            this.description = description;
+            return true;
+        }
+        else return false;
     }
 
     @Override

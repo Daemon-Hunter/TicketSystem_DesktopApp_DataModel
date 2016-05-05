@@ -160,7 +160,8 @@ public final class Validator {
     // Check against other addresses? Cannot have 2 venues at same place?
     public static Boolean addressValidator(String address) {
         return !Blacklist.contains(address)
-                && address.length() <= 200; 
+                && address.length() <= 200
+                && 5 <= address.length(); 
     }
 
     public static Boolean postcodeValidator(String postcode) {
