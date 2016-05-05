@@ -129,7 +129,7 @@ public final class Validator {
      */
     public static Boolean descriptionValidator(String description) {
         
-        if (!Blacklist.contains(description)) {
+        if (Blacklist.contains(description)) {
             return false;
         } else {
             return 10 <= description.length()
@@ -164,14 +164,19 @@ public final class Validator {
                 && 5 <= address.length(); 
     }
 
+    /**
+     * Postcode cannot contain spaces.
+     * @param postcode
+     * @return 
+     */
     public static Boolean postcodeValidator(String postcode) {
-        Pattern postcodeRegex = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?\\s?[0-9][a-zA-Z]{2}");
+        Pattern postcodeRegex = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?[0-9][a-zA-Z]{2}");
         Matcher m = postcodeRegex.matcher(postcode);
         return m.matches(); 
     }
 
     public static Boolean tagValidator(String tag) {
-        return !Blacklist.contains(tag) && tag.contains(","); 
+        return !Blacklist.contains(tag);
     }
     
     public static String formatPrice(Double price) {
