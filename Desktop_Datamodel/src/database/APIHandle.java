@@ -51,6 +51,7 @@ import static database.ObjectToMap.parentEventToMap;
 import static database.ObjectToMap.socialMediaToMap;
 import static database.ObjectToMap.ticketToMap;
 import static database.ObjectToMap.venueToMap;
+import events.ISocial;
 import static utilities.HashString.Encrypt;
 
 /**
@@ -359,7 +360,7 @@ public final class APIHandle{
                 parentEvent.setSocialMedia((SocialMedia)updateObjectToDatabase(parentEvent.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
                 return MapToParentEvent(APIConnection.update(((IParentEvent) object).getID(), parentEventToMap((IParentEvent) object), table));
             case SOCIAL_MEDIA:
-                return MapToSocialMedia(APIConnection.update(((SocialMedia) object).getSocialId(), socialMediaToMap((SocialMedia) object), table));
+                return MapToSocialMedia(APIConnection.update(((ISocial) object).getSocialId(), socialMediaToMap((SocialMedia) object), table));
             case TICKET:
                 return MapToTicket(APIConnection.update(((ITicket) object).getID(), ticketToMap((ITicket) object), table));
             case VENUE:

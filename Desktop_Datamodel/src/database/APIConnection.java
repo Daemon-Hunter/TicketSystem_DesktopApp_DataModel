@@ -64,6 +64,8 @@ final class APIConnection {
     // Allows the application to
     public static Map<String, String> update(int id, Map<String, String> mapToEdit, DatabaseTable table) throws IOException {
 
+        System.out.println(Integer.toString(id));
+        
         Map<String, String> map = new HashMap();
         // URL of where to add to the table.
         String urlToPost = URI + DBTableToString(table) + "/" + Integer.toString(id);
@@ -92,10 +94,12 @@ final class APIConnection {
                 new InputStreamReader(connection.getInputStream()))) {
 
             // inputValues of the JSON
-            String inputLine = in.readLine();
+            String inputLine = in.readLine();//    <=**************************************************************** CAUSES NULL POINTER. STRING = NULL
+            
+            System.out.println(inputLine);
 
             // split up the string into a map
-            map = splitJSONString(inputLine);
+            map = splitJSONString(inputLine); //   <=**************************************************************** THROWS NULL POINTER. OBJECT STILL EDITTED
         }
         connection.disconnect();
         return map;
@@ -296,6 +300,7 @@ final class APIConnection {
     }
 
     private static Map<String, String> splitJSONString(String input) {
+        
         // Initializes of map which stores keys and values
         Map<String, String> map = new HashMap<>();
         // split up the string into the different columns
