@@ -5,6 +5,7 @@
  */
 package desktop_datamodel;
 
+import database.APIHandle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -52,9 +53,7 @@ public class APIConnectionTest {
     @Test
     public void testAdd() throws IOException
     {
-        String file = "/Users/Dominic/Downloads/dominic.jpg";
-          BufferedImage buffer = ImageIO.read(new File(file));
-        DecodeImage.encodeToString(buffer, "PNG");
+        APIHandle.createContract(181, 86);
     }
 
 }
