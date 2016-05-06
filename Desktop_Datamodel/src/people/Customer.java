@@ -202,8 +202,14 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public IOrder getOrder(int orderID) {
-        return orders.get(orderID);
+    public IOrder getOrder(int orderID) throws IOException {
+        if (orders != null) {
+            for (IOrder order : orders) {
+                if (order.getOrderID().equals(orderID))
+                    return order;
+            }
+        }
+        return (IOrder) APIHandle.getSingle(orderID, DatabaseTable.ORDER);
     }
 
     @Override
@@ -269,9 +275,8 @@ public class Customer implements ICustomer {
     public Integer getID() {
         if (ID == null) {
             throw new NullPointerException("ID is null");
-        } else {
-            return ID;
         }
+        return ID;
     }
 
     @Override

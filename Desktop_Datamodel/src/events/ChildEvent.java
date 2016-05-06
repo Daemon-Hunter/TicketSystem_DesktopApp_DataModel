@@ -9,7 +9,6 @@ import database.APIHandle;
 import database.DatabaseTable;
 import tickets.ITicket;
 import utilities.Validator;
-import utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -40,7 +39,6 @@ public class ChildEvent implements IChildEvent {
     private String childEventName, childEventDescription;
     private String startDateTime, endDateTime;
     private Boolean cancelled;
-    private List<IObserver> observers;
     private final DatabaseTable table;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);

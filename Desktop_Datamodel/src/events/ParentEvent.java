@@ -60,8 +60,9 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
+        if (childEvents == null) {
             childEvents = (List<IChildEvent>) (Object)getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT);
-        
+        }
         return childEvents;
     }
 

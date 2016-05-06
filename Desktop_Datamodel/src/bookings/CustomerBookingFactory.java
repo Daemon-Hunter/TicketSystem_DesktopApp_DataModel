@@ -6,7 +6,6 @@
 package bookings;
 
 import tickets.ITicket;
-import tickets.Ticket;
 
 /**
  *
@@ -16,7 +15,7 @@ public class CustomerBookingFactory implements IBookingFactory  {
 
     @Override
     public IBooking createBooking(ITicket ticket, IOrder order, Integer quantity) {
-        return new CustomerBooking(ticket, quantity, null, order);
+        return new CustomerBooking(order, ticket, quantity);
     }
 
     
