@@ -17,10 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static utilities.HashString.Encrypt;
-import static utilities.Validator.idValidator;
 
 /**
- *
  * @author 10512691
  */
 public class Customer implements ICustomer {
@@ -30,20 +28,19 @@ public class Customer implements ICustomer {
     private Integer ID;
     private List<IReview> reviews;
     private List<IOrder> orders;
-    
-    
-    
+
+
     /**
      * Use this when creating a customer object from the database.
-     * @param ID is known.
+     *
+     * @param ID        is known.
      * @param firstName
      * @param lastName
      * @param email
      * @param address
-     * @param postcode 
+     * @param postcode
      */
-    public Customer(Integer ID, String firstName, String lastName,
-                    String email, String address, String postcode){
+    public Customer(Integer ID, String firstName, String lastName, String email, String address, String postcode) {
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,62 +49,37 @@ public class Customer implements ICustomer {
         this.postcode = postcode;
         this.table = DatabaseTable.CUSTOMER;
     }
-    
+
     /**
      * Use this when creating a new customer object.
      * ID is unknown.
+     *
      * @param firstName
      * @param lastName
      * @param email
      * @param address
-     * @param postcode 
+     * @param postcode
      */
-    public Customer(String firstName, String lastName,
-            String email, String address, String postcode, String password)
-    {
+    public Customer(String firstName, String lastName, String email, String address, String postcode, String password) throws IllegalArgumentException {
         // Check if names are null or valid. All users must have a valid name.
-        if (firstName == null || lastName == null) {
-            throw new NullPointerException("Cannot set first or last name to null");
-        }
-        if (Validator.nameValidator(firstName) || Validator.nameValidator(lastName)) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-        } else {
-            throw new IllegalArgumentException("Invalid admin name");
-        }
+        if (firstName == null)
+            throw new NullPointerException("First name must have a value");
+        if (firstName == null)
+            throw new NullPointerException("Last name must have a value");
 
-        // Check email. Email can be null.
-        if (email != null) {
-            if (Validator.emailValidator(email)) {
-                this.email = email;
-            } else {
-                throw new IllegalArgumentException("Invalid email address");
-            }
-        } else {
-            this.email = null;
-        }
+        Validator.nameValidator(firstName);
+        Validator.nameValidator(lastName);
+        this.firstName = firstName;
+        this.lastName = lastName;
 
-        // Check address. Users don't have to have an address, so it can be set to null
-        if (address != null) {
-            if (Validator.addressValidator(address)) {
-                this.address = address;
-            } else {
-                throw new IllegalArgumentException("Invalid address.");
-            }
-        } else {
-            this.address = null;
-        }
+        Validator.emailValidator(email);
+        this.email = email;
 
-        // Check the users postcode. Users don't have to have a postcode - so can be null
-        if (postcode != null) {
-            if (Validator.postcodeValidator(postcode)) {
-                this.postcode = postcode;
-            } else {
-                throw new IllegalArgumentException("Invalid postcode");
-            }
-        } else {
-            this.postcode = null;
-        }
+        Validator.addressValidator(address);
+        this.address = address;
+
+        Validator.postcodeValidator(postcode);
+        this.postcode = postcode;
 
         this.password = Encrypt(password);
         table = DatabaseTable.CUSTOMER;
@@ -129,25 +101,16 @@ public class Customer implements ICustomer {
 
     @Override
     public IReview getReview(Integer customerID) {
-        if (customerID == null) {
-            throw new NullPointerException();
-        } else {
-            Boolean valid = idValidator(customerID);
-
-            if (valid) {
-                for (IReview r : reviews) {
-                    if (r.getCustomerID().equals(customerID)) {
-                        return r;
-                    }
-                }
-                throw new IllegalArgumentException("No customers with that ID have "
-                        + "written a review for this venue.");
-
-            } else {
-                throw new IllegalArgumentException("Invalid ID");
+        if (customerID == null)
+            throw new NullPointerException("CustomerID cannot be null");
+        for (IReview r : reviews) {
+            if (r.getCustomerID().equals(customerID)) {
+                return r;
             }
         }
+        throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
     }
+
 
     @Override
     public Boolean deleteReview(IReview review) throws IOException {
@@ -162,29 +125,21 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setFirstName(String name) throws IOException {
-        if (name == null) {
+    public Boolean setFirstName(String name) throws IllegalArgumentException {
+        if (name == null)
             throw new NullPointerException("Cannot set name to null");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                this.firstName = name;
-            }
-            return valid;
-        }
+        Validator.nameValidator(name);
+        this.firstName = name;
+        return this.firstName.equals(firstName);
     }
 
     @Override
-    public Boolean setLastName(String name) throws IOException {
-        if (name == null) {
+    public Boolean setLastName(String name) throws IllegalArgumentException {
+        if (name == null)
             throw new NullPointerException("Cannot set name to null");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                this.lastName = name;
-            }
-            return valid;
-        }
+        Validator.nameValidator(name);
+        this.lastName = name;
+        return this.lastName.equals(name);
     }
 
     @Override
@@ -195,8 +150,8 @@ public class Customer implements ICustomer {
 
     @Override
     public List<IOrder> getOrderList() throws IOException {
-        if (orders == null){
-            orders = (List<IOrder>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.ORDER, DatabaseTable.CUSTOMER);
+        if (orders == null) {
+            orders = (List<IOrder>) (Object) APIHandle.getObjectsFromObject(this.ID, DatabaseTable.ORDER, DatabaseTable.CUSTOMER);
         }
         return new LinkedList(orders);
     }
@@ -205,8 +160,7 @@ public class Customer implements ICustomer {
     public IOrder getOrder(int orderID) throws IOException {
         if (orders != null) {
             for (IOrder order : orders) {
-                if (order.getOrderID().equals(orderID))
-                    return order;
+                if (order.getOrderID().equals(orderID)) return order;
             }
         }
         return (IOrder) APIHandle.getSingle(orderID, DatabaseTable.ORDER);
@@ -214,28 +168,28 @@ public class Customer implements ICustomer {
 
     @Override
     public Boolean addOrder(IOrder order) {
-        if (order == null){
+        if (order == null) {
             throw new IllegalArgumentException("Order cannot be Null.");
         } else {
-        return orders.add(order);
+            return orders.add(order);
         }
     }
 
     @Override
     public Boolean addOrderList(List<IOrder> orderList) {
-        if (orderList == null){
+        if (orderList == null) {
             throw new IllegalArgumentException("Cannot add null order list.");
         } else {
-        return this.orders.addAll(orderList);
+            return this.orders.addAll(orderList);
         }
     }
 
     @Override
     public Boolean removeOrder(IOrder order) {
-        if (order == null){
+        if (order == null) {
             throw new IllegalArgumentException("Cannot remove null order");
         } else {
-        return orders.remove(order);
+            return orders.remove(order);
         }
     }
 
@@ -243,7 +197,7 @@ public class Customer implements ICustomer {
     public List<IBooking> getBookings() throws IOException {
         List<IBooking> bookings = new LinkedList<>();
         getOrderList();
-        for (IOrder order : orders){
+        for (IOrder order : orders) {
             bookings.addAll(order.getBookingList());
         }
         return bookings;
@@ -259,16 +213,12 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setEmail(String email) throws IOException {
-        if (email == null) {
+    public Boolean setEmail(String email) throws IllegalArgumentException {
+        if (email == null)
             throw new NullPointerException("Cannot set email to null");
-        } else {
-            Boolean valid = Validator.emailValidator(email);
-            if (valid) {
-                this.email = email;
-            }
-            return valid;
-        }
+        Validator.emailValidator(email);
+        this.email = email;
+        return this.email.equals(email);
     }
 
     @Override
@@ -307,16 +257,12 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setAddress(String address) throws IOException {
-        if (address == null) {
+    public Boolean setAddress(String address) throws IllegalArgumentException {
+        if (address == null)
             throw new NullPointerException("Cannot set address to null");
-        } else {
-            Boolean valid = Validator.addressValidator(address);
-            if (valid) {
-                this.address = address;
-            }
-            return valid;
-        }
+        Validator.addressValidator(address);
+        this.address = address;
+        return this.address.equals(address);
     }
 
     @Override
@@ -329,20 +275,16 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setPostcode(String postcode) throws IOException {
-        if (postcode == null) {
+    public Boolean setPostcode(String postcode) throws IllegalArgumentException {
+        if (postcode == null)
             throw new NullPointerException("Cannot set postcode to null");
-        } else {
-            Boolean valid = Validator.postcodeValidator(postcode);
-            if (valid) {
-                this.postcode = postcode;
-            }
-            return valid;
-        }
+        Validator.postcodeValidator(postcode);
+        this.postcode = postcode;
+        return this.postcode.equals(postcode);
     }
 
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 }

@@ -10,7 +10,6 @@ import database.DatabaseTable;
 import people.IUser;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -95,6 +94,8 @@ public class Order implements IOrder {
         if (booking == null){
             throw new IllegalArgumentException("Booking cannot be null");
         }
+        if (bookingList == null)
+            bookingList = new LinkedList();
         return bookingList.add(booking);
     }
 }

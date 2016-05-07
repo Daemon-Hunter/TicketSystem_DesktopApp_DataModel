@@ -41,7 +41,7 @@ final class ObjectToMap {
         returnMap.put("TICKET_ID", Integer.toString(booking.getTicketID()));
         returnMap.put("ORDER_ID",Integer.toString(booking.getOrder().getOrderID()));
         returnMap.put("BOOKING_QUANTITY",Integer.toString(booking.getQuantity()));
-        returnMap.put("BOOKING_DATE_TIME",booking.getBookingTime().toString());
+        returnMap.put("BOOKING_DATE_TIME",formatter.format(booking.getBookingTime()));
         return returnMap;
     }
 
@@ -114,7 +114,6 @@ final class ObjectToMap {
         List<BufferedImage> images = socialMedia.getImages();
         String imgKey = "IMAGE";
         String imgValue = "";
-
         int j = 1;
         for (BufferedImage img : images) {
             if (j == 1) {
@@ -135,13 +134,23 @@ final class ObjectToMap {
             }
             j++;
         }
+
+//        for (int i = 0; i < 6; i++) { // IMAGE,IMAGE1,IMAGE2... 5
+//            String imgKey = "IMAGE";
+//            String imgValue = "";
+//            if (images.get(i) != null) {
+//                imgValue = images.get(i).toString();
+//            }
+//            if (i != 0) {
+//                imgKey += Integer.toString(i);
+//            }
+//            returnMap.put(imgKey, imgValue);
+//        }
         String fb, insta, tw, sc, www, sp;
         if (socialMedia.getFacebook() == null)
             fb = "";
-        else {
+        else
             fb = socialMedia.getFacebook();
-            System.out.println(fb);
-        }
         if (socialMedia.getInstagram() == null)
             insta = "";
         else

@@ -5,6 +5,7 @@
  */
 package wrappers;
 
+import bookings.GuestBooking;
 import bookings.IOrder;
 import people.IUser;
 import tickets.ITicket;
@@ -23,4 +24,6 @@ public interface IUserWrapper extends IWrapper {
     IUser registerUser(IUser customer) throws IOException;
 
     IOrder makeCustomerBooking(List<ITicket> tickets, List<Integer> quantities) throws IOException;
+
+    List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException;
 }

@@ -8,11 +8,15 @@ package bookings;
 import database.APIHandle;
 import database.DatabaseTable;
 import tickets.ITicket;
-import utilities.Validator;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
+import static utilities.Validator.quantityValidator;
 
 /**
  *
@@ -26,9 +30,11 @@ public class CustomerBooking implements IBooking {
     private DatabaseTable table;
     private Integer bookingID;
     private Integer ticketQuantity;
-    private Date    bookingDateTime;
+    private String  bookingDateTime;
     private IOrder order;
     private Integer orderID;
+
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
     
     /**
      * Use this constructor when creating a booking object from the database.
@@ -36,19 +42,15 @@ public class CustomerBooking implements IBooking {
      * @param ticketQty
      * @param dateTime
      */
-    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) {
+    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) throws IllegalArgumentException {
         this.bookingID = ID;
         this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        this.bookingDateTime = (Date) dateTime.clone();
+        this.bookingDateTime = formatter.format(dateTime);
         this.table = DatabaseTable.BOOKING;
-        if (Validator.idValidator(orderID)) {
-            this.orderID = orderID;
-        } else {
-            throw new IllegalArgumentException("Invalid order ID");
-        }
+        this.orderID = orderID;
     }
     
     /**
@@ -59,26 +61,22 @@ public class CustomerBooking implements IBooking {
     public CustomerBooking (IOrder order, ITicket ticket, Integer ticketQty) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
-
         this.order = order;
         this.orderID = order.getOrderID();
-        this.bookingDateTime = Calendar.getInstance().getTime();
+        this.bookingDateTime = formatter.format(Calendar.getInstance().getTime());
 
-        if (ticket == null) {
-            throw new NullPointerException("Null ticket");
-        } else {
-            this.ticket = ticket;
-            this.ticketID = ticket.getID();
+        if (ticket == null)
+            throw new IllegalArgumentException("Null ticket");
+        this.ticket = ticket;
+        this.ticketID = ticket.getID();
 
-            if (!Validator.quantityValidator(ticketQty)) {
-                throw new IllegalArgumentException("Invalid ticket quantity");
-            } else {
-                this.ticketQuantity = ticketQty;
+        quantityValidator(ticketQty);
+        this.ticketQuantity = ticketQty;
 
-                // Store a copy of the time, as the variable could be externally changed
-                // after construction -> externally mutable object
-            }
-        }
+        // Store a copy of the time, as the variable could be externally changed
+        // after construction -> externally mutable object
+
+
         table = DatabaseTable.BOOKING;
     }
 
@@ -145,16 +143,12 @@ public class CustomerBooking implements IBooking {
     }
 
     @Override
-    public Boolean setQuantity(Integer qty) {
-        if (qty == null) {
+    public Boolean setQuantity(Integer qty) throws IllegalArgumentException {
+        if (qty == null)
             throw new NullPointerException("Null quantity");
-        } else {
-            if (Validator.quantityValidator(qty)) {
-                ticketQuantity = qty;
-                return true;
-            }
-            return false;
-        }
+        quantityValidator(qty);
+        ticketQuantity = qty;
+        return this.ticketQuantity.equals(qty);
     }
 
     @Override
@@ -162,17 +156,22 @@ public class CustomerBooking implements IBooking {
         if (bookingDateTime == null) {
             throw new NullPointerException("Null booking date / time");
         } else {
-            return (Date) bookingDateTime.clone();
+            try {
+                return formatter.parse(bookingDateTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
     }
     @Override
-    public Boolean setBookingTime(Date time) {
+    public Boolean setBookingTime(Date time) throws IllegalArgumentException {
         if (time == null) {
-            throw new NullPointerException("Null date / time");
+            throw new IllegalArgumentException("Enter a Date and Time.");
         } else {
             // Store a copy of the time, as the variable could be externally changed
             // after construction -> externally mutable object
-            bookingDateTime = (Date) time.clone();
+            bookingDateTime = formatter.format(time);
             return true;
         }
     }
