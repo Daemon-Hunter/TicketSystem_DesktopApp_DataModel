@@ -165,7 +165,7 @@ public final class Validator {
     public static Boolean addressValidator(String address) {
         return !Blacklist.contains(address)
                 && address.length() <= 200
-                && 5 <= address.length();
+                && 5 <= address.length(); 
     }
 
     /**
