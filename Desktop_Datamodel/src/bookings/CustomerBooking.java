@@ -11,6 +11,7 @@ import tickets.ITicket;
 import utilities.Validator;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -54,17 +55,20 @@ public class CustomerBooking implements IBooking {
      * Use this constructor when creating a new customer booking object.
      * @param ticket
      * @param ticketQty
-     * @param dateTime
-     * @param order 
      */
-    public CustomerBooking (ITicket ticket, Integer ticketQty, Date dateTime,
-            IOrder order) {
+    public CustomerBooking (IOrder order, ITicket ticket, Integer ticketQty) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
+
+        this.order = order;
+        this.orderID = order.getOrderID();
+        this.bookingDateTime = Calendar.getInstance().getTime();
+
         if (ticket == null) {
             throw new NullPointerException("Null ticket");
         } else {
             this.ticket = ticket;
+            this.ticketID = ticket.getID();
 
             if (!Validator.quantityValidator(ticketQty)) {
                 throw new IllegalArgumentException("Invalid ticket quantity");
@@ -73,10 +77,8 @@ public class CustomerBooking implements IBooking {
 
                 // Store a copy of the time, as the variable could be externally changed
                 // after construction -> externally mutable object
-                this.bookingDateTime = (Date) dateTime.clone();
             }
         }
-        this.order = order;
         table = DatabaseTable.BOOKING;
     }
 

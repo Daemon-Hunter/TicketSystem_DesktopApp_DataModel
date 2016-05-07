@@ -11,6 +11,7 @@ import people.IUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -40,6 +41,7 @@ public class Order implements IOrder {
      * @param userID
      */
     public Order(Integer userID) {
+        this.orderID = 0;
         this.userID = userID;
     }
     
@@ -75,7 +77,7 @@ public class Order implements IOrder {
     @Override
     public List<IBooking> getBookingList() throws IOException {
         bookingList = (List<IBooking>) (Object)APIHandle.getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
-        return new ArrayList(bookingList);
+        return new LinkedList(bookingList);
     }
 
     /**
