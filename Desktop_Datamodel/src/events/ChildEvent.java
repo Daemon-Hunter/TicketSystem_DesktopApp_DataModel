@@ -90,6 +90,7 @@ public class ChildEvent implements IChildEvent {
 
     public ChildEvent() {
         table = DatabaseTable.CHILD_EVENT;
+        childEventID = 0;
     }
     
     @Override
@@ -160,21 +161,21 @@ public class ChildEvent implements IChildEvent {
     public Boolean setStartDateTime(Date startDateTime) {
 
         if (startDateTime == null) {
-            throw new NullPointerException("start time is null");
+            return false;
         } else {
             this.startDateTime = formatter.format(startDateTime);
+            return true;
         }
-        return this.startDateTime.equals(startDateTime);
     }
 
     @Override
     public Boolean setEndDateTime(Date endDateTime) {
         if (endDateTime == null) {
-            throw new NullPointerException("end time is null");
+            return false;
         } else {
             this.endDateTime = formatter.format(endDateTime);
+            return true;
         }
-        return this.endDateTime.equals(endDateTime);
     }
 
     @Override
@@ -274,6 +275,7 @@ public class ChildEvent implements IChildEvent {
             throw new NullPointerException("Cannot set venue to null");
         } else {
             this.venue = venue;
+            this.venueID = venue.getID();
         } return true;
     }
 
@@ -375,5 +377,17 @@ public class ChildEvent implements IChildEvent {
     @Override
     public Boolean setSpotify(String sp) {
         return parentEvent.setSpotify(sp);
+    }
+
+    @Override
+    public Boolean setParentEvent(IParentEvent event) {
+        if (event == null) {
+            return false;
+        }
+        else {
+            this.parentEvent = event;
+            this.parentEventID = event.getID();
+            return true;
+        }
     }
 }

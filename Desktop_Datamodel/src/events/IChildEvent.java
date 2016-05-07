@@ -29,6 +29,7 @@ public interface IChildEvent extends ISocial {
     Boolean setStartDateTime(Date startDateTime);
     Boolean setEndDateTime(Date endDateTime);
     Boolean setCancelled(Boolean cancelled);
+    Boolean setParentEvent(IParentEvent event);
 
     Integer getVenueID();
     Boolean setVenue(IVenue venue);

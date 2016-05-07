@@ -127,10 +127,10 @@ final class APIConnection {
         os.close();
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()))) {
-
             // inputValues of the JSON
             String inputLine = in.readLine();
 
+            System.out.println(inputLine);
             // split up the string into a map
             map = splitJSONString(inputLine);
         }

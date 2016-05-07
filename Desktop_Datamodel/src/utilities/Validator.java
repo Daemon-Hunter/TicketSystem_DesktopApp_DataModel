@@ -18,12 +18,12 @@ import java.util.regex.Pattern;
  */
 public final class Validator {
     
-    private static final Pattern EMAIL_REGEX    = Pattern.compile("^[A-Z0-9._%\\+-]\\+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern EMAIL_REGEX    = Pattern.compile("^[A-Z0-9._%\\+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     
     private static final Pattern POSTCODE_REGEX = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?[0-9][a-zA-Z]{2}");
     
     // Matches landlines and mobile numbers - e.g. 07534951289 || +447534951289 || 01934862045
-    private static final Pattern PHONE_REGEX = Pattern.compile("^((0{1})|([\\+][4]{2}))(1237){1}\\d{8,9}$");
+    private static final Pattern PHONE_REGEX    = Pattern.compile("[\\+][4]{2}[1237][\\d]{8,9}");
     
     private static final Pattern ID_REGEX       = Pattern.compile("[1-9]{1}[0-9]{0,7}");
 
@@ -157,6 +157,9 @@ public final class Validator {
 
     public static Boolean phoneNumberValidator(String phoneNumber) {
         phoneNumber = phoneNumber.replace(" ", "");
+        if (phoneNumber.startsWith("0")) {
+            phoneNumber = "+44" + phoneNumber.substring(1);
+        }
         Matcher m = PHONE_REGEX.matcher(phoneNumber);
         return m.matches();
     }
