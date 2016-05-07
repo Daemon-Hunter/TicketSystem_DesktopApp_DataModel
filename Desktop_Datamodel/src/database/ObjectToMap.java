@@ -138,8 +138,10 @@ final class ObjectToMap {
         String fb, insta, tw, sc, www, sp;
         if (socialMedia.getFacebook() == null)
             fb = "";
-        else
+        else {
             fb = socialMedia.getFacebook();
+            System.out.println(fb);
+        }
         if (socialMedia.getInstagram() == null)
             insta = "";
         else
