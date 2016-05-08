@@ -5,6 +5,7 @@
  */
 package wrappers;
 
+import bookings.GuestBooking;
 import database.DatabaseTable;
 import events.IArtist;
 import events.IParentEvent;
@@ -47,6 +48,8 @@ public interface IWrapper {
     List<IArtist>   searchArtists(String string) throws IOException;
 
     Boolean setAmountToLoad(Integer amountToLoad);
+    
+    List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException;
 
     Object createNewObject(Object object, DatabaseTable table) throws IOException;
     Object updateObject(Object object, DatabaseTable table) throws IOException;
