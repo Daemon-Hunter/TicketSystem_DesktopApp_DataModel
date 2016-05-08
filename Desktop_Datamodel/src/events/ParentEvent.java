@@ -17,6 +17,7 @@ import java.util.List;
 
 import static database.APIHandle.getObjectsFromObject;
 import java.awt.image.BufferedImage;
+import utilities.Validator;
 
 /**
  *
@@ -46,14 +47,33 @@ public class ParentEvent implements IParentEvent {
         reviewFactory = new ParentEventReviewFactory();
     }
     
-    public ParentEvent(Integer ID, Integer social, String name, String description)
+    public ParentEvent(Integer socialID, String name, String description) throws IllegalArgumentException 
+    {
+        if (socialID == null)
+            throw new IllegalArgumentException("Cannot create a parent event with no social media object.");
+        
+        if (description == null)
+            throw new IllegalArgumentException("Cannot create a parent event with no description.");
+        
+        if (name == null)
+            throw new IllegalArgumentException("Cannot create a parent event with no name.");
+        
+        Validator.nameValidator(name);
+        Validator.descriptionValidator(description);
+        
+        this.description = description;
+        this.socialMediaID = socialID;
+        this.name = name;
+    }
+    
+    public ParentEvent(Integer ID, Integer socialID, String name, String description)
     {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.table = DatabaseTable.PARENT_EVENT;
         this.reviewFactory = new ParentEventReviewFactory();
-        this.socialMediaID = social;
+        this.socialMediaID = socialID;
 
     }
 

@@ -5,17 +5,35 @@
  */
 package tickets;
 
-import events.ChildEvent;
+import events.IChildEvent;
 
 /**
  *
  * @author 10512691
  */
 public class TicketFactory implements ITicketFactory {
-
+    
+    IChildEvent event;
+    
+    public TicketFactory(IChildEvent event) {
+        this.event = event;
+    }
+    
+    /**
+     * Creates a ticket for the child event, adding it to the event on creation.
+     * @param event
+     * @param price
+     * @param description
+     * @param remaining
+     * @param type
+     * @return
+     * @throws IllegalArgumentException 
+     */
     @Override
-    public Ticket createTicket(ChildEvent event, Double price, String description, Integer remaining, String type) throws IllegalArgumentException {
-        return new Ticket(event, price, description, remaining, type);
+    public ITicket createTicket(Double price, String description, Integer remaining, String type) throws IllegalArgumentException {
+        ITicket ticket = new Ticket(event, price, description, remaining, type);
+        event.addTicket(ticket);
+        return ticket;
     }
     
 }

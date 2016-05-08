@@ -10,6 +10,7 @@ import tickets.ITicket;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import tickets.ITicketFactory;
 
 /**
  *
@@ -40,6 +41,7 @@ public interface IChildEvent extends ISocial {
     IParentEvent getParentEvent() throws IOException;
     Boolean setParentEvent(IParentEvent event);
 
+    public ITicketFactory getTicketFactory();
     ITicket getTicket(Integer id);
     List<ITicket> getTickets() throws IOException;
     Boolean addTicket(ITicket ticket);

@@ -8,7 +8,6 @@ package events;
 import database.APIHandle;
 import database.DatabaseTable;
 import tickets.ITicket;
-import utilities.Validator;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -20,6 +19,9 @@ import java.util.Locale;
 
 import static database.APIHandle.createContract;
 import java.awt.image.BufferedImage;
+import tickets.ITicketFactory;
+import tickets.TicketFactory;
+import static utilities.Validator.descriptionValidator;
 import static utilities.Validator.nameValidator;
 
 /**
@@ -34,14 +36,14 @@ public class ChildEvent implements IChildEvent {
     private IParentEvent parentEvent;
     private Integer parentEventID;
     private List<ITicket> tickets;
+    private ITicketFactory ticketFactory;
     private IVenue venue;
     private Integer venueID;
-
     private Integer childEventID;
     private String childEventName, childEventDescription;
     private String startDateTime, endDateTime;
     private Boolean cancelled;
-    private final DatabaseTable table;
+    private final DatabaseTable table = DatabaseTable.CHILD_EVENT;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
@@ -52,11 +54,14 @@ public class ChildEvent implements IChildEvent {
      * Therefore do not need to check validation - will already have been checked.
      *
      * @param ID
+     * @param venueID
      * @param name
      * @param description
      * @param startTime
      * @param endTime
      * @param cancelled
+     * @param parentEventID
+     * @throws java.io.IOException
      */
     public ChildEvent(Integer ID, Integer venueID, String name, String description, String startTime, String endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
@@ -65,31 +70,31 @@ public class ChildEvent implements IChildEvent {
         this.startDateTime = startTime;
         this.endDateTime = endTime;
         this.cancelled = cancelled;
-        this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
         this.venueID = venueID;
         venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
 
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent)  throws IllegalArgumentException {
-        childEventID = 0;
-
+        
         nameValidator(name);
-        Validator.descriptionValidator(description);
+        descriptionValidator(description);
 
+        childEventID = 0;
         this.childEventName = name;
         this.childEventDescription = description;
         this.startDateTime = formatter.format(startTime);
         this.endDateTime = formatter.format(endTime);
         this.venue = venue;
         this.cancelled = false;
-        this.table = DatabaseTable.CHILD_EVENT;
         this.parentEvent = parentEvent;
     }
-
-    public ChildEvent() {
-        this.childEventID = 0;
-        this.table = DatabaseTable.CHILD_EVENT;
+    
+    @Override
+    public ITicketFactory getTicketFactory() {
+        if (ticketFactory == null)
+            ticketFactory = new TicketFactory(this);
+        return ticketFactory;
     }
 
     @Override
@@ -145,7 +150,7 @@ public class ChildEvent implements IChildEvent {
     public Boolean setDescription(String description) throws IllegalArgumentException {
         if (description == null)
             throw new IllegalArgumentException("Enter a description");
-        Validator.descriptionValidator(description);
+        descriptionValidator(description);
         childEventDescription = description;
         return childEventDescription.equals(description);
     }

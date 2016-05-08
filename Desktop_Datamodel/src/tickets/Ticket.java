@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static utilities.Blacklist.contains;
+import utilities.Validator;
 import static utilities.Validator.descriptionValidator;
 
 /**
@@ -45,8 +46,7 @@ public class Ticket implements ITicket {
      * @param remaining Number remaining (total number of tickets at time of construction).
      * @param type The ticket type (standing / seating / weekend etc.)
      */
-    public Ticket(Integer ID, Integer childEventID, Double price, String desc,
-                  Integer remaining, String type) {
+    public Ticket(Integer ID, Integer childEventID, Double price, String desc, Integer remaining, String type) {
         ticketID = ID;
         this.childEventID = childEventID;
         this.price = price;
@@ -56,19 +56,33 @@ public class Ticket implements ITicket {
         this.table = DatabaseTable.TICKET;
     }
 
-    public Ticket(ChildEvent event, Double price, String desc, Integer remaining,
-                  String type) {
-        if (event == null) {
-            throw new NullPointerException("Cannot make a ticket for a null event");
-        } else {
-            this.childEvent = event;
-        }
-
-        if (0 <= price) {
-            this.price = price;
-        } else {
-            throw new IllegalArgumentException("Cannot set a price below 0!");
-        }
+    public Ticket(IChildEvent event, Double price, String desc, Integer remaining, String type) 
+            throws IllegalArgumentException 
+    {
+        if (event == null)
+            throw new IllegalArgumentException("Cannot make a ticket for a null event.");
+        
+        if (price == null) 
+            throw new IllegalArgumentException("Cannot make a ticket with a null price.");
+        
+        if (desc == null)
+            throw new IllegalArgumentException("Cannot make a ticket with a null description.");
+        
+        if (remaining == null)
+            throw new IllegalArgumentException("Cannot make a ticket with a null amount remaining");
+        
+        if (type == null)
+            throw new IllegalArgumentException("Cannot make a ticket with a null type.");
+        
+        Validator.descriptionValidator(description);
+        Validator.nameValidator(type);
+        Validator.priceValidator(price.toString());
+        
+        this.childEvent = event;
+        this.price      = price;
+        description     = desc;
+        amountRemaining = remaining;
+        this.type       = type;
     }
 
     public DatabaseTable getTable() {

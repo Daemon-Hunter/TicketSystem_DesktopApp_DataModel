@@ -24,8 +24,24 @@ public final class Validator {
     // Matches landlines and mobile numbers - e.g. 07534951289 || +447534951289 || 01934862045
     private static final Pattern PHONE_REGEX = Pattern.compile("[\\+][4]{2}[1237][\\d]{8,9}");
 
-    private static final Pattern ID_REGEX = Pattern.compile("[1-9]{1}[0-9]{0,7}");
-
+    public static void priceValidator(String price) throws IllegalArgumentException {
+        try {
+            Double numbPrice = Double.parseDouble(price);
+            
+            String[] splitNumb = numbPrice.toString().split(".");
+            
+            if (splitNumb.length == 2) 
+            {           
+                if (splitNumb[1].length() > 2)
+                    throw new IllegalArgumentException("Invalid price. Too many digits after the decimal point.");
+            }
+        }
+        catch (NumberFormatException ex) {
+            throw new IllegalArgumentException("Inputted price string cannot be converted to a number.");
+        }
+        
+       
+    }
 
     public static void quantityValidator(Integer qty) throws IllegalArgumentException {
         if (!(0 < qty))

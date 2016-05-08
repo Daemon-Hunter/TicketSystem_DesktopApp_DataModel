@@ -5,7 +5,7 @@
  */
 package tickets;
 
-import events.ChildEvent;
+import events.IChildEvent;
 
 /**
  *
@@ -13,6 +13,5 @@ import events.ChildEvent;
  */
 public interface ITicketFactory {
     
-    public Ticket createTicket(ChildEvent event, Double price, 
-            String description, Integer remaining, String type);
+    public ITicket createTicket(Double price, String description, Integer remaining, String type);
 }
