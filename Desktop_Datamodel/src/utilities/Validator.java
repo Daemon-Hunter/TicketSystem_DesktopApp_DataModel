@@ -63,7 +63,8 @@ public final class Validator {
      * @param url
      */
     public static void URLValidator(String url) throws IllegalArgumentException {
-        if (url != null) {
+        if (url != null && !url.equals("")) {
+            
             try {
                 // Create an instance of a URL object.
                 // Will throw an error if the string is invalid.
@@ -77,6 +78,7 @@ public final class Validator {
             } catch (MalformedURLException ex) {
                 throw new IllegalArgumentException("Could not make a connection to the URL - malformed URL string.");
             }
+            
         }
     }
 
