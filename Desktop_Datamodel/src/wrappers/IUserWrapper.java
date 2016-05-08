@@ -25,5 +25,4 @@ public interface IUserWrapper extends IWrapper {
 
     IOrder makeCustomerBooking(List<ITicket> tickets, List<Integer> quantities) throws IOException;
 
-    List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException;
 }

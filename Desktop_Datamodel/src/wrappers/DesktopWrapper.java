@@ -5,7 +5,9 @@
  */
 package wrappers;
 
+import bookings.GuestBooking;
 import database.APIHandle;
+import static database.APIHandle.pushObjectToDatabase;
 import database.DatabaseTable;
 import events.IArtist;
 import events.IParentEvent;
@@ -434,5 +436,14 @@ public class DesktopWrapper implements IDesktopWrapper {
     @Override
     public Object updateObject(Object object, DatabaseTable table) throws IOException {
         return APIHandle.updateObjectToDatabase(object, table);
+    }
+
+    @Override
+    public List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException {
+        List<GuestBooking> madeBookings = new LinkedList<>();
+        for (GuestBooking guestBooking: guestBookings) {
+            madeBookings.add((GuestBooking) pushObjectToDatabase(guestBooking, DatabaseTable.GUEST_BOOKING));
+        }
+        return madeBookings;
     }
 }
