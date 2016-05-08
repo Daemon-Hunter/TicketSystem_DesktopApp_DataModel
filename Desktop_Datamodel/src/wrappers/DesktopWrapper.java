@@ -34,6 +34,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     private List<IArtist>       artistList;
     private List<IArtist>       artistSearchList;
     private List<ICustomer>     customerList;
+    private List<ICustomer>     customerSearchList;
     private List<IGuest>        guestList;
     private List<IAdmin>        adminList;
     private IAdmin              currentAdmin;
@@ -299,6 +300,12 @@ public class DesktopWrapper implements IDesktopWrapper {
     public List<ICustomer> refreshCustomers() throws IOException {
         customerList = (List<ICustomer>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.CUSTOMER);
         return new LinkedList<>(customerList);
+    }
+    
+    @Override
+    public List<ICustomer> searchCustomers(String search) throws IOException {
+        customerSearchList = (List<ICustomer>) (Object) APIHandle.searchObjects(search , amountToLoad, DatabaseTable.CUSTOMER);
+        return customerSearchList;
     }
 
     @Override
