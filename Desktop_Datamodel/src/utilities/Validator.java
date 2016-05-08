@@ -19,7 +19,7 @@ public final class Validator {
 
     private static final Pattern EMAIL_REGEX = Pattern.compile("^[A-Z0-9._%\\+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    private static final Pattern POSTCODE_REGEX = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?[0-9][a-zA-Z]{2}");
+    private static final Pattern POSTCODE_REGEX = Pattern.compile("[A-Z]{1,2}[0-9][0-9A-Z]?[0-9][A-Z]{2}", Pattern.CASE_INSENSITIVE);
 
     // Matches landlines and mobile numbers - e.g. 07534951289 || +447534951289 || 01934862045
     private static final Pattern PHONE_REGEX = Pattern.compile("[\\+][4]{2}[1237][\\d]{8,9}");
