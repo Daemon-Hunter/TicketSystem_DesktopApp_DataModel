@@ -10,7 +10,6 @@ package tickets;
 import bookings.IBooking;
 import database.APIHandle;
 import database.DatabaseTable;
-import events.ChildEvent;
 import events.IChildEvent;
 
 import java.io.IOException;
@@ -74,11 +73,12 @@ public class Ticket implements ITicket {
         if (type == null)
             throw new IllegalArgumentException("Cannot make a ticket with a null type.");
         
-        Validator.descriptionValidator(description);
+        Validator.descriptionValidator(desc);
         Validator.nameValidator(type);
         Validator.priceValidator(price.toString());
-        
+        ticketID = 0;
         this.childEvent = event;
+        this.childEventID = event.getID();
         this.price      = price;
         description     = desc;
         amountRemaining = remaining;

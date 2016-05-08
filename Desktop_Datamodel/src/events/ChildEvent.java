@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import static database.APIHandle.createContract;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import tickets.ITicketFactory;
 import tickets.TicketFactory;
 import static utilities.Validator.descriptionValidator;
@@ -35,7 +36,7 @@ public class ChildEvent implements IChildEvent {
     private List<IArtist> artists;
     private IParentEvent parentEvent;
     private Integer parentEventID;
-    private List<ITicket> tickets;
+    private List<ITicket> tickets = new ArrayList<>();
     private ITicketFactory ticketFactory;
     private IVenue venue;
     private Integer venueID;

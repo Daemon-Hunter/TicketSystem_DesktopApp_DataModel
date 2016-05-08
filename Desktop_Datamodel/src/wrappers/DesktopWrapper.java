@@ -5,7 +5,11 @@
  */
 package wrappers;
 
+import bookings.CustomerBooking;
 import bookings.GuestBooking;
+import bookings.IBooking;
+import bookings.IOrder;
+import bookings.Order;
 import database.APIHandle;
 import static database.APIHandle.pushObjectToDatabase;
 import database.DatabaseTable;
@@ -19,6 +23,7 @@ import people.IGuest;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import tickets.ITicket;
 /**
  *
  * @author 10512691
@@ -445,5 +450,15 @@ public class DesktopWrapper implements IDesktopWrapper {
             madeBookings.add((GuestBooking) pushObjectToDatabase(guestBooking, DatabaseTable.GUEST_BOOKING));
         }
         return madeBookings;
+    }
+
+    @Override
+    public IOrder makeCustomerBooking(ICustomer customer, ITicket ticket, Integer quantity)throws IOException {
+      IOrder order = (IOrder) pushObjectToDatabase(new Order(customer.getID()),DatabaseTable.ORDER);
+      IBooking booking;
+      booking = new CustomerBooking(order, ticket, quantity);
+      booking = (IBooking) APIHandle.pushObjectToDatabase(booking, DatabaseTable.BOOKING);
+      order.addBooking(booking);
+      return order;
     }
 }
