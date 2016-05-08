@@ -208,6 +208,7 @@ final class ObjectToMap {
         ticketMap.put("TICKET_PRICE", Double.toString(ticket.getPrice()));
         ticketMap.put("TICKET_DESCRIPTION", ticket.getDescription());
         ticketMap.put("TICKET_TYPE", ticket.getType());
+        ticketMap.put("TICKET_AMOUNT_REMAINING", Integer.toString(ticket.getRemaining()));
         ticketMap.put("CHILDEVENT_ID", Integer.toString(ticket.getChildEventID()));
         return ticketMap;
     }
