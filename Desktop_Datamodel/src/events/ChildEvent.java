@@ -11,11 +11,10 @@ import tickets.ITicket;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
+import utilities.Formatter;
 
 import static database.APIHandle.createContract;
 import java.awt.image.BufferedImage;
@@ -44,9 +43,6 @@ public class ChildEvent implements IChildEvent {
     private String startDateTime, endDateTime;
     private Boolean cancelled;
     private final DatabaseTable table = DatabaseTable.CHILD_EVENT;
-
-    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-
 
     /**
      * ID and 'cancelled' variables being passed, so this constructor will be used when
@@ -83,8 +79,8 @@ public class ChildEvent implements IChildEvent {
         childEventID = 0;
         this.childEventName = name;
         this.childEventDescription = description;
-        this.startDateTime = formatter.format(startTime);
-        this.endDateTime = formatter.format(endTime);
+        this.startDateTime = Formatter.formatDateToString(startTime);
+        this.endDateTime = Formatter.formatDateToString(endTime);
         this.venue = venue;
         this.cancelled = false;
         this.parentEvent = parentEvent;
@@ -114,22 +110,12 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Date getStartDateTime() {
-        try {
-            return formatter.parse(startDateTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        throw new NullPointerException();
+        return Formatter.formatStringToDate(startDateTime);
     }
 
     @Override
     public Date getEndDateTime() {
-        try {
-            return formatter.parse(endDateTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        throw new NullPointerException();
+        return Formatter.formatStringToDate(endDateTime);
     }
 
     @Override
@@ -161,9 +147,9 @@ public class ChildEvent implements IChildEvent {
         if (startDateTime == null) {
             throw new IllegalArgumentException("Enter a Date and Time.");
         } else {
-            this.startDateTime = formatter.format(startDateTime);
+            this.startDateTime = Formatter.formatDateToString(startDateTime);
         }
-        return this.startDateTime.equals(formatter.format(startDateTime));
+        return this.startDateTime.equals(Formatter.formatDateToString(startDateTime));
     }
 
     @Override
@@ -171,9 +157,9 @@ public class ChildEvent implements IChildEvent {
         if (endDateTime == null) {
             throw new IllegalArgumentException("end time is null");
         } else {
-            this.endDateTime = formatter.format(endDateTime);
+            this.endDateTime = Formatter.formatDateToString(endDateTime);
         }
-        return this.endDateTime.equals(formatter.format(endDateTime));
+        return this.endDateTime.equals(Formatter.formatDateToString(endDateTime));
     }
 
     @Override

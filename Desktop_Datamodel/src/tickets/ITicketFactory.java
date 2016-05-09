@@ -13,5 +13,5 @@ import events.IChildEvent;
  */
 public interface ITicketFactory {
     
-    public ITicket createTicket(Double price, String description, Integer remaining, String type);
+    public ITicket createTicket(Double price, String description, Integer remaining, String type) throws IllegalArgumentException;
 }
