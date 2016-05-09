@@ -41,6 +41,7 @@ import static database.MapToObject.MapToParentEvent;
 import static database.MapToObject.MapToSocialMedia;
 import static database.MapToObject.MapToTicket;
 import static database.MapToObject.MapToVenue;
+import static database.ObjectToMap.adminToMap;
 import static database.ObjectToMap.artistToMap;
 import static database.ObjectToMap.childEventToMap;
 import static database.ObjectToMap.customerBookingToMap;
@@ -51,6 +52,7 @@ import static database.ObjectToMap.parentEventToMap;
 import static database.ObjectToMap.socialMediaToMap;
 import static database.ObjectToMap.ticketToMap;
 import static database.ObjectToMap.venueToMap;
+import people.IAdmin;
 import static utilities.HashString.Encrypt;
 
 /**
@@ -79,7 +81,7 @@ public final class APIHandle{
                 if (Integer.parseInt(admin.get("ADMIN_ID")) != -1)
                     return MapToAdmin(admin);
         }
-        throw new IllegalArgumentException("Email or password is wrong");
+        throw new IllegalArgumentException("Email and password combination is incorrect.");
     }
 
     public static Object getSingle(int id, DatabaseTable table) throws IOException{
@@ -200,7 +202,8 @@ public final class APIHandle{
                             return MapToGuestBooking(objectMap);
                         case ADMIN:
                             return MapToAdmin(objectMap);
-                        default: throw new IllegalArgumentException();
+                        default: 
+                            throw new IllegalArgumentException();
                     }
 
                 }
@@ -292,9 +295,8 @@ public final class APIHandle{
 
     public static Object pushObjectToDatabase(Object object, DatabaseTable table) throws IOException{
         switch (table){
-//            case ADMIN:
-//                //objectMap = AdminToMap
-//                break;
+            case ADMIN:
+                return MapToAdmin(APIConnection.add(adminToMap((IAdmin) object), table));
             case ARTIST:
                 IArtist artist = (IArtist) object;
                 artist.setSocialMedia((SocialMedia)pushObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
@@ -335,9 +337,8 @@ public final class APIHandle{
 
     public static Object updateObjectToDatabase(Object object, DatabaseTable table) throws IOException{
         switch (table){
-//            case ADMIN:
-//                //objectMap = AdminToMap
-//                break;
+            case ADMIN:
+                return MapToAdmin(APIConnection.update(((IAdmin) object).getID(), adminToMap((IAdmin) object), table));
             case ARTIST:
                 IArtist artist = (IArtist) object;
                 artist.setSocialMedia((SocialMedia) updateObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));

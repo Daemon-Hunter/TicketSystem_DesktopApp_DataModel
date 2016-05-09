@@ -147,30 +147,18 @@ final class ObjectToMap {
 //            returnMap.put(imgKey, imgValue);
 //        }
         String fb, insta, tw, sc, www, sp;
-        if (socialMedia.getFacebook() == null)
-            fb = "";
-        else
-            fb = socialMedia.getFacebook();
-        if (socialMedia.getInstagram() == null)
-            insta = "";
-        else
-            insta = socialMedia.getInstagram();
-        if (socialMedia.getTwitter() == null)
-            tw = "";
-        else
-            tw = socialMedia.getTwitter();
-        if (socialMedia.getSoundcloud() == null)
-            sc = "";
-        else
-            sc = socialMedia.getSoundcloud();
-        if (socialMedia.getWebsite() == null)
-            www = "";
-        else
-            www = socialMedia.getWebsite();
-        if (socialMedia.getSpotify() == null)
-            sp = "";
-        else
-            sp = socialMedia.getSpotify();
+        
+        fb = socialMedia.getFacebook();
+        
+        insta = socialMedia.getInstagram();
+        
+        tw = socialMedia.getTwitter();
+        
+        sc = socialMedia.getSoundcloud();
+        
+        www = socialMedia.getWebsite();
+        
+        sp = socialMedia.getSpotify();
 
         returnMap.put("FACEBOOK", fb);
         returnMap.put("TWITTER", tw);

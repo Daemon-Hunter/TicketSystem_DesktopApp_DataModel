@@ -23,13 +23,14 @@ public class Admin implements IAdmin {
     public Admin(String fName, String lName, String email, String password) throws IllegalArgumentException {
         ID = 0;
         if (fName == null || lName == null)
-            throw new NullPointerException("First or last name is null.");
+            throw new IllegalArgumentException("First or last name is null.");
+        
         Validator.nameValidator(fName);
         Validator.nameValidator(lName);
+        Validator.emailValidator(email);
 
         firstName = fName;
         lastName = lName;
-        Validator.emailValidator(email);
         this.email = email;
         this.password = Encrypt(password);
     }
@@ -38,6 +39,7 @@ public class Admin implements IAdmin {
         this.ID = ID;
         firstName = fName;
         lastName = lName;
+        this.email = email;
     }
     
     @Override
@@ -70,8 +72,8 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setPassword(String password) {
-        this.password = password;
-        return this.password == password;
+        this.password = Encrypt(password);
+        return true;
     }
 
     @Override

@@ -95,27 +95,27 @@ final class MapToObject {
 
         socialMediaID = Integer.parseInt(socialMap.get("SOCIAL_MEDIA_ID"));
         facebook = socialMap.get("FACEBOOK");
-        if (facebook.equals("null")) {
+        if (facebook.equals("null") || facebook.equals("")) {
             facebook = null;
         }
         twitter = socialMap.get("TWITTER");
-        if (twitter.equals("null")) {
+        if (twitter.equals("null") || twitter.equals("")) {
             twitter = null;
         }
         instagram = socialMap.get("INSTAGRAM");
-        if (instagram.equals("null")) {
+        if (instagram.equals("null") || instagram.equals("")) {
             instagram = null;
         }
         soundcloud = socialMap.get("SOUNDCLOUD");
-        if (soundcloud.equals("null")) {
+        if (soundcloud.equals("null") || soundcloud.equals("")) {
             soundcloud = null;
         }
         website = socialMap.get("WEBSITE");
-        if (website.equals("null")) {
+        if (website.equals("null") || website.equals("")) {
             website = null;
         }
         spotify = socialMap.get("SPOTIFY");
-        if (spotify.equals("null")) {
+        if (spotify.equals("null") || spotify.equals("")) {
             spotify = null;
         }
         images.add(ImageIO.read(new ByteArrayInputStream(parseBase64Binary(socialMap.get("IMAGE")))));
