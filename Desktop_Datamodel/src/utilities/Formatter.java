@@ -7,9 +7,12 @@ package utilities;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,8 +22,17 @@ public class Formatter {
     private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
     private static final DecimalFormat decimalFormatter = new DecimalFormat("£0.00");
     
-    public static String formatDate(Date date) {
+    public static String formatDateToString(Date date) {
         return dateFormatter.format(date);
+    }
+    
+    public static Date formatStringToDate(String date) throws IllegalArgumentException {
+        try {
+            return dateFormatter.parse(date);
+        } 
+        catch (ParseException ex) {
+            throw new IllegalArgumentException("Error converting string to date, invalid format.");
+        }
     }
     
     public static String formatPrice(Double price) {

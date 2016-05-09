@@ -13,15 +13,14 @@ import events.IChildEvent;
  */
 public class TicketFactory implements ITicketFactory {
     
-    IChildEvent event;
+    IChildEvent childEvent;
     
-    public TicketFactory(IChildEvent event) {
-        this.event = event;
+    public TicketFactory(IChildEvent childEvent) {
+        this.childEvent = childEvent;
     }
     
     /**
      * Creates a ticket for the child event, adding it to the event on creation.
-     * @param event
      * @param price
      * @param description
      * @param remaining
@@ -31,8 +30,8 @@ public class TicketFactory implements ITicketFactory {
      */
     @Override
     public ITicket createTicket(Double price, String description, Integer remaining, String type) throws IllegalArgumentException {
-        ITicket ticket = new Ticket(event, price, description, remaining, type);
-        event.addTicket(ticket);
+        ITicket ticket = new Ticket(childEvent, price, description, remaining, type);
+        childEvent.addTicket(ticket);
         return ticket;
     }
     
