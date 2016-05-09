@@ -5,12 +5,14 @@
  */
 package wrappers;
 
+import bookings.IOrder;
 import people.IAdmin;
 import people.ICustomer;
 import people.IGuest;
 
 import java.io.IOException;
 import java.util.List;
+import tickets.ITicket;
 
 /**
  *
@@ -31,6 +33,8 @@ public interface IDesktopWrapper extends IWrapper {
     Boolean      removeAdmin(IAdmin admin);
     List<IAdmin>  loadMoreAdmins() throws IOException;
     List<IAdmin>  refreshAdmins() throws IOException;
+    
+    IOrder makeCustomerBooking(ICustomer customer ,ITicket ticket,Integer quantity) throws IOException;
 
     Boolean      addGuest(IGuest guest);
     List<IGuest>  getGuests()throws IOException;
