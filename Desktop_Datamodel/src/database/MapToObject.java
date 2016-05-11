@@ -290,8 +290,7 @@ final class MapToObject {
 
     public static IBooking MapToGuestBooking(Map<String, String> bookingMap) {
         Integer bookingID, ticketID, quantity;
-        String email, address, postcode;
-        Date dateTime = new Date();
+        String email, address, postcode, dateTime;
 
         bookingID = Integer.parseInt(bookingMap.get("GUEST_BOOKING_ID"));
         ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
@@ -299,12 +298,7 @@ final class MapToObject {
         email = bookingMap.get("GUEST_EMAIL");
         address = bookingMap.get("GUEST_ADDRESS");
         postcode = bookingMap.get("GUEST_POSTCODE");
-
-        try {
-            dateTime = formatter.parse(bookingMap.get("GUEST_BOOKING_DATE_TIME"));
-        } catch (ParseException e) {
-            System.err.println(e.toString());
-        }
+        dateTime = bookingMap.get("GUEST_BOOKING_DATE_TIME");
 
         return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest(email, address, postcode));
     }

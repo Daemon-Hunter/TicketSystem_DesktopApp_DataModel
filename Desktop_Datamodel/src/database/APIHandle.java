@@ -54,7 +54,6 @@ import static database.ObjectToMap.ticketToMap;
 import static database.ObjectToMap.venueToMap;
 import people.IAdmin;
 import static utilities.HashString.Encrypt;
-
 /**
  *
  */
