@@ -68,7 +68,6 @@ public class Guest implements IGuest {
         // Check the users postcode. Users don't have to have a postcode - so can be null
         Validator.postcodeValidator(postcode);
         this.postcode = postcode;
-
         this.password = Encrypt(password);
         table = DatabaseTable.GUEST_BOOKING;
     }

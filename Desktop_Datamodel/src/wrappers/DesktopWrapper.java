@@ -34,7 +34,7 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     private static DesktopWrapper wrapper;
 
-    private Integer amountToLoad = 25;
+    private Integer amountToLoad = 5;
 
     private List<IParentEvent>  parentEventList;
     private List<IParentEvent>  parentEventSearchList;
@@ -213,7 +213,7 @@ public class DesktopWrapper implements IDesktopWrapper {
         }
         List<IArtist> newData = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.ARTIST);
         artistList.addAll(newData);
-        return new LinkedList<IArtist>(newData);
+        return new LinkedList<>(newData);
     }
 
     @Override
@@ -359,7 +359,7 @@ public class DesktopWrapper implements IDesktopWrapper {
         }
         List<IAdmin> newData = (List<IAdmin>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.ADMIN);
         adminList.addAll(newData);
-        return new LinkedList<>(newData);
+        return new LinkedList<>(adminList);
     }
 
     @Override
@@ -405,8 +405,8 @@ public class DesktopWrapper implements IDesktopWrapper {
     public List<GuestBooking> loadMoreGuestBookings() throws IOException {
         int lowestID = 0;
         for (GuestBooking guestBooking : guestBookingList){
-            if (guestBooking.getGuest().getID() < lowestID || lowestID == 0)
-                lowestID = guestBooking.getGuest().getID();
+            if (guestBooking.getBookingID() < lowestID || lowestID == 0)
+                lowestID = guestBooking.getBookingID();
         }
         List<GuestBooking> newData = (List<GuestBooking>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.GUEST_BOOKING);
         guestBookingList.addAll(newData);
