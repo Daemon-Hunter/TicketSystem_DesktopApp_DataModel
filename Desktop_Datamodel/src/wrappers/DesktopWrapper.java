@@ -473,7 +473,7 @@ public class DesktopWrapper implements IDesktopWrapper {
         if (guestBookingsList != null) {
             return new LinkedList<>(guestBookingsList);
         }
-        guestBookingsList = (List<GuestBooking>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
+        guestBookingsList = (List<GuestBooking>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
         return new LinkedList<>(guestBookingsList);
     }
 
