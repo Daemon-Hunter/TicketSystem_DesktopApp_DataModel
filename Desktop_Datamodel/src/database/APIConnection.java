@@ -258,7 +258,6 @@ final class APIConnection {
         }
     }
 
-
     private static List<Map<String, String>> JSONBreakDown(String JSONString) {
 
         JSONString = JSONString.replaceAll("\\[", "").replaceAll("\\]", "");

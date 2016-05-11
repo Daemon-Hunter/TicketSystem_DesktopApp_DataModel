@@ -42,10 +42,10 @@ public class DesktopWrapper implements IDesktopWrapper {
     private List<IArtist>       artistSearchList;
     private List<ICustomer>     customerList;
     private List<ICustomer>     customerSearchList;
-    private List<IGuest>        guestList;
+    private List<GuestBooking>  guestBookingList;
+    private List<GuestBooking>  guestBookingSearchList;
     private List<IAdmin>        adminList;
     private IAdmin              currentAdmin;
-    private List<GuestBooking> guestBookingsList;
 
     private  DesktopWrapper(){}
 
@@ -367,54 +367,54 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public Boolean addGuest(IGuest guest) {
-        if (guest == null || guest.getID() <= 0)
+    public Boolean addGuestBooking(GuestBooking guestBooking) {
+        if (guestBooking == null || guestBooking.getGuest().getID() <= 0)
             throw new IllegalArgumentException("This guest cannot be added, have to put it though createNewObject?");
-        return guestList.add(guest);
+        return guestBookingList.add(guestBooking);
     }
 
     @Override
-    public List<IGuest> getGuests() throws IOException {
-        if (guestList != null) {
-            return new LinkedList<>(guestList);
+    public List<GuestBooking> getGuestBookings() throws IOException {
+        if (guestBookingList != null) {
+            return new LinkedList<>(guestBookingList);
         }
-        guestList = (List<IGuest>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
-        return new LinkedList<>(guestList);
+        guestBookingList = (List<GuestBooking>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
+        return new LinkedList<>(guestBookingList);
     }
 
     @Override
-    public IGuest getGuest(Integer index) throws IOException {
-        for (IGuest guest : guestList){
-            if(guest.getID().equals(index))
-                return guest;
+    public GuestBooking getGuestBooking(Integer index) throws IOException {
+        for (GuestBooking guestBooking : guestBookingList){
+            if(guestBooking.getGuest().getID().equals(index))
+                return guestBooking;
         }
-        return (IGuest) APIHandle.getSingle(index, DatabaseTable.GUEST_BOOKING);
+        return (GuestBooking) APIHandle.getSingle(index, DatabaseTable.GUEST_BOOKING);
     }
 
     @Override
-    public Boolean removeGuest(IGuest guest) {
-        if (guest == null){
-            throw new IllegalArgumentException("Cannot remove a null customer.");
+    public Boolean removeGuestBooking(GuestBooking guestBooking) {
+        if (guestBooking == null){
+            throw new IllegalArgumentException("Cannot remove a null guestBooking.");
         }
-        return guestList.remove(guest);
+        return guestBookingList.remove(guestBooking);
     }
 
     @Override
-    public List<IGuest> loadMoreGuests() throws IOException {
+    public List<GuestBooking> loadMoreGuestBookings() throws IOException {
         int lowestID = 0;
-        for (IGuest guest : guestList){
-            if (guest.getID() < lowestID || lowestID == 0)
-                lowestID = guest.getID();
+        for (GuestBooking guestBooking : guestBookingList){
+            if (guestBooking.getGuest().getID() < lowestID || lowestID == 0)
+                lowestID = guestBooking.getGuest().getID();
         }
-        List<IGuest> newData = (List<IGuest>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.GUEST_BOOKING);
-        guestList.addAll(newData);
+        List<GuestBooking> newData = (List<GuestBooking>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.GUEST_BOOKING);
+        guestBookingList.addAll(newData);
         return new LinkedList<>(newData);
     }
 
     @Override
-    public List<IGuest> refreshGuests() throws IOException {
-        guestList = (List<IGuest>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.CUSTOMER);
-        return new LinkedList<>(guestList);
+    public List<GuestBooking> refreshGuestBookings() throws IOException {
+        guestBookingList = (List<GuestBooking>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.CUSTOMER);
+        return new LinkedList<>(guestBookingList);
     }
 
     @Override
@@ -469,12 +469,9 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public LinkedList<GuestBooking> getGuestBookings() throws IOException {
-        if (guestBookingsList != null) {
-            return new LinkedList<>(guestBookingsList);
-        }
-        guestBookingsList = (List<GuestBooking>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
-        return new LinkedList<>(guestBookingsList);
+    public List<GuestBooking> searchGuestBookings(String string) throws IOException {
+        guestBookingSearchList = (List<GuestBooking>) (Object) APIHandle.searchObjects(string , amountToLoad, DatabaseTable.GUEST_BOOKING);
+        return guestBookingSearchList;    
     }
 
     

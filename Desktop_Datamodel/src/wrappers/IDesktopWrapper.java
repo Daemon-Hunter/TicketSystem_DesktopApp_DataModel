@@ -37,13 +37,14 @@ public interface IDesktopWrapper extends IWrapper {
     List<IAdmin>  refreshAdmins() throws IOException;
     
     IOrder makeCustomerBooking(ICustomer customer ,ITicket ticket,Integer quantity) throws IOException;
-    LinkedList<GuestBooking> getGuestBookings() throws IOException;
-    Boolean      addGuest(IGuest guest);
-    List<IGuest>  getGuests()throws IOException;
-    IGuest    getGuest(Integer index) throws IOException;
-    Boolean      removeGuest(IGuest customer);
-    List<IGuest>  loadMoreGuests() throws IOException;
-    List<IGuest>  refreshGuests() throws IOException;
+    
+    Boolean      addGuestBooking(GuestBooking guest);
+    List<GuestBooking>  getGuestBookings()throws IOException;
+    GuestBooking    getGuestBooking(Integer index) throws IOException;
+    Boolean      removeGuestBooking(GuestBooking customer);
+    List<GuestBooking>  loadMoreGuestBookings() throws IOException;
+    List<GuestBooking>  refreshGuestBookings() throws IOException;
+    List<GuestBooking> searchGuestBookings(String string) throws IOException;
 
     Boolean loginAdmin(String email, String password) throws IOException;
     Boolean checkAdminPassword(String email, String password) throws IOException;
