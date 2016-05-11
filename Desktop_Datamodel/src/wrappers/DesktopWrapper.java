@@ -72,14 +72,14 @@ public class DesktopWrapper implements IDesktopWrapper {
     public List<IParentEvent> loadMoreParentEvents() throws IOException {
         int lowestID = 0;
         for (IParentEvent parentEvent : parentEventList){
-            if (parentEvent.getID() < lowestID)
+            if (parentEvent.getID() < lowestID || lowestID == 0)
                 lowestID = parentEvent.getID();
         }
         List<IParentEvent> newData = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.PARENT_EVENT);
         parentEventList.addAll(newData);
         return new LinkedList<>(newData);
     }
-
+    
     @Override
     public IParentEvent getParentEvent(Integer id) throws IOException {
         if (parentEventList != null) {
