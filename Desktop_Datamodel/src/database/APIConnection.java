@@ -202,6 +202,10 @@ final class APIConnection {
     public static List<Map<String, String>> getObjectsOfObject(Integer artistID, DatabaseTable objectsToGet, DatabaseTable objectToUse) throws IOException {
         return Connection(URI + "functions/get" + DBTableToString(objectsToGet) + "Of" + objectToUse.toString() + "/" + artistID.toString());
     }
+    
+    public static List<Map<String, String>> getSTRING(String string) throws IOException{
+        return Connection(URI + "functions/get" + string);
+    }
 
     public static Boolean createContract(Integer artistID, Integer childEventID) throws IOException {
         URL url;

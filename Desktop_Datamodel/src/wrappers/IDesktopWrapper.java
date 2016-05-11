@@ -6,13 +6,12 @@
 package wrappers;
 
 import bookings.GuestBooking;
+import bookings.IBooking;
 import bookings.IOrder;
+import events.IChildEvent;
 import people.IAdmin;
 import people.ICustomer;
-import people.IGuest;
-
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import tickets.ITicket;
 
@@ -49,4 +48,7 @@ public interface IDesktopWrapper extends IWrapper {
     Boolean loginAdmin(String email, String password) throws IOException;
     Boolean checkAdminPassword(String email, String password) throws IOException;
     IAdmin  getCurrentAdmin();
+    
+    List<IBooking> getThisMonthsSales() throws IOException;
+    List<IChildEvent> getSoldOutEvents() throws IOException;
 }

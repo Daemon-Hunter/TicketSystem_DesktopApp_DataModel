@@ -11,9 +11,11 @@ import bookings.IBooking;
 import bookings.IOrder;
 import bookings.Order;
 import database.APIHandle;
+import static database.APIHandle.getStats;
 import static database.APIHandle.pushObjectToDatabase;
 import database.DatabaseTable;
 import events.IArtist;
+import events.IChildEvent;
 import events.IParentEvent;
 import events.IVenue;
 import people.IAdmin;
@@ -474,5 +476,16 @@ public class DesktopWrapper implements IDesktopWrapper {
         return guestBookingSearchList;    
     }
 
-    
+    @Override
+    public List<IBooking> getThisMonthsSales() throws IOException{
+        List<IBooking> sales = new LinkedList();
+        sales.addAll((List<CustomerBooking>)(Object)getStats("thismonthscustomersales"));
+        sales.addAll((List<GuestBooking>)(Object)getStats("thismonthsguestsales"));
+        return sales;
+    }
+
+    @Override
+    public List<IChildEvent> getSoldOutEvents() throws IOException{
+        return (List<IChildEvent>)(Object)getStats("soldoutevents");
+    }
 }
