@@ -45,6 +45,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     private List<IGuest>        guestList;
     private List<IAdmin>        adminList;
     private IAdmin              currentAdmin;
+    private List<GuestBooking> guestBookingsList;
 
     private  DesktopWrapper(){}
 
@@ -466,4 +467,15 @@ public class DesktopWrapper implements IDesktopWrapper {
     public Boolean checkAdminPassword(String email, String password) throws IOException {
         return !((IAdmin) APIHandle.isPasswordTrue(email, password, DatabaseTable.ADMIN)).getID().equals(-1);
     }
+
+    @Override
+    public LinkedList<GuestBooking> getGuestBookings() throws IOException {
+        if (guestBookingsList != null) {
+            return new LinkedList<>(guestBookingsList);
+        }
+        guestBookingsList = (List<GuestBooking>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
+        return new LinkedList<>(guestBookingsList);
+    }
+
+    
 }

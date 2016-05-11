@@ -5,12 +5,14 @@
  */
 package wrappers;
 
+import bookings.GuestBooking;
 import bookings.IOrder;
 import people.IAdmin;
 import people.ICustomer;
 import people.IGuest;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import tickets.ITicket;
 
@@ -35,7 +37,7 @@ public interface IDesktopWrapper extends IWrapper {
     List<IAdmin>  refreshAdmins() throws IOException;
     
     IOrder makeCustomerBooking(ICustomer customer ,ITicket ticket,Integer quantity) throws IOException;
-
+    LinkedList<GuestBooking> getGuestBookings() throws IOException;
     Boolean      addGuest(IGuest guest);
     List<IGuest>  getGuests()throws IOException;
     IGuest    getGuest(Integer index) throws IOException;
