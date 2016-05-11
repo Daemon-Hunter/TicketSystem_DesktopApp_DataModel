@@ -359,7 +359,7 @@ public class DesktopWrapper implements IDesktopWrapper {
         }
         List<IAdmin> newData = (List<IAdmin>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.ADMIN);
         adminList.addAll(newData);
-        return new LinkedList<>(adminList);
+        return new LinkedList<>(newData);
     }
 
     @Override
