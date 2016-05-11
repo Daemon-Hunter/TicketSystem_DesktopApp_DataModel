@@ -146,6 +146,8 @@ public final class APIHandle{
                             return artist;
                         case CUSTOMER:
                             return MapToCustomer(objectMap);
+                        case GUEST_BOOKING:
+                            return MapToGuestBooking(objectMap);
                         default: throw new IllegalArgumentException();
                     }
                 }
