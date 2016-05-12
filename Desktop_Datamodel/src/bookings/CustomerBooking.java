@@ -42,13 +42,13 @@ public class CustomerBooking implements IBooking {
      * @param ticketQty
      * @param dateTime
      */
-    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) throws IllegalArgumentException {
+    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, String dateTime) throws IllegalArgumentException {
         this.bookingID = ID;
         this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        this.bookingDateTime = formatter.format(dateTime);
+        this.bookingDateTime = dateTime;
         this.table = DatabaseTable.BOOKING;
         this.orderID = orderID;
     }
