@@ -34,7 +34,7 @@ import java.util.concurrent.Future;
 final class APIConnection {
 
     // URL of the web API
-    private static String URI = "http://xserve.uopnet.plymouth.ac.uk/Modules/INTPROJ/PRCS251G/api/";
+    private static String URI = "http://localhost:18611/api/";
 
     // Converts the DatabaseTable Enum value to a string for use in the connection string
     private static String DBTableToString(DatabaseTable table) {
@@ -448,7 +448,8 @@ final class APIConnection {
      * @return a string of the JSON values ready to be dealt with by the API
      */
     public static String createJsonString(Map<String, String> map) {
-        String strToReturn = "{"; // starts the string with the parenthesises
+        StringBuilder strToReturn = new StringBuilder();
+        strToReturn.append("{"); // starts the string with the parenthesises
         Object[] keys = map.keySet().toArray(); // set an array of the keys in the map
         Object[] values = map.values().toArray(); // sets an array of the values in the map
         boolean isAnInteger; // flag to determine whether to wrap "" around the value
@@ -472,8 +473,8 @@ final class APIConnection {
             else
                 tempLine += ":" + values[i] + endValue;
 
-            strToReturn += tempLine;    // append the current value and key to the end of the string
+            strToReturn.append(tempLine);    // append the current value and key to the end of the string
         }
-        return strToReturn; // return the string of the map as a JSON String
+        return strToReturn.toString(); // return the string of the map as a JSON String
     }
 }
