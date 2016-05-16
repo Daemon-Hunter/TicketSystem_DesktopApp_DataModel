@@ -101,6 +101,7 @@ public class ChildEvent implements IChildEvent {
         this.startDateTime = formatter.format(startTime);
         this.endDateTime = formatter.format(endTime);
         this.venue = venue;
+        this.venueID = venue.getID();
         this.cancelled = false;
         this.table = DatabaseTable.CHILD_EVENT;
         this.parentEvent = parentEvent;
