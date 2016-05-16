@@ -8,13 +8,15 @@ package utilities.observer;
 import database.DatabaseTable;
 
 /**
+ * The interface Db subject.
  *
  * @author 10512691
  */
 public interface IDbSubject extends ISubject {
-    
+
     /**
      * Get the database table which this object maps.
+     *
      * @return Table enumeration.
      */
     DatabaseTable getTable();

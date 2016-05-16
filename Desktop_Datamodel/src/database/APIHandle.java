@@ -7,12 +7,14 @@ package database;
 
 import bookings.CustomerBooking;
 import bookings.GuestBooking;
+import bookings.IBooking;
 import bookings.IOrder;
 import events.IArtist;
 import events.IChildEvent;
 import events.IParentEvent;
 import events.IVenue;
 import events.SocialMedia;
+import people.IAdmin;
 import people.IPerson;
 import people.IUser;
 import reviews.IReview;
@@ -52,14 +54,22 @@ import static database.ObjectToMap.parentEventToMap;
 import static database.ObjectToMap.socialMediaToMap;
 import static database.ObjectToMap.ticketToMap;
 import static database.ObjectToMap.venueToMap;
-import people.IAdmin;
 import static utilities.HashString.Encrypt;
 
 /**
+ * The Api handle class is an example of the Mediator Pattern.
+ * The class handles all of the database requests and handles the conversion of Objects.
  *
+ * @author Joshua Kellaway
  */
 public final class APIHandle {
 
+    /**
+     * Gets users.
+     *
+     * @return the users
+     * @throws IOException the io exception
+     */
     public static List<IUser> getUsers() throws IOException {
 
         List<IUser> userList = new LinkedList<>();
@@ -70,25 +80,40 @@ public final class APIHandle {
         return userList;
     }
 
+    /**
+     * Is password true person.
+     *
+     * @param email    the email
+     * @param password the password
+     * @param table    the table
+     * @return the person
+     * @throws IOException              the io exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static IPerson isPasswordTrue(String email, String password, DatabaseTable table) throws IOException, IllegalArgumentException {
         switch (table) {
             case CUSTOMER:
                 Map<String, String> customer = APIConnection.comparePassword(email, Encrypt(password), DatabaseTable.CUSTOMER).get(0);
-                if (Integer.parseInt(customer.get("CUSTOMER_ID")) != -1) {
+                if (Integer.parseInt(customer.get("CUSTOMER_ID")) != -1)
                     return MapToCustomer(customer);
-                }
                 else throw new IllegalArgumentException("Account / password doesn't match!");
             case ADMIN:
                 Map<String, String> admin = APIConnection.comparePassword(email, Encrypt(password), DatabaseTable.ADMIN).get(0);
-                if (Integer.parseInt(admin.get("ADMIN_ID")) != -1) {
-                    return MapToAdmin(admin);
-                }
+                if (Integer.parseInt(admin.get("ADMIN_ID")) != -1) return MapToAdmin(admin);
                 else throw new IllegalArgumentException("Account / password doesn't match!");
             default:
                 throw new UnsupportedOperationException("Cannot compare the password of an object of the given type.");
         }
     }
 
+    /**
+     * Gets single.
+     *
+     * @param id    the id
+     * @param table the table
+     * @return the single
+     * @throws IOException the io exception
+     */
     public static Object getSingle(int id, DatabaseTable table) throws IOException {
         Map<String, String> objMap = APIConnection.readSingle(id, table);
         switch (table) {
@@ -131,6 +156,15 @@ public final class APIHandle {
         }
     }
 
+    /**
+     * Search objects list.
+     *
+     * @param search the search
+     * @param amount the amount
+     * @param table  the table
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Object> searchObjects(String search, Integer amount, final DatabaseTable table) throws IOException {
         List<Object> objectList = new LinkedList<>();
         List<Map<String, String>> objectMapList = APIConnection.search(search, amount, table);
@@ -182,6 +216,57 @@ public final class APIHandle {
         return objectList;
     }
 
+    /**
+     * Gets booking amount.
+     *
+     * @param userID   the user id
+     * @param amount   the amount
+     * @param lowestID the lowest id
+     * @return the booking amount
+     * @throws IOException the io exception
+     */
+    public static List<IBooking> getBookingAmount(Integer userID, Integer amount, Integer lowestID) throws IOException {
+        List<IBooking> objectList = new LinkedList<>();
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<IBooking>> futures = new LinkedList<>();
+        List<Map<String, String>> objectMapList;
+
+        objectMapList = APIConnection.readTicketAmount(userID, amount, lowestID);
+
+        for (final Map<String, String> objectMap : objectMapList) {
+            Callable<IBooking> callable = new Callable<IBooking>() {
+                @Override
+                public IBooking call() throws Exception {
+                    return MapToCustomerBooking(objectMap);
+                }
+            };
+
+            futures.add(service.submit(callable));
+        }
+
+        service.shutdown();
+
+        for (Future<IBooking> future : futures) {
+            try {
+                objectList.add(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return objectList;
+    }
+
+    /**
+     * Gets object amount.
+     *
+     * @param amount the amount
+     * @param lastID the last id
+     * @param table  the table
+     * @return the object amount
+     * @throws IOException the io exception
+     */
     public static List<Object> getObjectAmount(Integer amount, Integer lastID, final DatabaseTable table) throws IOException {
 
         List<Object> objectList = new LinkedList<>();
@@ -189,8 +274,10 @@ public final class APIHandle {
         int threads = Runtime.getRuntime().availableProcessors();
         ExecutorService service = Executors.newFixedThreadPool(threads);
         List<Future<Object>> futures = new LinkedList<>();
+        List<Map<String, String>> objectMapList;
 
-        List<Map<String, String>> objectMapList = APIConnection.readAmount(table, amount, lastID);
+        objectMapList = APIConnection.readAmount(table, amount, lastID);
+
 
         for (final Map<String, String> objectMap : objectMapList) {
             Callable<Object> callable = new Callable<Object>() {
@@ -241,6 +328,15 @@ public final class APIHandle {
         return objectList;
     }
 
+    /**
+     * Gets objects from object.
+     *
+     * @param parentID     the parent id
+     * @param objectsToGet the objects to get
+     * @param object       the object
+     * @return the objects from object
+     * @throws IOException the io exception
+     */
     public static List<Object> getObjectsFromObject(final int parentID, final DatabaseTable objectsToGet, DatabaseTable object) throws IOException {
         List<Map<String, String>> objectMapList = APIConnection.getObjectsOfObject(parentID, objectsToGet, object);
 
@@ -311,10 +407,18 @@ public final class APIHandle {
         return reviewList;
     }
 
+    /**
+     * Push object to database object.
+     *
+     * @param object the object
+     * @param table  the table
+     * @return the object
+     * @throws IOException the io exception
+     */
     public static Object pushObjectToDatabase(Object object, DatabaseTable table) throws IOException {
         switch (table) {
             case ADMIN:
-                return MapToAdmin(APIConnection.add(adminToMap((IAdmin) object), table));
+                return MapToAdmin(APIConnection.add(adminToMap((IAdmin) object), DatabaseTable.ADMIN));
             case ARTIST:
                 IArtist artist = (IArtist) object;
                 artist.setSocialMedia((SocialMedia) pushObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
@@ -354,6 +458,14 @@ public final class APIHandle {
         }
     }
 
+    /**
+     * Update object to database object.
+     *
+     * @param object the object
+     * @param table  the table
+     * @return the object
+     * @throws IOException the io exception
+     */
     public static Object updateObjectToDatabase(Object object, DatabaseTable table) throws IOException {
         switch (table) {
             case ADMIN:
@@ -367,7 +479,7 @@ public final class APIHandle {
 //            case ARTIST_REVIEW:
 //                break;
             case BOOKING:
-                return MapToCustomerBooking(APIConnection.update(((CustomerBooking) object).getBookingID(), customerBookingToMap((CustomerBooking) object), table));
+                return MapToCustomerBooking(APIConnection.update(((IBooking) object).getBookingID(), customerBookingToMap((CustomerBooking) object), table));
             case CHILD_EVENT:
                 return MapToChildEvent(APIConnection.update(((IChildEvent) object).getID(), childEventToMap((IChildEvent) object), table));
             case CUSTOMER:
@@ -397,10 +509,25 @@ public final class APIHandle {
         }
     }
 
+    /**
+     * Create contract boolean.
+     *
+     * @param artistID     the artist id
+     * @param childEventID the child event id
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public static Boolean createContract(int artistID, int childEventID) throws IOException {
         return APIConnection.createContract(artistID, childEventID);
     }
 
+    /**
+     * Gets stats.
+     *
+     * @param stats the stats
+     * @return the stats
+     * @throws IOException the io exception
+     */
     public static List<Object> getStats(String stats) throws IOException {
         final String string = stats.toLowerCase();
         List<Object> objectList = new LinkedList<>();

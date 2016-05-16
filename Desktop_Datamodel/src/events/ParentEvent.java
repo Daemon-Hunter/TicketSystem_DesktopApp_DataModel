@@ -9,6 +9,7 @@ import database.DatabaseTable;
 import reviews.IReview;
 import reviews.IReviewFactory;
 import reviews.ParentEventReviewFactory;
+import utilities.Validator;
 import utilities.observer.IObserver;
 
 import java.io.IOException;
@@ -17,11 +18,12 @@ import java.util.List;
 
 import static database.APIHandle.getObjectsFromObject;
 import java.awt.image.BufferedImage;
-import utilities.Validator;
 
 /**
+ * The ParentEvent represents a record in the ParentEvent table in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class ParentEvent implements IParentEvent {
 
@@ -34,9 +36,9 @@ public class ParentEvent implements IParentEvent {
     private DatabaseTable table;
     private int ID;
     private String name;
-    
+
     private List<IChildEvent> childEvents;
-    
+
     /**
      * Empty constructor initializes it's review factory and child event list.
      */
@@ -46,28 +48,42 @@ public class ParentEvent implements IParentEvent {
         table = DatabaseTable.PARENT_EVENT;
         reviewFactory = new ParentEventReviewFactory();
     }
-    
-    public ParentEvent(Integer socialID, String name, String description) throws IllegalArgumentException 
-    {
+
+    /**
+     * Instantiates a new Parent event.
+     *
+     * @param socialID    the social id
+     * @param name        the name
+     * @param description the description
+     * @throws IllegalArgumentException the illegal argument exception
+     */
+    public ParentEvent(Integer socialID, String name, String description) throws IllegalArgumentException {
         if (socialID == null)
             throw new IllegalArgumentException("Cannot create a parent event with no social media object.");
-        
+
         if (description == null)
             throw new IllegalArgumentException("Cannot create a parent event with no description.");
-        
+
         if (name == null)
             throw new IllegalArgumentException("Cannot create a parent event with no name.");
-        
+
         Validator.nameValidator(name);
         Validator.descriptionValidator(description);
-        
+
         this.description = description;
         this.socialMediaID = socialID;
         this.name = name;
     }
-    
-    public ParentEvent(Integer ID, Integer socialID, String name, String description)
-    {
+
+    /**
+     * Instantiates a new Parent event.
+     *
+     * @param ID          the id
+     * @param socialID    the social id
+     * @param name        the name
+     * @param description the description
+     */
+    public ParentEvent(Integer ID, Integer socialID, String name, String description) {
         this.ID = ID;
         this.name = name;
         this.description = description;
@@ -80,7 +96,7 @@ public class ParentEvent implements IParentEvent {
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
         if (childEvents == null) {
-            childEvents = (List<IChildEvent>) (Object)getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT);
+            childEvents = (List<IChildEvent>) (Object) getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT);
         }
         return childEvents;
     }
@@ -102,8 +118,7 @@ public class ParentEvent implements IParentEvent {
                 childEvents = getChildEvents();
             }
             for (IChildEvent childEvent : childEvents) {
-                if (childEvent.getID().equals(childEventID))
-                    return childEvent;
+                if (childEvent.getID().equals(childEventID)) return childEvent;
             }
             throw new NullPointerException("No child event with this ID");
         }
@@ -140,7 +155,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public Boolean setName(String name) {
-        if (name == null){
+        if (name == null) {
             throw new IllegalArgumentException("Name cannot be null.");
         } else {
             this.name = name;
@@ -150,7 +165,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public Boolean setDescription(String description) {
-        if (description == null){
+        if (description == null) {
             throw new IllegalArgumentException("Description cannot be null");
         } else {
             this.description = description;
@@ -177,6 +192,7 @@ public class ParentEvent implements IParentEvent {
 
     /**
      * Checks the validity of the ID before assigning.
+     *
      * @param id
      * @return Boolean true if ID set.
      */
@@ -188,27 +204,29 @@ public class ParentEvent implements IParentEvent {
     }
 
 
-
+    /**
+     * Gets review factory.
+     *
+     * @return the review factory
+     */
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
 
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified) {
-        return reviewFactory.createReview( ID, customerID, rating, date, body, verified);
+        return reviewFactory.createReview(ID, customerID, rating, date, body, verified);
     }
 
     @Override
     public IReview getReview(Integer customerID) throws IllegalArgumentException {
-        if (customerID == null)
-            throw new NullPointerException();
+        if (customerID == null) throw new NullPointerException();
         for (IReview r : reviews) {
             if (r.getCustomerID().equals(customerID)) {
                 return r;
             }
         }
-        throw new IllegalArgumentException("No customers with that ID have "
-                + "written a review for this venue.");
+        throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
     }
 
     @Override
@@ -232,6 +250,11 @@ public class ParentEvent implements IParentEvent {
         }
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();

@@ -5,22 +5,48 @@
  */
 package people;
 
-import bookings.IBooking;
-
-import java.io.IOException;
-import java.util.List;
-
 /**
+ * The interface IUser is extended by the ICustomer and IGuest interfaces to provide abstraction.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IUser extends IPerson {
-    
+
+    /**
+     * Gets address.
+     *
+     * @return the address
+     */
     String getAddress();
-    Boolean setAddress(String address) throws IOException;
-    
+
+    /**
+     * Sets address.
+     *
+     * @param address the address
+     * @return the address
+     */
+    Boolean setAddress(String address);
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     Integer getID();
-    
+
+    /**
+     * Gets postcode.
+     *
+     * @return the postcode
+     */
     String getPostcode();
-    Boolean setPostcode(String postcode) throws IOException;
+
+    /**
+     * Sets postcode.
+     *
+     * @param postcode the postcode
+     * @return the postcode
+     */
+    Boolean setPostcode(String postcode);
 }

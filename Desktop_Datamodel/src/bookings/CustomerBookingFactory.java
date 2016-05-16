@@ -8,15 +8,17 @@ package bookings;
 import tickets.ITicket;
 
 /**
+ * The  Customer booking factory is used to create CustomerBooking objects.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
-public class CustomerBookingFactory implements IBookingFactory  {
+public class CustomerBookingFactory implements IBookingFactory {
 
     @Override
     public IBooking createBooking(ITicket ticket, IOrder order, Integer quantity) {
         return new CustomerBooking(order, ticket, quantity);
     }
 
-    
+
 }

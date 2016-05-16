@@ -8,10 +8,24 @@ package people;
 import bookings.IBooking;
 
 /**
+ * The interface Guest is implemented by any class wishing to represent a Guest.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IGuest extends IUser {
+    /**
+     * Gets booking.
+     *
+     * @return the booking
+     */
     IBooking getBooking();
+
+    /**
+     * Sets booking.
+     *
+     * @param booking the booking
+     * @return the booking
+     */
     boolean setBooking(IBooking booking);
 }

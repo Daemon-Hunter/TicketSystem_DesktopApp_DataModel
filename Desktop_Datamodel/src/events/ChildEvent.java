@@ -8,19 +8,19 @@ package events;
 import database.APIHandle;
 import database.DatabaseTable;
 import tickets.ITicket;
+import tickets.ITicketFactory;
+import tickets.TicketFactory;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import utilities.Formatter;
+import java.util.Locale;
 
 import static database.APIHandle.createContract;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import tickets.ITicketFactory;
-import tickets.TicketFactory;
 import static utilities.Validator.descriptionValidator;
 import static utilities.Validator.nameValidator;
 
@@ -28,14 +28,17 @@ import static utilities.Validator.nameValidator;
  * The child of a parent event, containing lineup and venue details, as well
  * as a further description and start/end times.
  *
- * @author 10512691
+ * The ChildEvent class represents a record in the ChildEvent table within the database.
+ *
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class ChildEvent implements IChildEvent {
 
     private List<IArtist> artists;
     private IParentEvent parentEvent;
     private Integer parentEventID;
-    private List<ITicket> tickets = new ArrayList<>();
+    private List<ITicket> tickets;
     private ITicketFactory ticketFactory;
     private IVenue venue;
     private Integer venueID;
@@ -43,22 +46,25 @@ public class ChildEvent implements IChildEvent {
     private String childEventName, childEventDescription;
     private String startDateTime, endDateTime;
     private Boolean cancelled;
-    private final DatabaseTable table = DatabaseTable.CHILD_EVENT;
+    private final DatabaseTable table;
+
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+
 
     /**
      * ID and 'cancelled' variables being passed, so this constructor will be used when
      * creating an object already stored in the database.
      * Therefore do not need to check validation - will already have been checked.
      *
-     * @param ID
-     * @param venueID
-     * @param name
-     * @param description
-     * @param startTime
-     * @param endTime
-     * @param cancelled
-     * @param parentEventID
-     * @throws java.io.IOException
+     * @param ID            the id
+     * @param venueID       the venue id
+     * @param name          the name
+     * @param description   the description
+     * @param startTime     the start time
+     * @param endTime       the end time
+     * @param cancelled     the cancelled
+     * @param parentEventID the parent event id
+     * @throws IOException the io exception
      */
     public ChildEvent(Integer ID, Integer venueID, String name, String description, String startTime, String endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
@@ -67,30 +73,42 @@ public class ChildEvent implements IChildEvent {
         this.startDateTime = startTime;
         this.endDateTime = endTime;
         this.cancelled = cancelled;
+        this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
         this.venueID = venueID;
         venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
 
-    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent)  throws IllegalArgumentException {
-        
+    /**
+     * Instantiates a new Child event.
+     *
+     * @param name        the name
+     * @param description the description
+     * @param startTime   the start time
+     * @param endTime     the end time
+     * @param venue       the venue
+     * @param parentEvent the parent event
+     * @throws IllegalArgumentException the illegal argument exception
+     */
+    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent) throws IllegalArgumentException {
+        childEventID = 0;
+
         nameValidator(name);
         descriptionValidator(description);
 
-        childEventID = 0;
         this.childEventName = name;
         this.childEventDescription = description;
-        this.startDateTime = Formatter.formatDateToString(startTime);
-        this.endDateTime = Formatter.formatDateToString(endTime);
+        this.startDateTime = formatter.format(startTime);
+        this.endDateTime = formatter.format(endTime);
         this.venue = venue;
         this.cancelled = false;
+        this.table = DatabaseTable.CHILD_EVENT;
         this.parentEvent = parentEvent;
     }
-    
+
     @Override
     public ITicketFactory getTicketFactory() {
-        if (ticketFactory == null)
-            ticketFactory = new TicketFactory(this);
+        if (ticketFactory == null) ticketFactory = new TicketFactory(this);
         return ticketFactory;
     }
 
@@ -111,12 +129,22 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Date getStartDateTime() {
-        return Formatter.formatStringToDate(startDateTime);
+        try {
+            return formatter.parse(startDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException();
     }
 
     @Override
     public Date getEndDateTime() {
-        return Formatter.formatStringToDate(endDateTime);
+        try {
+            return formatter.parse(endDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException();
     }
 
     @Override
@@ -126,8 +154,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean setName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new IllegalArgumentException("Enter a name");
+        if (name == null) throw new IllegalArgumentException("Enter a name");
         nameValidator(name);
         childEventName = name;
         return childEventName.equals(name);
@@ -135,8 +162,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean setDescription(String description) throws IllegalArgumentException {
-        if (description == null)
-            throw new IllegalArgumentException("Enter a description");
+        if (description == null) throw new IllegalArgumentException("Enter a description");
         descriptionValidator(description);
         childEventDescription = description;
         return childEventDescription.equals(description);
@@ -148,9 +174,9 @@ public class ChildEvent implements IChildEvent {
         if (startDateTime == null) {
             throw new IllegalArgumentException("Enter a Date and Time.");
         } else {
-            this.startDateTime = Formatter.formatDateToString(startDateTime);
+            this.startDateTime = formatter.format(startDateTime);
         }
-        return this.startDateTime.equals(Formatter.formatDateToString(startDateTime));
+        return this.startDateTime.equals(formatter.format(startDateTime));
     }
 
     @Override
@@ -158,9 +184,9 @@ public class ChildEvent implements IChildEvent {
         if (endDateTime == null) {
             throw new IllegalArgumentException("end time is null");
         } else {
-            this.endDateTime = Formatter.formatDateToString(endDateTime);
+            this.endDateTime = formatter.format(endDateTime);
         }
-        return this.endDateTime.equals(Formatter.formatDateToString(endDateTime));
+        return this.endDateTime.equals(formatter.format(endDateTime));
     }
 
     @Override
@@ -190,8 +216,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Integer getParentEventID() {
-        if (parentEventID == null)
-            parentEventID = parentEvent.getID();
+        if (parentEventID == null) parentEventID = parentEvent.getID();
         return parentEventID;
     }
 
@@ -216,17 +241,20 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public ITicket getTicket(Integer id) {
-        for (ITicket ticket : tickets) {
-            if (ticket.getID().equals(id))
-                return ticket;
+    public ITicket getTicket(Integer id) throws IOException {
+        if (tickets != null) {
+            for (ITicket ticket : tickets) {
+                if (ticket.getID().equals(id)) return ticket;
+            }
         }
+        APIHandle.getSingle(id, DatabaseTable.TICKET);
         throw new IllegalArgumentException("No item in the list contains that id.");
     }
 
     @Override
     public List<ITicket> getTickets() throws IOException {
-        tickets = (List<ITicket>) (Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT);
+        if (tickets == null)
+            tickets = (List<ITicket>) (Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT);
         return tickets;
     }
 
@@ -262,8 +290,7 @@ public class ChildEvent implements IChildEvent {
     @Override
     public Boolean newContract(IArtist artist) throws IOException {
         if (createContract(artist.getID(), this.childEventID)) {
-            if (artists == null)
-                artists = new LinkedList<>();
+            if (artists == null) artists = new LinkedList<>();
             artists.add(artist);
             return true;
         }

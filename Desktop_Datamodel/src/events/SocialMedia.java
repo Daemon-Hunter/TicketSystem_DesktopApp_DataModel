@@ -14,21 +14,38 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * The Social media type represents a record in the SocialMedia table in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class SocialMedia implements ISocial {
-    
+
     private Integer id;
-    private String  facebook, twitter, instagram, soundcloud, website, spotify;
+    private String facebook, twitter, instagram, soundcloud, website, spotify;
     private List<BufferedImage> images;
     private final DatabaseTable table = DatabaseTable.SOCIAL_MEDIA;
     private LinkedList<IObserver> observers;
-    
+
+    /**
+     * Instantiates a new Social media.
+     */
     public SocialMedia() {
         id = 0;
     }
 
+    /**
+     * Instantiates a new Social media.
+     *
+     * @param images     the images
+     * @param facebook   the facebook
+     * @param twitter    the twitter
+     * @param instagram  the instagram
+     * @param soundcloud the soundcloud
+     * @param website    the website
+     * @param spotify    the spotify
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public SocialMedia(List<BufferedImage> images, String facebook, String twitter, String instagram, String soundcloud, String website, String spotify) throws IllegalArgumentException {
 
         Validator.URLValidator(facebook);
@@ -48,8 +65,19 @@ public class SocialMedia implements ISocial {
         this.spotify = spotify;
     }
 
-    public SocialMedia(Integer id, List<BufferedImage> images, String facebook, String twitter,
-                       String instagram, String soundcloud, String website, String spotify) {
+    /**
+     * Instantiates a new Social media.
+     *
+     * @param id         the id
+     * @param images     the images
+     * @param facebook   the facebook
+     * @param twitter    the twitter
+     * @param instagram  the instagram
+     * @param soundcloud the soundcloud
+     * @param website    the website
+     * @param spotify    the spotify
+     */
+    public SocialMedia(Integer id, List<BufferedImage> images, String facebook, String twitter, String instagram, String soundcloud, String website, String spotify) {
 
         this.id = id;
         this.images = images;
@@ -60,7 +88,7 @@ public class SocialMedia implements ISocial {
         this.website = website;
         this.spotify = spotify;
     }
-    
+
 
     @Override
     public Integer getSocialId() {
@@ -72,8 +100,9 @@ public class SocialMedia implements ISocial {
     /**
      * Checks the given integer against a regular expression that defines
      * the rules for an identification number.
+     *
      * @param id
-     * @return 
+     * @return
      */
     @Override
     public Boolean setSocialId(Integer id) {
@@ -95,8 +124,7 @@ public class SocialMedia implements ISocial {
     public Boolean addImage(BufferedImage img) {
         if (images.toArray().length >= 5)
             throw new IllegalArgumentException("Cannot add more than 5 images.");
-        else
-            return images.add(img);
+        else return images.add(img);
     }
 
     @Override
@@ -121,8 +149,7 @@ public class SocialMedia implements ISocial {
     public Boolean setFacebook(String fb) throws IllegalArgumentException {
         Validator.URLValidator(fb);
         this.facebook = fb;
-        if (fb == null)
-            return true;
+        if (fb == null) return true;
         return this.facebook.equals(fb);
     }
 
@@ -135,8 +162,7 @@ public class SocialMedia implements ISocial {
     public Boolean setTwitter(String tw) throws IllegalArgumentException {
         Validator.URLValidator(tw);
         twitter = tw;
-        if (tw == null)
-            return true;
+        if (tw == null) return true;
         return this.twitter.equals(tw);
     }
 
@@ -149,8 +175,7 @@ public class SocialMedia implements ISocial {
     public Boolean setInstagram(String insta) throws IllegalArgumentException {
         Validator.URLValidator(insta);
         instagram = insta;
-        if (insta == null)
-            return true;
+        if (insta == null) return true;
         return this.instagram.equals(insta);
     }
 
@@ -163,8 +188,7 @@ public class SocialMedia implements ISocial {
     public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
         Validator.URLValidator(sc);
         soundcloud = sc;
-        if (sc == null)
-            return true;
+        if (sc == null) return true;
         return this.soundcloud.equals(sc);
     }
 
@@ -177,8 +201,7 @@ public class SocialMedia implements ISocial {
     public Boolean setWebsite(String web) throws IllegalArgumentException {
         Validator.URLValidator(web);
         website = web;
-        if (web == null)
-            return true;
+        if (web == null) return true;
         return this.website.equals(web);
     }
 
@@ -191,8 +214,7 @@ public class SocialMedia implements ISocial {
     public Boolean setSpotify(String sp) throws IllegalArgumentException {
         Validator.URLValidator(sp);
         spotify = sp;
-        if (sp == null)
-            return true;
+        if (sp == null) return true;
         return this.spotify.equals(sp);
     }
 }

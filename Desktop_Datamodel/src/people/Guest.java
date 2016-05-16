@@ -12,8 +12,10 @@ import utilities.Validator;
 import static utilities.HashString.Encrypt;
 
 /**
+ * The type Guest represents a record in the GuestBooking table of the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Guest implements IGuest {
 
@@ -25,12 +27,13 @@ public class Guest implements IGuest {
     /**
      * Use this constructor when creating a new Guest object.
      * ID is unknown.
-     * @param email
-     * @param address
-     * @param postcode
+     *
+     * @param email    the email
+     * @param address  the address
+     * @param postcode the postcode
+     * @throws IllegalArgumentException the illegal argument exception
      */
-    public Guest(String email, String address, String postcode) throws IllegalArgumentException
-    {
+    public Guest(String email, String address, String postcode) throws IllegalArgumentException {
         // Validate arguments, IllegalArgument will be thrown if they fail.
         Validator.emailValidator(email);
         Validator.addressValidator(address);
@@ -43,14 +46,16 @@ public class Guest implements IGuest {
 
         table = DatabaseTable.GUEST_BOOKING;
     }
-    
+
     /**
      * Use this constructor when creating an object from the database.
      * ID is known.
-     * @param ID
-     * @param email
-     * @param address
-     * @param postcode
+     *
+     * @param ID       the id
+     * @param email    the email
+     * @param address  the address
+     * @param postcode the postcode
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Guest(Integer ID, String email, String address, String postcode) throws IllegalArgumentException {
         // Check email. Email can be null.
@@ -68,6 +73,7 @@ public class Guest implements IGuest {
         // Check the users postcode. Users don't have to have a postcode - so can be null
         Validator.postcodeValidator(postcode);
         this.postcode = postcode;
+
         this.password = Encrypt(password);
         table = DatabaseTable.GUEST_BOOKING;
     }
@@ -94,7 +100,7 @@ public class Guest implements IGuest {
 
     @Override
     public boolean setBooking(IBooking booking) throws IllegalArgumentException {
-        if (booking == null){
+        if (booking == null) {
             throw new IllegalArgumentException("Booking cannot be null");
         } else {
             this.booking = booking;
@@ -113,8 +119,7 @@ public class Guest implements IGuest {
 
     @Override
     public Boolean setEmail(String email) throws IllegalArgumentException {
-        if (email == null)
-            throw new NullPointerException("Cannot set email to null");
+        if (email == null) throw new NullPointerException("Cannot set email to null");
         Validator.emailValidator(email);
         this.email = email;
         return this.email.equals(email);
@@ -132,7 +137,7 @@ public class Guest implements IGuest {
     @Override
     public String getFirstName() {
 
-            return "GUEST";
+        return "GUEST";
     }
 
     @Override
@@ -140,6 +145,11 @@ public class Guest implements IGuest {
         return "ACCOUNT";
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }
@@ -155,8 +165,7 @@ public class Guest implements IGuest {
 
     @Override
     public Boolean setAddress(String address) throws IllegalArgumentException {
-        if (address == null)
-            throw new IllegalArgumentException("Enter an address.");
+        if (address == null) throw new IllegalArgumentException("Enter an address.");
         Validator.addressValidator(address);
         this.address = address;
         return this.address.equals(address);
@@ -173,8 +182,7 @@ public class Guest implements IGuest {
 
     @Override
     public Boolean setPostcode(String postcode) throws IllegalArgumentException {
-        if (postcode == null)
-            throw new NullPointerException("Cannot set postcode to null");
+        if (postcode == null) throw new NullPointerException("Cannot set postcode to null");
         Validator.postcodeValidator(postcode);
         this.postcode = postcode;
         return this.postcode.equals(postcode);
@@ -182,7 +190,7 @@ public class Guest implements IGuest {
     }
 
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 }

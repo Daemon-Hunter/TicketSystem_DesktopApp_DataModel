@@ -8,14 +8,15 @@ package reviews;
 import java.util.Date;
 
 /**
+ * The type Venue review factory is used by classes to create an instance of an venue review object.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class VenueReviewFactory implements IReviewFactory {
 
     @Override
-    public IReview createReview(Integer reviewBaseID, Integer customerID,
-                                Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
+    public IReview createReview(Integer reviewBaseID, Integer customerID, Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
         return new VenueReview(reviewBaseID, customerID, rating, date, body, verified);
     }
 }

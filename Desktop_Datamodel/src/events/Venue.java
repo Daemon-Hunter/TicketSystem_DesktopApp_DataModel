@@ -29,7 +29,10 @@ import static utilities.Validator.phoneNumberValidator;
 import static utilities.Validator.postcodeValidator;
 
 /**
- * @author 10512691
+ * The Venue table represents a record in the Venue table within the database.
+ *
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Venue implements IVenue {
 
@@ -48,6 +51,9 @@ public class Venue implements IVenue {
     private Boolean disabledAccess;
     private String facilities;
 
+    /**
+     * Instantiates a new Venue.
+     */
     public Venue() {
         reviewFactory = new VenueReviewFactory();
     }
@@ -57,18 +63,20 @@ public class Venue implements IVenue {
      * No ID is given, it will be assigned from a returning call to the API.
      * in the setID() method.
      *
-     * @param social
-     * @param description
-     * @param capSeating
-     * @param capStanding
-     * @param access
-     * @param facilities
-     * @param parking
-     * @param phoneNo
-     * @param email
-     * @param address
-     * @param postcode
-     * @param name
+     * @param social      the social
+     * @param description the description
+     * @param capSeating  the cap seating
+     * @param capStanding the cap standing
+     * @param access      the access
+     * @param facilities  the facilities
+     * @param parking     the parking
+     * @param phoneNo     the phone no
+     * @param email       the email
+     * @param address     the address
+     * @param city        the city
+     * @param postcode    the postcode
+     * @param name        the name
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name) throws IllegalArgumentException {
 
@@ -107,18 +115,20 @@ public class Venue implements IVenue {
      * For use when creating venues that already exist in the database.
      * ID is given and assigned.
      *
-     * @param id
-     * @param description
-     * @param capSeating
-     * @param capStanding
-     * @param access
-     * @param facilities
-     * @param parking
-     * @param phoneNo
-     * @param email
-     * @param address
-     * @param postcode
-     * @param name
+     * @param id            the id
+     * @param socialMediaID the social media id
+     * @param description   the description
+     * @param capSeating    the cap seating
+     * @param capStanding   the cap standing
+     * @param access        the access
+     * @param facilities    the facilities
+     * @param parking       the parking
+     * @param phoneNo       the phone no
+     * @param email         the email
+     * @param address       the address
+     * @param city          the city
+     * @param postcode      the postcode
+     * @param name          the name
      */
     public Venue(Integer id, Integer socialMediaID, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name) {
         this.ID = id;
@@ -275,8 +285,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new IllegalArgumentException("Enter a name");
+        if (name == null) throw new IllegalArgumentException("Enter a name");
         nameValidator(name);
         this.name = name;
         return this.name.equals(name);
@@ -285,8 +294,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setDescription(String description) throws IllegalArgumentException {
-        if (description == null)
-            throw new IllegalArgumentException("Enter a description");
+        if (description == null) throw new IllegalArgumentException("Enter a description");
         descriptionValidator(description);
         this.description = description;
         return this.description.equals(description);
@@ -294,8 +302,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setStandingCapacity(Integer standing) throws IllegalArgumentException {
-        if (standing == null)
-            throw new IllegalArgumentException("Enter a capacity.");
+        if (standing == null) throw new IllegalArgumentException("Enter a capacity.");
         capacityValidator(standing);
         this.capacityStanding = standing;
         return this.capacityStanding.equals(capacityStanding);
@@ -303,8 +310,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setSeatingCapacity(Integer seating) throws IllegalArgumentException {
-        if (seating == null)
-            throw new IllegalArgumentException("Enter a capacity.");
+        if (seating == null) throw new IllegalArgumentException("Enter a capacity.");
         capacityValidator(seating);
         this.capacitySeating = seating;
         return this.capacitySeating.equals(capacitySeating);
@@ -331,8 +337,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setParking(Integer parking) throws IllegalArgumentException {
-        if (parking == null)
-            parking = 0;
+        if (parking == null) parking = 0;
         parkingSpaceValidator(parking);
         this.parkingSpaces = parking;
         return this.parkingSpaces == parking;
@@ -340,8 +345,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setEmail(String email) throws IllegalArgumentException {
-        if (email == null)
-            throw new IllegalArgumentException("Enter an email address.");
+        if (email == null) throw new IllegalArgumentException("Enter an email address.");
         emailValidator(email);
         this.email = email;
         return this.email.equals(email);
@@ -349,8 +353,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setPhoneNumber(String phoneNumber) throws IllegalArgumentException {
-        if (phoneNumber == null)
-            throw new IllegalArgumentException("Enter a phone number.");
+        if (phoneNumber == null) throw new IllegalArgumentException("Enter a phone number.");
         phoneNumberValidator(phoneNumber);
         this.phoneNumber = phoneNumber;
         return this.phoneNumber.equals(phoneNumber);
@@ -358,8 +361,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setAddress(String address) throws IllegalArgumentException {
-        if (address == null)
-            throw new IllegalArgumentException("Enter an address.");
+        if (address == null) throw new IllegalArgumentException("Enter an address.");
         addressValidator(address);
         this.address = address;
         return this.address.equals(address);
@@ -367,20 +369,19 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setCity(String city) throws IllegalArgumentException {
-        if (city == null)
-            throw new IllegalArgumentException("Enter a city.");
+        if (city == null) throw new IllegalArgumentException("Enter a city.");
         addressValidator(city);
         this.city = city;
         return this.city.equals(city);
     }
 
     @Override
-    public Boolean setPostcode(String postcode)  throws IllegalArgumentException {
-        if (postcode == null)
-            throw new IllegalArgumentException("Enter a postcode.");
+    public Boolean setPostcode(String postcode) throws IllegalArgumentException {
+        if (postcode == null) throw new IllegalArgumentException("Enter a postcode.");
         this.postcode = postcode;
         return this.postcode.equals(postcode);
     }
+
     @Override
     public Integer getSocialId() {
         return socialMediaID;
@@ -400,6 +401,11 @@ public class Venue implements IVenue {
     }
 
 
+    /**
+     * Gets review factory.
+     *
+     * @return the review factory
+     */
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
@@ -411,8 +417,7 @@ public class Venue implements IVenue {
 
     @Override
     public IReview getReview(Integer customerID) throws IllegalArgumentException {
-        if (customerID == null)
-            throw new NullPointerException();
+        if (customerID == null) throw new NullPointerException();
         for (IReview r : reviews) {
             if (r.getCustomerID().equals(customerID)) {
                 return r;
@@ -443,6 +448,11 @@ public class Venue implements IVenue {
         }
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();

@@ -5,13 +5,22 @@
  */
 package tickets;
 
-import events.IChildEvent;
-
 /**
+ * The type ITicketFactory is implemented by classes wishing to be able to create tickets.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface ITicketFactory {
-    
-    public ITicket createTicket(Double price, String description, Integer remaining, String type) throws IllegalArgumentException;
+
+    /**
+     * Create ticket ticket.
+     *
+     * @param price       the price
+     * @param description the description
+     * @param remaining   the remaining
+     * @param type        the type
+     * @return the ticket
+     */
+    ITicket createTicket(Double price, String description, Integer remaining, String type);
 }

@@ -13,46 +13,62 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
+ * The Review class is abstract to be extended by any class wishing to represent a review.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public abstract class Review implements IReview {
-    protected Integer       reviewBaseID;
-    protected Integer       customerID;
-    protected Date          dateTime;
-    protected Integer       rating;
-    protected String        reviewBody;
-    protected Boolean       verified;
+    /**
+     * The Review base id.
+     */
+    protected Integer reviewBaseID;
+    /**
+     * The Customer id.
+     */
+    protected Integer customerID;
+    /**
+     * The Date time.
+     */
+    protected Date dateTime;
+    /**
+     * The Rating.
+     */
+    protected Integer rating;
+    /**
+     * The Review body.
+     */
+    protected String reviewBody;
+    /**
+     * The Verified.
+     */
+    protected Boolean verified;
+    /**
+     * The Table.
+     */
     protected DatabaseTable table;
-    
+
     /**
      * Use this constructor when creating a review object from the database.
      * Validity is is known.
-     * @param baseID
-     * @param customerID
-     * @param rating
-     * @param date
-     * @param body
-     * @param verified 
+     *
+     * @param baseID     the base id
+     * @param customerID the customer id
+     * @param rating     the rating
+     * @param date       the date
+     * @param body       the body
+     * @param verified   the verified
+     * @throws IllegalArgumentException the illegal argument exception
      */
-    public Review(Integer baseID, Integer customerID, Integer rating, 
-                    Date date, String body, Boolean verified) throws IllegalArgumentException
-    {
+    public Review(Integer baseID, Integer customerID, Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
         // Check to see if any of the arguments were null
-        if (baseID == null || customerID == null) 
-        {
+        if (baseID == null || customerID == null) {
             throw new IllegalArgumentException("Sorry, we've had an internal error :( please try again.");
-        } 
-        else if (rating == null || body == null) 
-        {
+        } else if (rating == null || body == null) {
             throw new IllegalArgumentException("Review rating, or body, hasn't been set - please try again.");
-        } 
-        else if (verified == null)
-        {
+        } else if (verified == null) {
             throw new IllegalArgumentException("Sorry, we've had an internal error whilst checking review verification :( please try again.");
-        }
-
-        else {
+        } else {
             Validator.ratingValidator(rating);
             Validator.reviewBodyValidator(body);
 
@@ -65,32 +81,29 @@ public abstract class Review implements IReview {
             this.verified = verified;
         }
     }
-    
+
     /**
      * Use this constructor when creating a new review object.
      * Verified is automatically set to false.
-     * @param baseID
-     * @param customerID
-     * @param rating
-     * @param body
+     *
+     * @param baseID     the base id
+     * @param customerID the customer id
+     * @param rating     the rating
+     * @param body       the body
+     * @throws IllegalArgumentException the illegal argument exception
      */
-    public Review(Integer baseID, Integer customerID, Integer rating, String body) throws IllegalArgumentException
-    {
+    public Review(Integer baseID, Integer customerID, Integer rating, String body) throws IllegalArgumentException {
         // Check to see if any of the arguments were null
-        if (baseID == null || customerID == null) 
-        {
+        if (baseID == null || customerID == null) {
             throw new IllegalArgumentException("Sorry, we've had an internal error :( please try again.");
-        } 
-        else if (rating == null || body == null) 
-        {
+        } else if (rating == null || body == null) {
             throw new IllegalArgumentException("Review rating, or body, hasn't been set - please try again.");
-        } 
-        else {
-            
+        } else {
+
             // Given no arguments were null, see if they're valid
             Validator.ratingValidator(rating);
             Validator.reviewBodyValidator(body);
-                            
+
             // Everything is valid -> initialise variables
             reviewBaseID = baseID;
             this.customerID = customerID;
@@ -101,6 +114,11 @@ public abstract class Review implements IReview {
         }
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }
@@ -139,7 +157,7 @@ public abstract class Review implements IReview {
         }
         dateTime = datetime;
         return true;
-        
+
     }
 
     @Override
@@ -173,8 +191,7 @@ public abstract class Review implements IReview {
 
     @Override
     public Boolean SetBody(String body) throws IllegalArgumentException {
-        if (body == null)
-            throw new NullPointerException("Cannot set review body to null");
+        if (body == null) throw new NullPointerException("Cannot set review body to null");
 
         Validator.reviewBodyValidator(body);
 

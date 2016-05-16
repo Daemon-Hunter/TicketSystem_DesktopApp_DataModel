@@ -8,11 +8,23 @@ package reviews;
 import java.util.Date;
 
 /**
+ * The interface Review factory is implemented by a factory of a review type.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IReviewFactory {
-    
-    public IReview createReview(Integer reviewBaseID, Integer customerID,
-                                Integer rating, Date date, String body, Boolean verified);
+
+    /**
+     * Create review review.
+     *
+     * @param reviewBaseID the review base id
+     * @param customerID   the customer id
+     * @param rating       the rating
+     * @param date         the date
+     * @param body         the body
+     * @param verified     the verified
+     * @return the review
+     */
+    IReview createReview(Integer reviewBaseID, Integer customerID, Integer rating, Date date, String body, Boolean verified);
 }

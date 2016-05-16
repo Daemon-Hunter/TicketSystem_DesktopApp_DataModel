@@ -8,11 +8,23 @@ package reviews;
 import java.util.Date;
 
 /**
+ * The interface Reviewable is implemented by a class which is reviewable.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IReviewable extends IHaveReviews {
-    
-    // Inside create review method, call getReviewFactory() on 'this' object
-    public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified);
+
+    /**
+     * Gets review.
+     *
+     * @param customerID the customer id
+     * @param rating     the rating
+     * @param body       the body
+     * @param date       the date
+     * @param verified   the verified
+     * @return the review
+     */
+// Inside create review method, call getReviewFactory() on 'this' object
+    IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified);
 }

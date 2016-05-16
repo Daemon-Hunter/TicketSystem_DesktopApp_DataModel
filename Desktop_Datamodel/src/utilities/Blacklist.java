@@ -12,51 +12,56 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * The Blacklist is used to check if input strings contain curse words or unfavorable words.
+ * This is also an example of the Servant Pattern.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Blacklist {
-    
+
     private static List<String> blacklist;
-    
-    private Blacklist(){}
-    
-    private static List<String> getListFromFile(){
-        try (Scanner r = new Scanner(new File("blacklist.txt"))){
+
+    private Blacklist() {
+    }
+
+    private static List<String> getListFromFile() {
+        try (Scanner r = new Scanner(new File("blacklist.txt"))) {
             List<String> l = new ArrayList();
-            
-            
-            while (r.hasNextLine()){
+
+
+            while (r.hasNextLine()) {
                 l.add(r.nextLine());
             }
-            
+
             r.close();
-            
+
             return l;
-            
-        } catch (FileNotFoundException ex){}
-        
+
+        } catch (FileNotFoundException ex) {
+        }
+
         return new ArrayList();
     }
-    
-    
-    
+
+
     /**
      * Checks an string or paragraph input against a list of bad words.
+     *
      * @param input A word, sentence, or paragraph.
      * @return True if a bad word is found.
      */
-    public static Boolean contains(String input){
-        if (blacklist ==  null){
+    public static Boolean contains(String input) {
+        if (blacklist == null) {
             blacklist = getListFromFile();
         }
-                       
-        for (String word: blacklist){
-            if(input.contains(word)){
+
+        for (String word : blacklist) {
+            if (input.contains(word)) {
                 return true;
             }
         }
-        
+
 //        // Split the inputted string into seperate words.
 //        String[] words = input.split(" ");
 //        

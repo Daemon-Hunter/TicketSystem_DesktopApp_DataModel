@@ -19,31 +19,53 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
+ * The class Guest booking is used to represent the GuestBooking entity in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class GuestBooking implements IBooking {
 
+    /**
+     * The Ticket for the booking
+     */
     protected ITicket ticket;
 
+    /**
+     * The Ticket id.
+     */
     protected Integer ticketID;
+    /**
+     * The Table.
+     */
     protected DatabaseTable table;
+    /**
+     * The Booking id.
+     */
     protected Integer bookingID;
+    /**
+     * The Ticket quantity.
+     */
     protected Integer ticketQuantity;
-    protected String  bookingDateTime;
+    /**
+     * The dateTime of when the booking is made.
+     */
+    protected String bookingDateTime;
     private IUser guest;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-    
+
     /**
      * Use this constructor when creating object from the database.
      * ID is known.
-     * @param ID
-     * @param ticketQty
-     * @param dateTime
-     * @param guest 
+     *
+     * @param ID        the primary ID of th ebooking
+     * @param ticketID  the ticket id
+     * @param ticketQty the amount of tickets for the booking
+     * @param dateTime  the time at which the booking was made
+     * @param guest     the guest object that is making the booking
      */
-    public GuestBooking (Integer ID, Integer ticketID, Integer ticketQty, String dateTime, IUser guest) {
+    public GuestBooking(Integer ID, Integer ticketID, Integer ticketQty, String dateTime, IUser guest) {
         this.bookingID = ID;
         this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
@@ -57,18 +79,17 @@ public class GuestBooking implements IBooking {
         }
         table = DatabaseTable.GUEST_BOOKING;
     }
-    
+
     /**
      * Use this constructor when creating a new GuestBooking.
-     * ID is unknown.
-     * @param ticket
-     * @param ticketQty
-     * @param dateTime 
-     * @param guest 
+     * ID guest booking is not yet set in the database.
+     *
+     * @param ticket    the ticket
+     * @param ticketQty the amount of tickets purchased
+     * @param dateTime  the date time
+     * @param guest     the guest
      */
-    public GuestBooking (ITicket ticket, Integer ticketQty, Date dateTime,
-            IUser guest) 
-    {
+    public GuestBooking(ITicket ticket, Integer ticketQty, Date dateTime, IUser guest) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
         if (ticket == null) {
@@ -91,8 +112,14 @@ public class GuestBooking implements IBooking {
             throw new NullPointerException("Cannot create a booking for a null guest.");
         }
         table = DatabaseTable.GUEST_BOOKING;
-    } 
+    }
 
+    /**
+     * Gets the guest object that the booking is made for
+     *
+     * @return IUSER the guest object
+     * @throws NullPointerException if there is no guest for the booking
+     */
     public IUser getGuest() {
         if (guest != null) {
             return guest;
@@ -101,6 +128,12 @@ public class GuestBooking implements IBooking {
         }
     }
 
+    /**
+     * Sets guest.
+     *
+     * @param guest the guest that you wish to set the booking to
+     * @return Boolean whether or not the guest was successfully added
+     */
     public Boolean setGuest(Guest guest) {
         if (guest == null) {
             throw new NullPointerException("Cannot set user to null");
@@ -158,8 +191,7 @@ public class GuestBooking implements IBooking {
 
     @Override
     public Boolean setQuantity(Integer qty) throws IllegalArgumentException {
-        if (qty == null)
-            throw new IllegalArgumentException("Enter a quantity");
+        if (qty == null) throw new IllegalArgumentException("Enter a quantity");
         Validator.quantityValidator(qty);
         ticketQuantity = qty;
         return this.ticketQuantity.equals(qty);
@@ -179,6 +211,7 @@ public class GuestBooking implements IBooking {
         }
         return null;
     }
+
     @Override
     public Boolean setBookingTime(Date time) throws IllegalArgumentException {
         if (time == null) {
@@ -191,6 +224,11 @@ public class GuestBooking implements IBooking {
         }
     }
 
+    /**
+     * Gets the table that the object is represented by in the database
+     *
+     * @return the given table for the object
+     */
     public DatabaseTable getTable() {
         return table;
     }

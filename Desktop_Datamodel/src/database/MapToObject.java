@@ -48,14 +48,23 @@ import javax.imageio.ImageIO;
 import static javax.xml.bind.DatatypeConverter.parseBase64Binary;
 
 /**
+ * The MapToObject class is self explanatory.
+ * It converts a Map<String, String> to the relevant object.
  *
- *
+ * @author Joshua Kellaway
+ * @author Dominic Garbett
  */
 final class MapToObject {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
+    /**
+     * Map to customer user.
+     *
+     * @param custMap the cust map
+     * @return the user
+     */
     public static IUser MapToCustomer(Map<String, String> custMap) {
-        String firstName, lastName, address, email, postcode;
+        String firstName, lastName, address, email, postcode, password;
         int ID = Integer.parseInt(custMap.get("CUSTOMER_ID"));
 
         firstName = custMap.get("CUSTOMER_FIRST_NAME");
@@ -63,10 +72,17 @@ final class MapToObject {
         address = custMap.get("CUSTOMER_ADDRESS");
         email = custMap.get("CUSTOMER_EMAIL");
         postcode = custMap.get("CUSTOMER_POSTCODE");
+        password = custMap.get("CUSTOMER_PASSWORD");
 
-        return new Customer(ID, firstName, lastName, email, address, postcode);
+        return new Customer(ID, firstName, lastName, email, address, postcode, password);
     }
 
+    /**
+     * Map to artist artist.
+     *
+     * @param artistMap the artist map
+     * @return the artist
+     */
     public static Artist MapToArtist(Map<String, String> artistMap) {
 
         Integer ID = Integer.parseInt(artistMap.get("ARTIST_ID"));
@@ -83,10 +99,22 @@ final class MapToObject {
         return new Artist(ID, name, description, listOfTags, socialID, type);
     }
 
+    /**
+     * Map to artist type string.
+     *
+     * @param artistTypeMap the artist type map
+     * @return the string
+     */
     public static String MapToArtistType(Map<String, String> artistTypeMap) {
         return artistTypeMap.get("ARTIST_TYPE1");
     }
 
+    /**
+     * Map to social media social media.
+     *
+     * @param socialMap the social map
+     * @return the social media
+     */
     public static SocialMedia MapToSocialMedia(Map<String, String> socialMap) throws IOException {
         Integer socialMediaID;
         String facebook, twitter, instagram, soundcloud, website, spotify;
@@ -127,6 +155,12 @@ final class MapToObject {
         return new SocialMedia(socialMediaID, images, facebook, twitter, instagram, soundcloud, website, spotify);
     }
 
+    /**
+     * Map to artist review review.
+     *
+     * @param reviewMap the review map
+     * @return the review
+     */
     public static IReview MapToArtistReview(Map<String, String> reviewMap) {
 
         ArtistReviewFactory factory = new ArtistReviewFactory();
@@ -147,6 +181,13 @@ final class MapToObject {
         return factory.createReview(artistID, customerID, rating, dateTime, body, verified);
     }
 
+    /**
+     * Map to venue review review.
+     *
+     * @param reviewMap the review map
+     * @param table     the table
+     * @return the review
+     */
     public static IReview MapToVenueReview(Map<String, String> reviewMap, DatabaseTable table) {
 
         IReviewFactory factory;
@@ -177,6 +218,12 @@ final class MapToObject {
 
     }
 
+    /**
+     * Map to parent event event review review.
+     *
+     * @param reviewMap the review map
+     * @return the review
+     */
     public static IReview MapToParentEventEventReview(Map<String, String> reviewMap) {
 
         ParentEventReviewFactory factory = new ParentEventReviewFactory();
@@ -199,6 +246,12 @@ final class MapToObject {
         return factory.createReview(eventID, customerID, rating, dateTime, body, verified);
     }
 
+    /**
+     * Map to venue venue.
+     *
+     * @param venueMap the venue map
+     * @return the venue
+     */
     public static IVenue MapToVenue(Map<String, String> venueMap) {
 
         Integer venueID, capSeating, capStanding, parking, socialMediaID;
@@ -225,6 +278,12 @@ final class MapToObject {
         return new Venue(venueID, socialMediaID, description, capSeating, capStanding, disabledAccess, facilities, parking, phoneNumber, email, address, city, postcode, name);
     }
 
+    /**
+     * Map to ticket ticket.
+     *
+     * @param ticketMap the ticket map
+     * @return the ticket
+     */
     public static ITicket MapToTicket(Map<String, String> ticketMap) {
         Integer ticketID, remaining, childEventID;
         Double price;
@@ -240,6 +299,13 @@ final class MapToObject {
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
 
+    /**
+     * Map to child event child event.
+     *
+     * @param childEventMap the child event map
+     * @return the child event
+     * @throws IOException the io exception
+     */
     public static IChildEvent MapToChildEvent(Map<String, String> childEventMap) throws IOException {
 
         Integer childEventID, venueID, parentEventID;
@@ -260,6 +326,12 @@ final class MapToObject {
         return new ChildEvent(childEventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 
+    /**
+     * Map to customer booking booking.
+     *
+     * @param bookingMap the booking map
+     * @return the booking
+     */
     public static IBooking MapToCustomerBooking(Map<String, String> bookingMap) {
         Integer bookingID, quantity, ticketID, orderID;
         String date;
@@ -268,11 +340,17 @@ final class MapToObject {
         quantity = Integer.parseInt(bookingMap.get("BOOKING_QUANTITY"));
         ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
         orderID = Integer.parseInt(bookingMap.get("ORDER_ID"));
-         date = bookingMap.get("BOOKING_DATE_TIME");
+        date = bookingMap.get("BOOKING_DATE_TIME");
 
         return new CustomerBooking(bookingID, ticketID, orderID, quantity, date);
     }
 
+    /**
+     * Map to order order.
+     *
+     * @param orderMap the order map
+     * @return the order
+     */
     public static IOrder MapToOrder(Map<String, String> orderMap) {
 
         Integer orderID, userID;
@@ -283,9 +361,16 @@ final class MapToObject {
         return new Order(orderID, userID);
     }
 
+    /**
+     * Map to guest booking booking.
+     *
+     * @param bookingMap the booking map
+     * @return the booking
+     */
     public static IBooking MapToGuestBooking(Map<String, String> bookingMap) {
         Integer bookingID, ticketID, quantity;
-        String email, address, postcode, dateTime;
+        String email, address, postcode;
+        String dateTime;
 
         bookingID = Integer.parseInt(bookingMap.get("GUEST_BOOKING_ID"));
         ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
@@ -298,6 +383,12 @@ final class MapToObject {
         return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest(email, address, postcode));
     }
 
+    /**
+     * Map to parent event parent event.
+     *
+     * @param eventMap the event map
+     * @return the parent event
+     */
     public static IParentEvent MapToParentEvent(Map<String, String> eventMap) {
         Integer eventID, socialMediaID;
         String name, description;
@@ -310,6 +401,12 @@ final class MapToObject {
         return new ParentEvent(eventID, socialMediaID, name, description);
     }
 
+    /**
+     * Map to admin admin.
+     *
+     * @param adminMap the admin map
+     * @return the admin
+     */
     public static IAdmin MapToAdmin(Map<String, String> adminMap) {
         Integer adminID = Integer.parseInt(adminMap.get("ADMIN_ID"));
         String email = adminMap.get("ADMIN_EMAIL");
@@ -317,6 +414,12 @@ final class MapToObject {
         return new Admin(adminID, "ADMIN", "ADMIN", email);
     }
 
+    /**
+     * Map to contract integer [ ].
+     *
+     * @param contractMap the contract map
+     * @return the integer [ ]
+     */
     public static Integer[] MapToContract(Map<String, String> contractMap) {
         Integer artistID = Integer.parseInt(contractMap.get("ADMIN_ID"));
         Integer child_event_id = Integer.parseInt(contractMap.get("CHILD_EVENT_ID"));

@@ -6,10 +6,17 @@
 package people;
 
 /**
+ * The interface IAdmin is implemented by any class wishing to represent an Admin.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IAdmin extends IPerson {
-    
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     Integer getID();
 }

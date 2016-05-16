@@ -11,20 +11,30 @@ import utilities.Validator;
 import static utilities.HashString.Encrypt;
 
 /**
+ * The type Admin represents a record in the Admin table of the database.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Admin implements IAdmin {
-    
+
     private Integer ID;
-    private String  firstName, lastName, email, password;
+    private String firstName, lastName, email, password;
     private DatabaseTable table;
-    
+
+    /**
+     * Instantiates a new Admin.
+     *
+     * @param fName    the f name
+     * @param lName    the l name
+     * @param email    the email
+     * @param password the password
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public Admin(String fName, String lName, String email, String password) throws IllegalArgumentException {
         ID = 0;
         if (fName == null || lName == null)
             throw new IllegalArgumentException("First or last name is null.");
-        
         Validator.nameValidator(fName);
         Validator.nameValidator(lName);
         Validator.emailValidator(email);
@@ -34,14 +44,22 @@ public class Admin implements IAdmin {
         this.email = email;
         this.password = Encrypt(password);
     }
-    
+
+    /**
+     * Instantiates a new Admin.
+     *
+     * @param ID    the id
+     * @param fName the f name
+     * @param lName the l name
+     * @param email the email
+     */
     public Admin(Integer ID, String fName, String lName, String email) {
         this.ID = ID;
         firstName = fName;
         lastName = lName;
         this.email = email;
     }
-    
+
     @Override
     public Integer getID() {
         if (ID == null) {
@@ -50,7 +68,7 @@ public class Admin implements IAdmin {
             return ID;
         }
     }
-  
+
     @Override
     public String getEmail() {
         if (email == null) {
@@ -62,8 +80,7 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setEmail(String email) throws IllegalArgumentException {
-        if (email == null)
-            throw new NullPointerException("Cannot set email to null");
+        if (email == null) throw new NullPointerException("Cannot set email to null");
         Validator.emailValidator(email);
         this.email = email;
         return this.email.equals(email);
@@ -92,8 +109,7 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setFirstName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new NullPointerException("Cannot set first name to null");
+        if (name == null) throw new NullPointerException("Cannot set first name to null");
         Validator.nameValidator(name);
         firstName = name;
         return firstName.equals(name);
@@ -110,8 +126,7 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setLastName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new NullPointerException("Cannot set last name to null");
+        if (name == null) throw new NullPointerException("Cannot set last name to null");
         Validator.nameValidator(name);
         lastName = name;
         return lastName.equals(name);

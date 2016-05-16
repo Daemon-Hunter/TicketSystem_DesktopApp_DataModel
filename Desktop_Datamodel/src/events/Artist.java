@@ -22,7 +22,10 @@ import static utilities.Validator.descriptionValidator;
 import static utilities.Validator.nameValidator;
 
 /**
- * @author 10512691
+ * The type Artist reprsents an Artist record in the database Artist table.
+ *
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Artist implements IArtist {
 
@@ -40,6 +43,9 @@ public class Artist implements IArtist {
     private Integer typeID;
     private LinkedList<String> tags;
 
+    /**
+     * Instantiates a new Artist.
+     */
     public Artist() {
         this.table = DatabaseTable.ARTIST;
         tags = new LinkedList<>();
@@ -52,10 +58,11 @@ public class Artist implements IArtist {
      * No child events given. When a call is made to the artist to return it's child events,
      * it will fetch relevant events through the API.
      *
-     * @param name
-     * @param description
-     * @param tags
-     * @param social
+     * @param name        the name
+     * @param description the description
+     * @param tags        the tags
+     * @param social      the social
+     * @param typeID      the type id
      */
     public Artist(String name, String description, LinkedList<String> tags, SocialMedia social, Integer typeID) {
 
@@ -77,12 +84,12 @@ public class Artist implements IArtist {
     /**
      * Use this constructor when
      *
-     * @param ID
-     * @param name
-     * @param description
-     * @param tags
-     * @param socialMediaID
-     * @param typeID
+     * @param ID            the id
+     * @param name          the name
+     * @param description   the description
+     * @param tags          the tags
+     * @param socialMediaID the social media id
+     * @param typeID        the type id
      */
     public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
 
@@ -106,8 +113,7 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean addTag(String tag) throws IllegalArgumentException {
-        if (tag == null)
-            throw new IllegalArgumentException("Enter a tag.");
+        if (tag == null) throw new IllegalArgumentException("Enter a tag.");
         Validator.tagValidator(tag);
         tags.add(tag);
         return tags.contains(tag);
@@ -131,9 +137,8 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setName (String name)  throws IllegalArgumentException {
-        if (name == null)
-            throw new IllegalArgumentException("Enter a name.");
+    public Boolean setName(String name) throws IllegalArgumentException {
+        if (name == null) throw new IllegalArgumentException("Enter a name.");
         nameValidator(name);
         this.name = name;
         return this.name.equals(name);
@@ -150,8 +155,7 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean setDescription(String description) throws IllegalArgumentException {
-        if (description == null)
-            throw new IllegalArgumentException("Enter a description.");
+        if (description == null) throw new IllegalArgumentException("Enter a description.");
         Validator.descriptionValidator(description);
         this.description = description;
         return this.description.equals(description);
@@ -160,7 +164,7 @@ public class Artist implements IArtist {
     @Override
     public String getType() throws IOException {
         if (type == null) {
-            type = (String)APIHandle.getSingle(typeID, DatabaseTable.ARTIST_TYPE);
+            type = (String) APIHandle.getSingle(typeID, DatabaseTable.ARTIST_TYPE);
             return type;
         } else {
             return type;
@@ -232,8 +236,7 @@ public class Artist implements IArtist {
                 childEvents = getChildEvents();
             }
             for (IChildEvent childEvent : childEvents) {
-                if (childEvent.getID().equals(childEventID))
-                    return childEvent;
+                if (childEvent.getID().equals(childEventID)) return childEvent;
             }
             throw new NullPointerException("No child event with this ID");
         }
@@ -241,7 +244,8 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean newContract(IChildEvent childEvent) throws IOException {
-        if(createContract(this.ID, childEvent.getID())){
+        if (createContract(this.ID, childEvent.getID())) {
+            if (childEvents == null) childEvents = new LinkedList<>();
             childEvents.add(childEvent);
             return true;
         }
@@ -265,10 +269,20 @@ public class Artist implements IArtist {
         return socialMedia.setSocialId(id);
     }
 
+    /**
+     * Gets review factory.
+     *
+     * @return the review factory
+     */
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();
